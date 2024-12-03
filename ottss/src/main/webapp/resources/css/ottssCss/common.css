@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+/* 
+    color
+    배경색 : #1B1F3B / hover color : #f9f871
+    버튼색 : #FFD700
+    강조 text : #9932CC
+
+    사이버 펑크 느낌
+    #FF007F
+    #32CD32
+*/
+
+#header {width: 100%; background-color: #1B1F3B; z-index: 999;}
+#header .headerInner {
+    width: 1200px;
+    height: 120px;
+    margin: auto;
+    color: #fff;
+}
+#header .headerInner .info {
+    width: 100%;
+    height: 45%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#header .headerInner .info .logo {font-weight: bold; font-size: 20px;}
+#header .headerInner .info .mypage a {color: #fff;}
+#header .headerInner .info .mypage a:hover {color: #f9f871; text-decoration: underline;}
+
+#header .headerInner nav {width: 100%; height: 55%;}
+#header .headerInner ul {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+#header .headerInner ul li {
+    width: 16.6666%;
+    text-align: center;
+    height: fit-content;
+}
+
+#header .headerInner ul li a {display: block; color: #fff;}
+#header .headerInner ul li a:hover {color: #f9f871;}
+
+#main {width: 100%;}
+
+#main .mainInner {
+    width: 1200px;
+    margin: auto;
+    padding: 50px 0;
+    box-sizing: border-box;
+}
+
+#footer {
+    font-size: 12px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background-color: #eee;
+    bottom: 0;
+}
+
+#footer .footerInner {
+    width: 1200px;
+    margin: auto;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

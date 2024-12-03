@@ -1,0 +1,67 @@
+@charset "utf-8";
+
+#main .mainInner .title_bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    color:#111
+}
+
+#main .mainInner .title_bar  p {font-size: 30px; font-weight: 700;}
+
+/* 게임 슬라이드 */
+#main .mainInner .gameList {position: relative; width: 100%; margin-bottom: 50px;}
+#main .mainInner .slide_arrow {display: flex; align-items: center;}
+#main .mainInner .slide_arrow span {display: flex; align-items: center; justify-content: center; height: 22px; cursor: pointer;}
+#main .mainInner .slide_arrow span+span {margin-left: 19px; padding-left: 19px; border-left: 1px solid #e1e1e1;}
+#main .mainInner .slide_arrow span svg {width: 25px; height: 25px; color: #111}
+
+#main .mainInner .latest_wrap {overflow: hidden;}
+#main .mainInner .latest_slide li {
+    width: 100%;
+    height: 230px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#main .mainInner .latest_slide li a {display: block; position: relative; width: 100%; height: 100%; text-align: center;}
+#main .mainInner .latest_slide li a span {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px 0;
+    box-sizing: border-box;
+    background-color: rgba(255,255,255,.8);
+}
+
+/* 테이블 */
+#main .mainInner .tableListWrap {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#main .mainInner .tableListWrap > div {width: 49%;}
+#main .mainInner .tableListWrap > div:nth-child(-n+2) {margin-bottom: 20px;}
+
+#main .mainInner .tableListWrap table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+#main .mainInner .tableListWrap table tr {
+    height: 40px;
+    line-height: 40px;
+}
+
+#main .mainInner .tableListWrap table tr th {width: 20%; border-bottom: 1px solid #000; border-top: 1px solid #000; background-color: #9932CC; color: #f9f9f9}
+#main .mainInner .tableListWrap table tr td {width: 80%; border-bottom: 1px solid #000;}
