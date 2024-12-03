@@ -9,6 +9,6 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <body>
-		<h3>안녕하세요 박세진 입니다.</h3>
+		<h3>안녕하세요 세진이는세지니까 입니다.</h3>
 </body>
 </html>
