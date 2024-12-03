@@ -10,12 +10,6 @@
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
-<style type="text/css">
-.body-container {
-	max-width: 800px;
-}
-</style>
-
 </head>
 <body>
 
@@ -34,14 +28,14 @@
                 <div class="latest_wrap">
                     <div class="swiper-container latest_slide">
                         <ul class="swiper-wrapper">
-                            <li class="swiper-slide" style="background-image: url('img/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('img/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('img/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('img/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('img/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('img/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('img/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('img/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -147,6 +141,49 @@
             </div> <!-- tableListWrap -->
         </div> <!-- mainInner -->
     </main>
+    
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+	<script text="text/javascript">
+	
+	    var product_slide = new Swiper(".latest_slide", {
+	        loop: true, // 루프 기능
+	        speed: 1000,
+	        slidesPerView: 1.5, 
+	        spaceBetween : 12,
+	        centeredSlides: true,
+	        navigation: {
+	            prevEl: '.slide_arrow .prev',
+	            nextEl: '.slide_arrow .next',
+	        },
+	        autoplay: {
+	            delay: 3000, // 3초마다 자동 재생
+	            disableOnInteraction: false,
+	        },
+	        breakpoints:{
+	            1025:{
+	                slidesPerView: 4, 
+	                spaceBetween : 30,
+	                centeredSlides: false,
+	            },
+	            769:{
+	                slidesPerView: 3, 
+	                spaceBetween : 20,
+	                centeredSlides: true,
+	            },
+	            481:{
+	                slidesPerView: 3, 
+	                spaceBetween : 15,
+	                centeredSlides: true,
+	            },
+	            381:{
+	                slidesPerView: 2, 
+	                spaceBetween : 15,
+	                centeredSlides: false,
+	            },
+	        },
+	    });
+	
+	</script>
 	
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 	
