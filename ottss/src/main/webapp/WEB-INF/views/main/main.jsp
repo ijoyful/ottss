@@ -28,14 +28,14 @@
                 <div class="latest_wrap">
                     <div class="swiper-container latest_slide">
                         <ul class="swiper-wrapper">
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/cat.jpg')"><a href="#"><span>게임 1</span></a></li>
                             <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game2.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game3.png')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game4.jpeg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/cat.jpg')"><a href="#"><span>게임 1</span></a></li>
                             <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
-                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game1.jpg')"><a href="#"><span>게임 1</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/ottssImg/game2.jpg')"><a href="#"><span>게임 1</span></a></li>
                         </ul>
                     </div>
                 </div>
