@@ -25,7 +25,9 @@
     justify-content: space-between;
     align-items: center;
 }
-#header .headerInner .info .logo {font-weight: bold; font-size: 20px;}
+#header .headerInner .info .logo {font-weight: bold; font-size: 20px; width: 20%; display: flex; align-items: center;}
+#header .headerInner .info .logo .imgArea {width: 20%;}
+#header .headerInner .info .logo .imgArea img {width: 100%;}
 #header .headerInner .info .mypage a {color: #fff;}
 #header .headerInner .info .mypage a:hover {color: #f9f871; text-decoration: underline;}
 
