@@ -9,20 +9,52 @@
             <div class="btnWrap">
                 <div class="login"></div>
                 <div class="mypage">
-                    <a href="#">로그인</a> | 
-                    <a href="#">마이페이지</a>
+                    <a href="${pageContext.request.contextPath}/login/login">로그인</a> | 
+                    <a href="${pageContext.request.contextPath}/login/register">회원가입</a>
+                    <a href="${pageContext.request.contextPath}/player/mypage">마이페이지</a>
                 </div>
             </div>
         </div>
-        <nav id="nav">
-            <ul>
-                <li><a href="index.html">홈</a></li>
-                <li><a href="#">놀이터 소개</a></li>
-                <li><a href="gameList.html">게임</a></li>
-                <li><a href="list.html">커뮤니티</a></li>
-                <li><a href="#">상점</a></li>
-                <li><a href="#">게임별 랭킹</a></li>
-            </ul>
+		<nav id="nav">
+			<div><a href="${pageContext.request.contextPath}/">홈</a></div>
+			<div><a href="${pageContext.request.contextPath}/introduce/sogae">놀이터 소개</a></div>
+			<div class="drop-down">
+				<a href="${pageContext.request.contextPath}/game/gameList">게임</a>
+				<ul class="dropdownMenu">
+					<li><a href="${pageContext.request.contextPath}/">가위바위보</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/">두더지</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/">룰렛</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/">퀴즈</a></li>
+				</ul>
+			</div>
+	        <div class="drop-down">
+	        	<a href="${pageContext.request.contextPath}/board/AllList">커뮤니티</a>
+	        	<ul class="dropdownMenu">
+	        		<li><a href="${pageContext.request.contextPath}/">자유게시판</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/">분석게시판</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/">자랑게시판</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/">FAQ</a></li>
+	        	</ul>
+	        </div>
+	        <div class="drop-down">
+	        	<a href="${pageContext.request.contextPath}/shop/shop">상점</a>
+	        	<ul class="dropdownMenu">
+	        		<li><a href="${pageContext.request.contextPath}/">상점</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/">인벤토리</a></li>
+	        	</ul>
+	        </div>
+	        <div><a href="${pageContext.request.contextPath}/ranking/ranking">랭킹</a></div>
         </nav>
     </div>
 </header>
+<script type="text/javascript">
+	$(function() {
+		$('.drop-down').on("mouseover", function() {
+			$(this).find('.dropdownMenu').stop().animate().fadeIn(500);
+		});
+		
+		$('.drop-down').on("mouseleave", function() {
+			$(this).find('.dropdownMenu').stop().animate().fadeOut(300);
+		});
+	});
+</script>
