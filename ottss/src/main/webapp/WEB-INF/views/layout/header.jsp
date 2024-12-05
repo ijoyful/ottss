@@ -17,7 +17,7 @@
         </div>
 		<nav id="nav">
 			<div><a href="${pageContext.request.contextPath}/">홈</a></div>
-			<div><a href="${pageContext.request.contextPath}/introduce/sogae">놀이터 소개</a></div>
+			<div><a href="${pageContext.request.contextPath}/introduce/sogae">놀이터 소개</a></div>211.238.142.91
 			<div class="drop-down">
 				<a href="${pageContext.request.contextPath}/game/gameList">게임</a>
 				<ul class="dropdownMenu">
