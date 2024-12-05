@@ -30,7 +30,7 @@ public class DispatcherServlet extends HttpServlet {
 	private final HandlerMappingRegistry handlerMappingRegistry;
 	private final HandlerAdapterRegistry handlerAdapters;
 	
-	private static final String BASE_PACKAGE = "com.hs.controller";
+	private static final String BASE_PACKAGE = "com.ottss.controller";
 
 	public DispatcherServlet() {
 		this.handlerMappingRegistry = new HandlerMappingRegistry();
