@@ -5,7 +5,10 @@
 <header id="header">
     <div class="headerInner">
         <div class="info">
-            <div class="logo"><p>삼식이네 놀이터</p></div>
+            <div class="logo">
+            	<div class="imgArea"><img src="${pageContext.request.contextPath}/resources/images/ottssImg/ottssLogo.png"></div>
+            	<p>삼식이네 놀이터</p>
+           	</div>
             <div class="btnWrap">
                 <div class="login"></div>
                 <div class="mypage">
