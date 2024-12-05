@@ -40,104 +40,79 @@
                     </div>
                 </div>
             </div>
-            <div class="tableListWrap">
-                <div class="tableList1">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>제목</th>
-                                <th>날짜</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tableList2">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>제목</th>
-                                <th>날짜</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tableList2">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>제목</th>
-                                <th>날짜</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tableList2">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>제목</th>
-                                <th>날짜</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                            <tr>
-                                <td>[공지] 삼식이네 놀이터 주의 사항</td>
-                                <td>2024-12-02</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="listWrap">
+                <div class="listInner">
+                	<ul class="listTitle">
+	                    <li>제목</li>
+	                    <li>작성일</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	            </div>
+                <div class="listInner">
+                	<ul class="listTitle">
+	                    <li>제목</li>
+	                    <li>작성일</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	            </div>
+	            <div class="listInner">
+                	<ul class="listTitle">
+	                    <li>제목</li>
+	                    <li>작성일</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	            </div>
+	            <div class="listInner">
+                	<ul class="listTitle">
+	                    <li>제목</li>
+	                    <li>작성일</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	                <ul class="listContent">
+	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
+	                    <li>2024-12-02</li>
+	                </ul>
+	            </div>
             </div> <!-- tableListWrap -->
         </div> <!-- mainInner -->
     </main>
