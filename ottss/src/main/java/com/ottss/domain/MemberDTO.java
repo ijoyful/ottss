@@ -5,6 +5,7 @@ public class MemberDTO {
 	private String pwd;
 	private String name;
 	private String nickName;
+	private String birth;
 	private String tel1;
 	private String tel2;
 	private String tel3;
@@ -37,6 +38,12 @@ public class MemberDTO {
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 	public String getTel1() {
 		return tel1;
