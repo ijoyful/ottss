@@ -51,7 +51,7 @@ function sendLogin() {
 	        <div class="row">
 	            <div class="col-md-6 offset-md-3">
 	                <div class="border mt-5 p-4">
-	                    <form name="loginForm" action="" method="post" class="row g-3">
+	                    <form name="loginForm" method="post" class="row g-3">
 	                        <h3 class="text-center"><i class="bi bi-lock"></i> 회원 로그인</h3>
 	                        <div class="col-12">
 	                            <label class="mb-1">아이디</label>
