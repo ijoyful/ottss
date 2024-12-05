@@ -12,9 +12,19 @@
             <div class="btnWrap">
                 <div class="login"></div>
                 <div class="mypage">
-                    <a href="${pageContext.request.contextPath}/login/login">로그인</a> | 
-                    <a href="${pageContext.request.contextPath}/login/register">회원가입</a>
-                    <a href="${pageContext.request.contextPath}/player/mypage">마이페이지</a>
+	                <c:if test="${empty sessionScope.member}">
+						<a href="${pageContext.request.contextPath}/login/login">로그인</a> | 
+                    	<a href="${pageContext.request.contextPath}/login/member">회원가입</a>	
+					</c:if>               
+  					<c:if test="${not empty sessionScope.member}">
+						<div class="p-2">
+							<a href="#" title="알림"><i class="bi bi-bell"></i></a>
+						</div>
+						<div class="p-2">
+							<a href="${pageContext.request.contextPath}/player/mypage">마이페이지</a>
+							<a href="#" title="로그아웃"><i class="bi bi-unlock"></i></a>
+						</div>					
+					</c:if>             
                 </div>
             </div>
         </div>

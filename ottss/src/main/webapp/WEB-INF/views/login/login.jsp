@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+﻿﻿<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
@@ -21,15 +21,15 @@ function sendLogin() {
     const f = document.loginForm;
 	let str;
 	
-	str = f.userId.value;
+	str = f.id.value;
     if(!str) {
-        f.userId.focus();
+        f.id.focus();
         return;
     }
 
-    str = f.userPwd.value;
+    str = f.pwd.value;
     if(!str) {
-        f.userPwd.focus();
+        f.pwd.focus();
         return;
     }
 
@@ -51,15 +51,15 @@ function sendLogin() {
 	        <div class="row">
 	            <div class="col-md-6 offset-md-3">
 	                <div class="border mt-5 p-4">
-	                    <form name="loginForm" method="post" class="row g-3">
+	                    <form name="loginForm" action="" method="post" class="row g-3">
 	                        <h3 class="text-center"><i class="bi bi-lock"></i> 회원 로그인</h3>
 	                        <div class="col-12">
 	                            <label class="mb-1">아이디</label>
-	                            <input type="text" name="userId" class="form-control" placeholder="아이디">
+	                            <input type="text" name="id" class="form-control" placeholder="아이디">
 	                        </div>
 	                        <div class="col-12">
 	                            <label class="mb-1">패스워드</label>
-	                            <input type="password" name="userPwd" class="form-control"
+	                            <input type="password" name="pwd" class="form-control"
 									autocomplete="off" placeholder="패스워드">
 	                        </div>
 	                        <div class="col-12">
