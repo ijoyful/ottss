@@ -3,8 +3,14 @@ package com.ottss.domain;
 public class SessionInfo {
 	private String id;
 	private String nickName;
+	private String powerCode;
 	
-	
+	public String getPowerCode() {
+		return powerCode;
+	}
+	public void setPowerCode(String powerCode) {
+		this.powerCode = powerCode;
+	}
 	public String getId() {
 		return id;
 	}

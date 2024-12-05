@@ -20,7 +20,7 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT id, name, nickname"  //select 뭐 더 받아야할지 생각좀..
+			sql = "SELECT id, name, nickname, powercode, block, reg_date"
 					+ " FROM player "
 					+ " WHERE id = ? AND pwd = ? ";
 			
@@ -37,6 +37,9 @@ public class MemberDAO {
 				dto.setId(rs.getString("id"));
 				dto.setName(rs.getString("name"));
 				dto.setNickName(rs.getString("nickname"));
+				dto.setPowercode(rs.getInt("powercode"));
+				dto.setBlock(rs.getInt("block"));
+				dto.setReg_date(rs.getString("reg_date"));
 			}
 			
 		} catch (Exception e) {
@@ -55,10 +58,10 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			conn.setAutoCommit(false);
-			
-			sql = "INSERT INTO palyer(id, pwd, name, nickname, birth, tel1, tel2, tel3, email1, email2, point, powercode, block) "
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,1)";
+			sql = "INSERT INTO player(id, pwd, name, nickname, birth, tel1, tel2, tel3, email1, email2, reg_date, point, powercode, block) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,SYSDATE,?,?,0)";
+			pstmt = conn.prepareStatement(sql);
+
 			pstmt.setString(1, dto.getId());
 			pstmt.setString(2, dto.getPwd());
 			pstmt.setString(3, dto.getName());
@@ -81,12 +84,6 @@ public class MemberDAO {
 			throw e;
 		} finally {
 			DBUtil.close(pstmt);
-			
-			try {
-				conn.setAutoCommit(true); //이게 뭔지 아는사람
-			} catch (Exception e2) {
-			}
-			
 		}
 		
 		
@@ -94,7 +91,7 @@ public class MemberDAO {
 		
 	}
 	
-	public MemberDTO findById(String id) {
+	public MemberDTO findById(String id) {// 패스워드 확인할 시 회원정보가져올때, 아이디 중복 검사할 때
 		MemberDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

@@ -11,10 +11,17 @@ public class MemberDTO {
 	private String tel3;
 	private String email1;
 	private String email2;
+	private String reg_date;
 	private int point;
 	private int powercode ;
 	private int block;
-
+	
+	public String getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
+	}
 	public String getId() {
 		return id;
 	}

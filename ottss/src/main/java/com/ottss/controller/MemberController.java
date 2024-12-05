@@ -40,7 +40,7 @@ public class MemberController {
 		String pwd = req.getParameter("pwd");
 		
 		MemberDTO dto = dao.loginMember(id, pwd);
-		if(dto != null) {
+		if(dto != null && dto.getBlock() == 0) {
 			// 로그인 성공한 경우
 			// 세션에 아이디, 이름, 권한등을 저장
 			
