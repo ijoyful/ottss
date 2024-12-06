@@ -1,6 +1,6 @@
 package com.ottss.domain;
 
-public class FreeBoardDTO {
+public class FreeDTO {
 	private long fb_num; // 게시글 번호. 시퀀스
 	private String title; // 게시글 제목
 	private String content; // 게시글 내용
@@ -11,6 +11,14 @@ public class FreeBoardDTO {
 	private String ipAddr; // 작성자 ip 주소
 	private String mod_date; // 게시글 수정일
 	private String id; // 작성자 id
+
+	// 업로드된 파일
+	private long fileNum; // 업로드된 파일 번호. 시퀀스 fb_file_seq
+	private String s_fileName; // 서버에 저장된 파일 이름
+	private String c_fileName; // 클라이언트가 저장해놓은 파일 이름
+
+	// 게시글 좋아요
+	private int likeCount; // SELECT COUNT(*) FROM free_board WHERE fb_num = ?
 	public long getFb_num() {
 		return fb_num;
 	}
@@ -72,4 +80,29 @@ public class FreeBoardDTO {
 		this.id = id;
 	}
 	
+	public long getFileNum() {
+		return fileNum;
+	}
+	public void setFileNum(long fileNum) {
+		this.fileNum = fileNum;
+	}
+	public String getS_fileName() {
+		return s_fileName;
+	}
+	public void setS_fileName(String s_fileName) {
+		this.s_fileName = s_fileName;
+	}
+	public String getC_fileName() {
+		return c_fileName;
+	}
+	public void setC_fileName(String c_fileName) {
+		this.c_fileName = c_fileName;
+	}
+
+	public int getLikes() {
+		return likeCount;
+	}
+	public void setLikes(int likeCount) {
+		this.likeCount = likeCount;
+	}
 }
