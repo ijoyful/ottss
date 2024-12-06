@@ -46,7 +46,7 @@
 	        		<li><a href="${pageContext.request.contextPath}/">자유게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/">분석게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/">자랑게시판</a></li>
-	        		<li><a href="${pageContext.request.contextPath}/">FAQ</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/faq/list">FAQ</a></li>
 	        	</ul>
 	        </div>
 	        <div class="drop-down">
