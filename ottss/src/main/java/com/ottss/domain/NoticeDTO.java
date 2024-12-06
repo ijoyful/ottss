@@ -12,6 +12,7 @@ public class NoticeDTO {
 	private String reg_date; // 게시글 작성일
 	private String mod_date; // 게시글 수정일
 	private String id; // 게시글 작성자 id
+	private String nickname; // 작성자 닉네임
 
 	// 공지 게시글에 첨부된 파일
 	private long fileNum; // 공지게시판에 첨부된 파일 번호. 시퀀스 n_file_seq
@@ -60,6 +61,12 @@ public class NoticeDTO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public long getFileNum() {

@@ -15,6 +15,7 @@ public class STDTO { // 자랑/분석게시판 게시글 DTO
 	private String ipAddr; // 게시글 작성자 ip 주소
 	private String board_type; // 자랑 게시글인지, 분석 게시글인지 속성값 저장
 	private String id; // 작성자 id
+	private String nickname; // 작성자 닉네임
 
 	// 자랑/분석게시판 게시글에 첨부된 파일
 	private long fileNum; // 자랑/분석게시판에 업로드된 파일 번호. 시퀀스 st_file_seq
@@ -82,6 +83,12 @@ public class STDTO { // 자랑/분석게시판 게시글 DTO
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	
 	public long getFileNum() {

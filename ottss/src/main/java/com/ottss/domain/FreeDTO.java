@@ -15,6 +15,7 @@ public class FreeDTO {
 	private String ipAddr; // 작성자 ip 주소
 	private String mod_date; // 게시글 수정일
 	private String id; // 작성자 id
+	private String nickname; // 작성자 닉네임
 
 	// 업로드된 파일
 	private long fileNum; // 업로드된 파일 번호. 시퀀스 fb_file_seq
@@ -83,6 +84,12 @@ public class FreeDTO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	
 	public long getFileNum() {

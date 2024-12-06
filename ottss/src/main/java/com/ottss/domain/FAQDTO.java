@@ -15,8 +15,10 @@ public class FAQDTO {
 	private int top_fix; // 게시판에서 상단 고정 여부 0: 고정안함(기본값) 1: 고정
 	private String user_id; // 질문자 아이디
 	private String admin_id; // 답변자 아이디
+	private String q_nickname; // 질문자 닉네임
+	private String a_nickname; // 답변자 닉네임
 
-	private long fileNum; // 질문게시판에 첨부된 파일 번호
+	private long fileNum; // 질문게시판에 첨부된 파일 번호. 시퀀스 faq_file_seq
 	private String s_fileName; // 서버에 저장된 파일명
 	private String c_fileName; // 클라이언트가 저장한 파일명
 	private List<MyMultipartFile> listFile;
@@ -80,6 +82,18 @@ public class FAQDTO {
 	}
 	public void setAdmin_id(String admin_id) {
 		this.admin_id = admin_id;
+	}
+	public String getQ_nickname() {
+		return q_nickname;
+	}
+	public void setQ_nickname(String q_nickname) {
+		this.q_nickname = q_nickname;
+	}
+	public String getA_nickname() {
+		return a_nickname;
+	}
+	public void setA_nickname(String a_nickname) {
+		this.a_nickname = a_nickname;
 	}
 
 	public long getFileNum() {
