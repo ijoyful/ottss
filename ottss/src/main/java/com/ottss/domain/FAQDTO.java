@@ -1,0 +1,74 @@
+package com.ottss.domain;
+
+public class FAQDTO {
+	private long faq_num; // faq 게시판 글 번호. 시퀀스 faq_seq
+	private String q_title; // 질문제목
+	private String q_content; // 질문 내용
+	private String a_content; // 답변 내용
+	private String q_date; // 질문 날짜
+	private String a_date; // 답변 날짜
+	private long hitCount; // 조회수
+	private int top_fix; // 게시판에서 상단 고정 여부 0: 고정안함(기본값) 1: 고정
+	private String user_id; // 질문자 아이디
+	private String admin_id; // 답변자 아이디
+	public long getFaq_num() {
+		return faq_num;
+	}
+	public void setFaq_num(long faq_num) {
+		this.faq_num = faq_num;
+	}
+	public String getQ_title() {
+		return q_title;
+	}
+	public void setQ_title(String q_title) {
+		this.q_title = q_title;
+	}
+	public String getQ_content() {
+		return q_content;
+	}
+	public void setQ_content(String q_content) {
+		this.q_content = q_content;
+	}
+	public String getA_content() {
+		return a_content;
+	}
+	public void setA_content(String a_content) {
+		this.a_content = a_content;
+	}
+	public String getQ_date() {
+		return q_date;
+	}
+	public void setQ_date(String q_date) {
+		this.q_date = q_date;
+	}
+	public String getA_date() {
+		return a_date;
+	}
+	public void setA_date(String a_date) {
+		this.a_date = a_date;
+	}
+	public long getHitCount() {
+		return hitCount;
+	}
+	public void setHitCount(long hitCount) {
+		this.hitCount = hitCount;
+	}
+	public int getTop_fix() {
+		return top_fix;
+	}
+	public void setTop_fix(int top_fix) {
+		this.top_fix = top_fix;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public String getAdmin_id() {
+		return admin_id;
+	}
+	public void setAdmin_id(String admin_id) {
+		this.admin_id = admin_id;
+	}
+}

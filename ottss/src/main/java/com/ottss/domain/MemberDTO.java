@@ -15,7 +15,7 @@ public class MemberDTO {
 	private int point;
 	private int powercode ;
 	private int block;
-	
+	private String att_date; // 출석일자
 	public String getReg_date() {
 		return reg_date;
 	}
@@ -100,6 +100,10 @@ public class MemberDTO {
 	public void setBlock(int block) {
 		this.block = block;
 	}
-	
-
+	public String getAtt_date() {
+		return att_date;
+	}
+	public void setAtt_date(String att_date) {
+		this.att_date = att_date;
+	}
 }
