@@ -1,5 +1,9 @@
 package com.ottss.domain;
 
+import java.util.List;
+
+import com.ottss.util.MyMultipartFile;
+
 public class NoticeDTO {
 	private long n_num; // 공지 게시판 게시글 번호. 시퀀스 n_seq
 	private String title; // 게시글 제목
@@ -13,6 +17,8 @@ public class NoticeDTO {
 	private long fileNum; // 공지게시판에 첨부된 파일 번호. 시퀀스 n_file_seq
 	private String s_fileName; // 서버에 저장된 파일
 	private String c_fileName; // 클라이언트가 저장한 파일명
+	private List<MyMultipartFile> listFile;
+
 	public long getN_num() {
 		return n_num;
 	}
@@ -73,5 +79,11 @@ public class NoticeDTO {
 	}
 	public void setC_fileName(String c_fileName) {
 		this.c_fileName = c_fileName;
+	}
+	public List<MyMultipartFile> getListFile() {
+		return listFile;
+	}
+	public void setListFile(List<MyMultipartFile> listFile) {
+		this.listFile = listFile;
 	}
 }

@@ -1,5 +1,9 @@
 package com.ottss.domain;
 
+import java.util.List;
+
+import com.ottss.util.MyMultipartFile;
+
 public class FreeDTO {
 	private long fb_num; // 게시글 번호. 시퀀스
 	private String title; // 게시글 제목
@@ -16,7 +20,8 @@ public class FreeDTO {
 	private long fileNum; // 업로드된 파일 번호. 시퀀스 fb_file_seq
 	private String s_fileName; // 서버에 저장된 파일 이름
 	private String c_fileName; // 클라이언트가 저장해놓은 파일 이름
-
+	private List<MyMultipartFile> listFile;
+	
 	// 게시글 좋아요
 	private int likeCount; // SELECT COUNT(*) FROM free_board WHERE fb_num = ?
 	public long getFb_num() {
@@ -99,10 +104,17 @@ public class FreeDTO {
 		this.c_fileName = c_fileName;
 	}
 
-	public int getLikes() {
+	public List<MyMultipartFile> getListFile() {
+		return listFile;
+	}
+	public void setListFile(List<MyMultipartFile> listFile) {
+		this.listFile = listFile;
+	}
+
+	public int getLikeCount() {
 		return likeCount;
 	}
-	public void setLikes(int likeCount) {
+	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;
 	}
 }

@@ -1,5 +1,9 @@
 package com.ottss.domain;
 
+import java.util.List;
+
+import com.ottss.util.MyMultipartFile;
+
 public class STDTO { // 자랑/분석게시판 게시글 DTO
 	private long st_num; // 게시글 번호. 시퀀스 st_seq
 	private String title; // 게시글 제목
@@ -16,7 +20,8 @@ public class STDTO { // 자랑/분석게시판 게시글 DTO
 	private long fileNum; // 자랑/분석게시판에 업로드된 파일 번호. 시퀀스 st_file_seq
 	private String s_fileName; // 서버에 저장된 파일명
 	private String c_fileName; // 클라이언트가 저장한 파일명
-
+	private List<MyMultipartFile> listFile;
+	
 	private int likeCount; // 게시글 좋아요 수
 	public long getSt_num() {
 		return st_num;
@@ -96,6 +101,12 @@ public class STDTO { // 자랑/분석게시판 게시글 DTO
 	}
 	public void setC_fileName(String c_fileName) {
 		this.c_fileName = c_fileName;
+	}
+	public List<MyMultipartFile> getListFile() {
+		return listFile;
+	}
+	public void setListFile(List<MyMultipartFile> listFile) {
+		this.listFile = listFile;
 	}
 
 	public int getLikeCount() {
