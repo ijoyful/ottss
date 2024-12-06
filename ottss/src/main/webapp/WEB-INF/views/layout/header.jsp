@@ -22,7 +22,7 @@
 						</div>
 						<div class="p-2">
 							<a href="${pageContext.request.contextPath}/player/mypage">마이페이지</a>
-							<a href="#" title="로그아웃"><i class="bi bi-unlock"></i></a>
+							<a href="${pageContext.request.contextPath}/login/logout" title="로그아웃"><i class="bi bi-unlock"></i></a>
 						</div>					
 					</c:if>             
                 </div>

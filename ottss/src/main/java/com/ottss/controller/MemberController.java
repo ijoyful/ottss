@@ -2,7 +2,10 @@ package com.ottss.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.ottss.mvc.annotation.ResponseBody;
 import com.ottss.dao.MemberDAO;
 import com.ottss.domain.MemberDTO;
 import com.ottss.domain.SessionInfo;
@@ -127,8 +130,8 @@ public class MemberController {
 			dto.setEmail2(req.getParameter("email2"));
 
 			dto.setTel1(req.getParameter("tel1"));
-			dto.setTel1(req.getParameter("tel2"));
-			dto.setTel1(req.getParameter("tel3"));
+			dto.setTel2(req.getParameter("tel2"));
+			dto.setTel3(req.getParameter("tel3"));
 
 		
 			dao.insertMember(dto);
@@ -177,7 +180,52 @@ public class MemberController {
 	@RequestMapping(value = "/login/pwd", method = RequestMethod.POST)
 	public ModelAndView pwdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 패스워드 확인
-	
+		MemberDAO dao = new MemberDAO();
+		HttpSession session = req.getSession();
+		
+		try {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			
+			//DB에서 회원 정보 가져오기
+			MemberDTO dto = new MemberDTO();
+			if(dto == null) {
+				session.invalidate();
+				return new ModelAndView("redirect:/");
+			}
+			
+			String pwd = req.getParameter("pwd");
+			String mode = req.getParameter("mode");
+			if(! dto.getPwd().equals(pwd)) {
+				ModelAndView mav = new ModelAndView("login/pwd");
+			
+				mav.addObject("mode", mode);
+				mav.addObject("message", "패스워드가 일치하지 않습니다.");
+				
+				return mav;
+			}
+			
+			if(mode.equals("delete")) {
+				//회원탈퇴
+				dao.deleteMember(info.getId());
+				
+				session.removeAttribute("member");
+				session.invalidate();
+				
+				return new ModelAndView("redirect:/");
+			}
+			
+			//회원정보수정 - 회원정보수정폼으로 이동
+			ModelAndView mav = new ModelAndView("login/member");
+			
+			mav.addObject("title", "회원 정보 수정");
+			mav.addObject("dto", dto);
+			mav.addObject("mode", "update");
+			
+			return mav;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return new ModelAndView("redirect:/");
 	}
@@ -214,12 +262,32 @@ public class MemberController {
 			message += "회원정보가 수정 되었습니다.<br>메인 화면으로 이동하시기 바랍니다.";
 		}
 
-		ModelAndView mav = new ModelAndView("member/complete");
+		ModelAndView mav = new ModelAndView("login/complete");
 
 		mav.addObject("title", title);
 		mav.addObject("message", message);
 		
 		return mav;
+	}
+	
+	@ResponseBody //AJAX : JSON 으로 반환
+	@RequestMapping(value = "/login/userIdCheck", method=RequestMethod.POST)
+	public Map<String, Object> userIdCheck (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//아이디 중복 검사
+		MemberDAO dao = new MemberDAO();
+		
+		String id = req.getParameter("id");
+		MemberDTO dto = dao.findById(id);
+		String passed = "false";
+		if(dto == null) {
+			passed = "true";
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		model.put("passed", passed);
+		
+		return model;
 	}
 	
 	

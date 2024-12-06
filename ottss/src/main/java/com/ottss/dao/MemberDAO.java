@@ -76,9 +76,7 @@ public class MemberDAO {
 			pstmt.setInt(12, dto.getPowercode());
 
 			pstmt.executeUpdate();
-			conn.commit();
 		} catch (Exception e) {
-			DBUtil.rollback(conn); //롤백왜하는지 아는사람
 			
 			e.printStackTrace();
 			throw e;
@@ -99,9 +97,9 @@ public class MemberDAO {
 		
 		try {
 			
-			sb.append("SELECT id, pwd, name, nickname, TO_CHAR(birth, 'YYYY-MM-DD') birth, tel1, tel2, tel3, email1, email2, point, powercode, block");
-			sb.append("FROM player");
-			sb.append("WHERE id = ?");
+			sb.append(" SELECT id, pwd, name, nickname, TO_CHAR(birth, 'YYYY-MM-DD') birth, tel1, tel2, tel3, email1, email2, point, powercode, block, reg_date");
+			sb.append(" FROM player");
+			sb.append(" WHERE id = ?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setString(1, id);
@@ -122,6 +120,7 @@ public class MemberDAO {
 				dto.setEmail2(rs.getString("email2"));
 				dto.setPoint(rs.getInt("point"));
 				dto.setPowercode(rs.getInt(1));
+				dto.setReg_date(rs.getString("reg_date"));
 			}
 			
 		} catch (Exception e) {
@@ -135,8 +134,72 @@ public class MemberDAO {
 		return dto;
 	}
 	
+	public void updateMember(MemberDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE player SET pwd=?, birth=TO_DATE(?,'YYYY-MM-DD'), tel1=?, tel2=?, tel3=?, email1=?, email2=?  WHERE id = ?"; 	//++수정날짜 보류
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getPwd());
+			pstmt.setString(2, dto.getBirth());
+			pstmt.setString(3, dto.getTel1());
+			pstmt.setString(4, dto.getTel2());
+			pstmt.setString(5, dto.getTel3());
+			pstmt.setString(6, dto.getEmail1());
+			pstmt.setString(7, dto.getEmail2());
+			pstmt.setString(8, dto.getId());
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+		
+		
+		
+	}
 	
+	public void updateMemberPowerCode(String id, int powercode) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE player SET powercode=? WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, powercode);
+			pstmt.setString(2, id);
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+		
+	}
 	
-	
-	
+	public void deleteMember(String id) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM player WHERE id=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
+				
+	}
+		
 }

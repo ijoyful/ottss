@@ -20,38 +20,38 @@
 function memberOk() {
 	const f = document.memberForm;
 	
-	str = f.userId.value;
+	str = f.id.value;
 	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
 		alert("아이디를 다시 입력 하세요. ");
-		f.userId.focus();
+		f.id.focus();
 		return;
 	}
 	
 	let mode = "${mode}";
 	if(mode === "member" && f.userIdValid.value === "false") {
 		str = "아이디 중복 검사가 실행되지 않았습니다.";
-		$("#userId").closest(".wrap-userId").find(".help-block").html(str);
-		f.userId.focus();
+		$("#id").closest(".wrap-userId").find(".help-block").html(str);
+		f.id.focus();
 		return;
 	}
 	
-	str = f.userPwd.value;
+	str = f.pwd.value;
 	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
 		alert("패스워드를 다시 입력 하세요. ");
-		f.userPwd.focus();
+		f.pwd.focus();
 		return;
 	}
 
-	if( str !== f.userPwd2.value ) {
+	if( str !== f.pwd2.value ) {
         alert("패스워드가 일치하지 않습니다. ");
-        f.userPwd.focus();
+        f.pwd2.focus();
         return;
 	}
 	
-    str = f.userName.value;
+    str = f.name.value;
     if( !/^[가-힣]{2,5}$/.test(str) ) {
         alert("이름을 다시 입력하세요. ");
-        f.userName.focus();
+        f.name.focus();
         return;
     }
 
@@ -97,7 +97,7 @@ function memberOk() {
         return;
     }
 
-	f.action = "${pageContext.request.contextPath}/member/${mode}";
+	f.action = "${pageContext.request.contextPath}/login/${mode}";
 	f.submit();
 }
 
@@ -124,17 +124,17 @@ window.addEventListener('load', () => {
 
 function userIdCheck() {
 	// 아이디 중복 검사
-	let userId = $('#userId').val();
+	let id = $('#id').val();
 	
-	if(!/^[a-z][a-z0-9_]{4,9}$/i.test(userId)){
+	if(!/^[a-z][a-z0-9_]{4,9}$/i.test(id)){
 		let str = '아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.';
-		$('#userId').focus();
-		$('#userId').closest('.wrap-userId').find('.help-block').html(str);
+		$('#id').focus();
+		$('#id').closest('.wrap-userId').find('.help-block').html(str);
 		return;
 	}
 	
-	let url = '${pageContext.request.contextPath}/member/userIdCheck';
-	let query = 'userId=' + userId;
+	let url = '${pageContext.request.contextPath}/login/userIdCheck';
+	let query = 'id=' + id;
 	
 	$.ajax({
 		type:'post',
@@ -145,15 +145,15 @@ function userIdCheck() {
 			let passed = data.passed;
 			
 			if(passed === 'true'){
-				let s = '<span style="color:blue; font-weight:bold;">' + userId + '</span> 아이디는 사용 가능합니다.';
-				$('#userId').closest('.wrap-userId').find('.help-block').html(s);
+				let s = '<span style="color:blue; font-weight:bold;">' + id + '</span> 아이디는 사용 가능합니다.';
+				$('#id').closest('.wrap-userId').find('.help-block').html(s);
 				$('#userIdValid').val('true');
 			} else {
-				let s = '<span style="color:red; font-weight:bold;">' + userId + '</span> 아이디는 사용 할 수 없습니다.';
-				$('#userId').closest('.wrap-userId').find('.help-block').html(s);				
+				let s = '<span style="color:red; font-weight:bold;">' + id + '</span> 아이디는 사용 할 수 없습니다.';
+				$('#id').closest('.wrap-userId').find('.help-block').html(s);				
 				$('#userIdValid').val('false');
-				$('#userId').val('');
-				$('#userId').focus();
+				$('#id').val('');
+				$('#id').focus();
 				
 			}
 		}
@@ -176,18 +176,18 @@ function userIdCheck() {
 			</div>
 			
 		    <div class="alert alert-info" role="alert">
-		        <i class="bi bi-person-check-fill"></i> SPRING의 회원이 되시면 회원님만의 유익한 정보를 만날수 있습니다.
+		        <i class="bi bi-person-check-fill"></i> 삼식이게임의 회원이 되시면 회원님만의 유익한 정보를 만날수 있습니다.
 		    </div>
 			
 			<div class="body-main">
 				
 				<form name="memberForm" method="post">
 					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label" for="userId">아이디</label>
+						<label class="col-sm-2 col-form-label" for="id">아이디</label>
 						<div class="col-sm-10 wrap-userId">
 							<div class="row">
 								<div class="col-6 pe-1">
-									<input type="text" name="userId" id="userId" class="form-control" value="${dto.userId}" 
+									<input type="text" name="id" id="id" class="form-control" value="${dto.id}" 
 											${mode=="update" ? "readonly ":""}
 											placeholder="아이디">
 								</div>
@@ -204,11 +204,11 @@ function userIdCheck() {
 					</div>
 				 
 					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label" for="userPwd">패스워드</label>
+						<label class="col-sm-2 col-form-label" for="pwd">패스워드</label>
 						<div class="col-sm-10">
 							<div class="row">
 								<div class="col-6">
-				            		<input type="password" name="userPwd" id="userPwd" class="form-control" autocomplete="off" placeholder="패스워드">
+				            		<input type="password" name="pwd" id="pwd" class="form-control" autocomplete="off" placeholder="패스워드">
 								</div>
 							</div>
 				            <small class="form-control-plaintext">패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</small>
@@ -216,11 +216,11 @@ function userIdCheck() {
 				    </div>
 				    
 				    <div class="row mb-3">
-				        <label class="col-sm-2 col-form-label" for="userPwd2">패스워드 확인</label>
+				        <label class="col-sm-2 col-form-label" for="pwd2">패스워드 확인</label>
 				        <div class="col-sm-10">
 							<div class="row">
 								<div class="col-6">
-				            		<input type="password" name="userPwd2" id="userPwd2" class="form-control" autocomplete="off" placeholder="패스워드 확인">
+				            		<input type="password" name="pwd2" id="pwd2" class="form-control" autocomplete="off" placeholder="패스워드 확인">
 								</div>
 							</div>
 				            <small class="form-control-plaintext">패스워드를 한번 더 입력해주세요.</small>
@@ -228,18 +228,30 @@ function userIdCheck() {
 				    </div>
 				 
 				    <div class="row mb-3">
-				        <label class="col-sm-2 col-form-label" for="userName">이름</label>
+				        <label class="col-sm-2 col-form-label" for="name">이름</label>
 				        <div class="col-sm-10">
 							<div class="row">
 								<div class="col-6">
-				            		<input type="text" name="userName" id="userName" class="form-control" value="${dto.userName}" 
+				            		<input type="text" name="name" id="name" class="form-control" value="${dto.name}" 
 				            			${mode=="update" ? "readonly ":""}
 				            			placeholder="이름">
 								</div>
 							</div>
 				        </div>
 				    </div>
-				 
+				 	
+				 	<div class="row mb-3">
+				 		<label class="col-sm-2 col-form-label" for="name">닉네임</label>
+				 		<div class="col-sm-10">
+				 			<div class ="row">
+				 				<div class="col-6">
+				 					<input type="text" name="nickname" id="nickname" class="form-control" value="${dto.nickname}" placeholder="닉네임">
+				 				</div>
+				 			</div>
+				 		</div>
+				 	</div>
+				 	
+				 	
 				    <div class="row mb-3">
 				        <label class="col-sm-2 col-form-label" for="birth">생년월일</label>
 				        <div class="col-sm-10">
@@ -296,30 +308,7 @@ function userIdCheck() {
 							</div>
 				        </div>
 				    </div>
-				
-				    <div class="row mb-3">
-				        <label class="col-sm-2 col-form-label" for="zip">우편번호</label>
-				        <div class="col-sm-5">
-				       		<div class="input-group">
-				           		<input type="text" name="zip" id="zip" class="form-control" placeholder="우편번호" value="${dto.zip}" readonly>
-			           			<button class="btn btn-light" type="button" style="margin-left: 3px;" onclick="daumPostcode();">우편번호 검색</button>
-				           	</div>
-						</div>
-				    </div>
-			
-				    <div class="row mb-3">
-				        <label class="col-sm-2 col-form-label" for="addr1">주소</label>
-				        <div class="col-sm-10">
-				       		<div>
-				           		<input type="text" name="addr1" id="addr1" class="form-control" placeholder="기본 주소" value="${dto.addr1}" readonly>
-				           	</div>
-				       		<div style="margin-top: 5px;">
-				       			<input type="text" name="addr2" id="addr2" class="form-control" placeholder="상세 주소" value="${dto.addr2}">
-							</div>
-						</div>
-				    </div>
-			
-					<c:if test="${mode == 'member' }">
+					<c:if test="${mode == 'member'}">
 					    <div class="row mb-3">
 					        <label class="col-sm-2 col-form-label" for="agree">약관 동의</label>
 							<div class="col-sm-8" style="padding-top: 5px;">
