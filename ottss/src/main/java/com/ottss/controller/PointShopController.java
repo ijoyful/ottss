@@ -51,7 +51,7 @@ public class PointShopController {
 			
 			// 한페이지 상품 수
 			String pageSize = req.getParameter("size");
-			int size = pageSize == null ? 10 : Integer.parseInt(pageSize);
+			int size = pageSize == null ? 30 : Integer.parseInt(pageSize);
 			
 			int dataCount, total_page;
 			

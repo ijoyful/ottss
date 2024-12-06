@@ -12,13 +12,15 @@
 
 <style type="text/css">
 .body-container {
-	max-width: 800px;
+	max-width: 600px;
 	}
+#main .mainInner {width: 800px;}
 #main .listInner ul li:nth-child(1) {width: 10%;} /* 상품번호 */
-#main .listInner ul li:nth-child(2) {width: 10%;} /* 카테고리 */
+#main .listInner ul li:nth-child(2) {width: 12%;} /* 카테고리 */
 #main .listInner ul li:nth-child(3) {width: 30%;} /*  상품  */
-#main .listInner ul li:nth-child(4) {width: 60%;} /* 상품 설명*/
+#main .listInner ul li:nth-child(4) {width: 58%;} /* 상품 설명*/
 #main .listInner ul li:nth-child(5) {width: 20%;} /* 가격 */
+
 </style>
 
 </head>
