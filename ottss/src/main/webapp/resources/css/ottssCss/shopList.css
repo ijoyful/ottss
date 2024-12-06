@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+#main .listInner {width: 100%;}
+
+#main .listInner ul {width: 100%; display: flex; border-radius: 5px;}
+
+#main .listInner ul:not(:last-child) {margin-bottom: 10px;}
+
+#main .listInner ul li {display: flex; height: 40px; align-items: center; justify-content: center;}
+
+#main .listInner ul li:nth-child(1) {width: 10%;} /* 상품번호 */
+#main .listInner ul li:nth-child(2) {width: 10%;} /* 카테고리 */
+#main .listInner ul li:nth-child(3) {width: 30%;} /* 상품 */
+#main .listInner ul li:nth-child(4) {width: 40%;} /* 상품 이름 */
+#main .listInner ul li:nth-child(5) {width: 10%;} /* 가격 */
+
+#main .listInner .listTitle {background-color: #FF007F; color: #fff;}
+
+#main .listInner .listContent {background-color: #eee;}
+#main .listInner .listContent a:hover {text-decoration: underline; color: #000;}

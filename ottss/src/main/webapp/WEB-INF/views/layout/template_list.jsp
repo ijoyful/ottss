@@ -18,7 +18,7 @@
 
 </head>
 <body>
-	<!-- div.wrap 꼭 써야됩니다. 없으면 폼 망가져요~~ -->
+	<!-- div.wrap 꼭 써야됩니다. 없으면 폼 망가져요~~ --> 
 	<div class="wrap">
 		<!-- header -->
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
