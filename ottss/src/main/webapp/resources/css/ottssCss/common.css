@@ -68,7 +68,7 @@
 #main .mainInner {
     width: 1200px;
     margin: auto;
-    padding: 50px 0;
+    padding: 100px 0;
     box-sizing: border-box;
 }
 
@@ -87,4 +87,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.background {
+    display: none;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.5);
 }

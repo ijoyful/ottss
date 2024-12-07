@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+@charset "utf-8";
+
+#main .writeInner {width: 100%;}
+
+#main .writeInner ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#main .writeInner ul:not(:last-child) {margin-bottom: 10px;}
+
+#main .writeInner ul li {
+    display: flex;
+    padding: 20px 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+#main .writeInner ul li input {
+    width: 95%;
+    border: none;
+    background-color: unset;
+}
+
+#main .writeInner ul li textarea {
+    width: 95%;
+    height: 300px;
+    border: unset;
+    background-color: unset;
+    line-height: 1.6;
+}
+
+#main .writeInner ul li:nth-child(1) {width: 20%;}
+#main .writeInner ul li:nth-child(2) {width: 79%;}
+
+
+#main .writeInner .listTitle {background-color: #1B1F3B; color: #fff;}
+#main .writeInner .listContent {background-color: #eee;}
