@@ -64,13 +64,15 @@
     </div>
 </header>
 <script type="text/javascript">
-	$(function() {
-		$('.drop-down').on("mouseover", function() {
-			$(this).find('.dropdownMenu').stop().animate().fadeIn(500);
-		});
-		
-		$('.drop-down').on("mouseleave", function() {
-			$(this).find('.dropdownMenu').stop().animate().fadeOut(300);
-		});
+$(function() {
+	$('.drop-down').on("mouseover", function() {
+		$(this).find('.dropdownMenu').stop().animate().fadeIn(500);
 	});
+	
+	$('.drop-down').on("mouseleave", function() {
+		$(this).find('.dropdownMenu').stop().animate().fadeOut(300);
+	});
+
+	const main = $('.logo');
+});
 </script>

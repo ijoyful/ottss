@@ -29,7 +29,7 @@
 	<div class="container">
 		<div class="body-container">	
 			<div class="body-title">
-				<h3><i class="bi bi-clipboard"></i> 공지사항 </h3>
+				<h3><i class="bi bi-clipboard"></i> FAQ </h3>
 			</div>
 			
 			<div class="body-main">
@@ -37,8 +37,8 @@
 				<table class="table board-article">
 					<thead>
 						<tr>
-							<td colspan="2" align="center">
-								${dto.subject}
+							<td colspan="2" align="left">
+								${dto.q_title}
 							</td>
 						</tr>
 					</thead>
@@ -46,16 +46,16 @@
 					<tbody>
 						<tr>
 							<td width="50%">
-								이름 : ${dto.userName}
+								닉네임 : ${dto.q_nickname}
 							</td>
 							<td align="right">
-								${dto.reg_date} | 조회 ${dto.hitCount}
+								질문일자: ${dto.question_date} | 조회 ${dto.hitCount}
 							</td>
 						</tr>
 						
 						<tr>
 							<td colspan="2" valign="top" height="200" style="border-bottom:none;">
-								${dto.content}
+								${dto.q_content}
 							</td>
 						</tr>
 						
@@ -64,25 +64,50 @@
 								<c:forEach var="vo" items="${listFile}" varStatus="status">
 									<p class="border text-secondary mb-1 p-2">
 										<i class="bi bi-folder2-open"></i>
-										<a href="${pageContext.request.contextPath}/notice/download?fileNum=${vo.fileNum}">${vo.originalFilename}</a>
+										<a href="${pageContext.request.contextPath}/faq/download?fileNum=${vo.fileNum}">${vo.c_fileName}</a>
 									</p>
 								</c:forEach>
 							</td>
 						</tr>
+					</tbody>
+				</table>
+				<table class="table board-article">
+					<thead>
+						<tr>
+							<td colspan="2" align="left">
+								${dto.q_title}
+							</td>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td width="50%">
+								닉네임 : ${dto.a_nickname}
+							</td>
+							<td align="right">
+								답변일자: ${dto.answer_date}
+							</td>
+						</tr>
 						
+						<tr>
+							<td colspan="2" valign="top" height="200" style="border-bottom: none;">
+								${dto.a_content}
+							</td>
+						</tr>
 						<tr>
 							<td colspan="2">
 								다음글 :
-								<c:if test="${not empty prevDto}">
-									<a href="${pageContext.request.contextPath}/notice/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
+								<c:if test="${not empty prevDTO}">
+									<a href="${pageContext.request.contextPath}/faq/article?${query}&num=${prevDTO.faq_num}">${prevDTO.title}</a>
 								</c:if>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
 								이전글 :
-								<c:if test="${not empty nextDto}">
-									<a href="${pageContext.request.contextPath}/notice/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
+								<c:if test="${not empty nextDTO}">
+									<a href="${pageContext.request.contextPath}/faq/article?${query}&num=${nextDTO.faq_num}">${nextDTO.title}</a>
 								</c:if>
 							</td>
 						</tr>
@@ -96,7 +121,7 @@
 							&nbsp;
 						</td>
 						<td class="text-end">
-							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/list?${query}';">리스트</button>
+							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/faq/list?${query}';">리스트</button>
 						</td>
 					</tr>
 				</table>

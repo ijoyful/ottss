@@ -250,8 +250,200 @@ public class FAQDAO {
 		}
 		return list;
 	}
+
+	public FAQDTO findByNum(long num) {
+		FAQDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT faq_num, q_title, q_content, a_content, question_date, answer_date, hitCount,"
+					+ " u.nickname usernickname, admin.nickname adminnickname"
+					+ " FROM FAQ f JOIN player u ON f.user_id = u.id"
+					+ " JOIN player admin ON f.admin_id = admin.id"
+					+ " WHERE faq_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new FAQDTO();
+
+				dto.setFaq_num(rs.getLong("faq_num"));
+				dto.setQ_title(rs.getString("q_title"));
+				dto.setQ_content(rs.getString("q_content"));
+				dto.setA_content(rs.getString("a_content"));
+				dto.setQuestion_date(rs.getString("question_date"));
+				dto.setAnswer_date(rs.getString("answer_date"));
+				dto.setHitCount(rs.getLong("hitCount"));
+				dto.setQ_nickname(rs.getString("usernickname"));
+				dto.setA_nickname(rs.getString("adminnickname"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		return dto;
+	}
+
+	public void updateHitCount(long num) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+
+		try {
+			sql = "UPDATE FAQ SET hitCount = hitCount + 1 WHERE faq_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
 	
-	
+	public FAQDTO findByPrev(long num, String schType, String kwd) {
+		FAQDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			if (kwd != null && kwd.length() != 0) {
+				sb.append(" SELECT faq_num, q_title");
+				sb.append(" FROM faq");
+				sb.append(" WHERE (faq_num > ?)");
+				if (schType.equals("all")) {
+					sb.append("   AND (INSTR(q_title, ?) >= 1 OR INSTR(q_content, ?) >= 1) OR INSTR(a_content, ?) >= 1)");
+				} else {
+					sb.append("   AND (INSTR(" + schType + ", ?) >= 1)");
+				}
+				sb.append(" ORDER BY faq_num ASC");
+				sb.append(" FETCH FIRST 1 ROWS ONLY");
+
+				pstmt = conn.prepareStatement(sb.toString());
+				
+				pstmt.setLong(1, num);
+				pstmt.setString(2, kwd);
+				if (schType.equals("all")) {
+					pstmt.setString(3, kwd);
+				}
+			} else {
+				sb.append(" SELECT faq_num, q_title FROM faq");
+				sb.append(" WHERE faq_num > ? ");
+				sb.append(" ORDER BY faq_num ASC ");
+				sb.append(" FETCH FIRST 1 ROWS ONLY ");
+
+				pstmt = conn.prepareStatement(sb.toString());
+
+				pstmt.setLong(1, num);
+			}
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new FAQDTO();
+				
+				dto.setFaq_num(rs.getLong("faq_num"));
+				dto.setQ_title(rs.getString("q_title"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+
+		return dto;
+	}
+
+	// 다음글
+	public FAQDTO findByNext(long num, String schType, String kwd) {
+		FAQDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			if (kwd != null && kwd.length() != 0) {
+				sb.append(" SELECT faq_num, q_title");
+				sb.append(" FROM faq");
+				sb.append(" WHERE ( faq_num < ? ) ");
+				if (schType.equals("all")) {
+					sb.append("   AND (INSTR(q_title, ?) >= 1 OR INSTR(q_content, ?) >= 1 OR INSTR(a_content, ?) >= 1)) ");
+				} else {
+					sb.append("   AND (INSTR(" + schType + ", ?) >= 1) ");
+				}
+				sb.append(" ORDER BY faq_num DESC");
+				sb.append(" FETCH FIRST 1 ROWS ONLY");
+
+				pstmt = conn.prepareStatement(sb.toString());
+				
+				pstmt.setLong(1, num);
+				pstmt.setString(2, kwd);
+				if (schType.equals("all")) {
+					pstmt.setString(3, kwd);
+				}
+			} else {
+				sb.append(" SELECT faq_num, q_title FROM faq ");
+				sb.append(" WHERE faq_num < ? ");
+				sb.append(" ORDER BY faq_num DESC ");
+				sb.append(" FETCH FIRST 1 ROWS ONLY");
+
+				pstmt = conn.prepareStatement(sb.toString());
+				
+				pstmt.setLong(1, num);
+			}
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new FAQDTO();
+				
+				dto.setFaq_num(rs.getLong("faq_num"));
+				dto.setQ_title(rs.getString("q_title"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+
+		return dto;
+	}
+
+	public List<FAQDTO> listFAQFile(long num) {
+		List<FAQDTO> list = new ArrayList<FAQDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT fileNum, s_fileName, c_fileName, faq_num FROM faq_file WHERE faq_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				FAQDTO dto = new FAQDTO();
+				dto.setFileNum(rs.getLong("fileNum"));
+				dto.setS_fileName(rs.getString("s_fileName"));
+				dto.setC_fileName(rs.getString("c_fileName"));
+				dto.setFaq_num(rs.getLong("faq_num"));
+
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	
 	

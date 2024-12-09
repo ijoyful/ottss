@@ -113,10 +113,10 @@ public class FAQController {
 		return mav;
 	}
 
+	// 글 쓰기 제출
 	@RequestMapping(value = "/faq/write", method = RequestMethod.POST)
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		FAQDAO dao = new FAQDAO();
-		String page = req.getParameter("page");
 		String size = req.getParameter("size");
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -136,10 +136,63 @@ public class FAQController {
 			dto.setListFile(listFile);
 
 			long num = dao.insertQuestion(dto);
+			return new ModelAndView("redirect:/faq/article?page=1&size" + size + "&num=" + num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return new ModelAndView("redirect:/faq/list?size=" + size);
+	}
+
+	// 글 보기
+	@RequestMapping(value = "/faq/article")
+	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String page = req.getParameter("page");
+		String size = req.getParameter("size");
+		String query = "page=" + page + "&size=" + size;
+		FAQDAO dao = new FAQDAO();
+
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+			String schType = req.getParameter("schType");
+			String kwd = req.getParameter("kwd");
+			if (schType == null) {
+				schType = "all";
+				kwd = "";
+			}
+			kwd = URLDecoder.decode(kwd, "utf-8");
+
+			if (kwd.length() != 0) {
+				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
+			}
+			// 조회수
+			dao.updateHitCount(num);
+			// 게시물 가져오기
+			FAQDTO dto = dao.findByNum(num);
+			if (dto == null) {
+				return new ModelAndView("redirect:/faq/list?" + query);
+			}
+			dto.setQ_content(dto.getQ_content().replaceAll("\n", "<br>"));
+			dto.setA_content(dto.getA_content().replaceAll("\n", "<br>"));
+
+			FAQDTO prevDTO = dao.findByPrev(dto.getFaq_num(), schType, kwd);
+			FAQDTO nextDTO = dao.findByNext(dto.getFaq_num(), schType, kwd);
+
+			List<FAQDTO> listFile = dao.listFAQFile(num);
+
+			ModelAndView mav = new ModelAndView("faq/article");
+			mav.addObject("dto", dto);
+			mav.addObject("prevDTO", prevDTO);
+			mav.addObject("nextDTO", nextDTO);
+			mav.addObject("listFile", listFile);
+			mav.addObject("query", query);
+			mav.addObject("page", page);
+			mav.addObject("size", size);
+			return mav;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("redirect:/faq/list?" + query);
 	}
 }
