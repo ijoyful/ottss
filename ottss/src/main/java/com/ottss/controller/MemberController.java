@@ -54,6 +54,7 @@ public class MemberController {
 			SessionInfo info = new SessionInfo();
 			info.setId(dto.getId());
 			info.setNickName(dto.getNickName());
+			info.setPowerCode(dto.getPowercode());
 	
 			
 			// 세션에 member 라는 이름으로 로그인 정보를 저장
