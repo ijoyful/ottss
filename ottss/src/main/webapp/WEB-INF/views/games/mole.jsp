@@ -8,7 +8,7 @@
     <title>두더지 게임</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
-    <style>
+    <style type="text/css">
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -32,12 +32,11 @@
         .hole {
             width: 120px;
             height: 120px;
-            background: url('${pageContext.request.contextPath}/resources/images/moletest/ddang.png') no-repeat center center;
-            background-size: cover;
+            background: url('${pageContext.request.contextPath}/resources/images/moletest/ddang.png') no-repeat bottom center;
+            background-size: contain;
             position: relative;
             overflow: hidden;
             cursor: pointer;
-           
         }
 
         .mole {
@@ -45,15 +44,17 @@
             height: 100px;
             background-size: cover;
             position: absolute;
-            top: 120%; /* 기본적으로 두더지가 보이지 않음 */
+            top: 100%; /* 두더지가 기본적으로 보이지 않도록 위치 설정 */
             left: 50%;
             transform: translateX(-50%);
-            transition: top 0.3s ease;
-            z-index: -1;
+            z-index: -1; /* 기본적으로 땅 뒤에 배치 */
+            pointer-events: none; /* 기본적으로 클릭 불가 */
+            transition: top 0.3s ease; /* 두더지가 올라올 때 애니메이션 */
         }
 
         .mole.up {
-            top: 10%; /* 두더지가 올라오는 위치 */
+            top: 20%; /* 두더지가 올라오는 위치 */    
+            pointer-events: all; /* 두더지가 올라왔을 때 클릭 가능 */
         }
 
         .btnWrap {
@@ -177,7 +178,7 @@
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
     <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 
-    <script>
+  <script type="text/javascript">
         const holes = document.querySelectorAll('.hole');
         const scoreDisplay = document.getElementById('score');
         const startButton = document.getElementById('start-btn');
@@ -216,16 +217,16 @@
             activeMole = mole;
 
             if (Math.random() < 0.1) {
-                mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/legendmore.png')`;
+                mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/legendmole.png')`;
             } else {
-                mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/more.png')`;
+                mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/mole.png')`;
             }
 
             mole.classList.add('up');
 
             moleTimeout = setTimeout(() => {
                 mole.classList.remove('up');
-                mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/ddang.png')`;
+                mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/moledie.png')`;
                 activeMole = null;
                 showMole();
             }, 800);
@@ -249,9 +250,9 @@
         // 두더지 클릭 이벤트
         holes.forEach(hole => {
             const mole = hole.querySelector('.mole');
-            mole.addEventListener('click', () => {
+            hole.addEventListener('click', () => {
                 if (mole.classList.contains('up') && !gameOver) {
-                    if (mole.style.backgroundImage.includes('legendmore.png')) {
+                    if (mole.style.backgroundImage.includes('legendmole.png')) {
                         score += 10;
                     } else {
                         score++;
@@ -259,7 +260,7 @@
                     scoreDisplay.textContent = score;
 
                     mole.classList.remove('up');
-                    mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/${mole.style.backgroundImage.includes('legendmore.png') ? 'moredie' : 'moredie'}.png')`;
+                    mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/moledie.png')`;
 
                     activeMole = null;
                     clearTimeout(moleTimeout);
@@ -267,39 +268,18 @@
             });
         });
 
-        // 게임 시작 버튼 클릭 이벤트
-        startButton.addEventListener('click', startGame);
-
-        // 게임을 재시작하는 함수
+        // 게임 다시 시작
         function restartGame() {
-            // 게임 상태 초기화
-            score = 0;
-            scoreDisplay.textContent = score;
-            isGameStarted = false;
-            gameOver = false;
-            startButton.disabled = false;
-
-            // 게임 오버 팝업 숨기기
-            gameOverPopup.style.display = 'none';
-
-            // 구멍을 기본 상태로 되돌리기
-            holes.forEach(hole => {
-                const mole = hole.querySelector('.mole');
-                mole.classList.remove('up');
-                mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/ddang.png')`;
-            });
-
-            // 기존에 실행된 타이머들 종료
-            clearInterval(gameInterval);
-            clearTimeout(moleTimeout);
-
-            // 초기 화면으로 돌아가게 하기
+            location.reload();
         }
 
-        // 팝업 닫기 함수
+        // 게임 종료 확인 팝업 닫기
         function closeWarning() {
             warningPopup.style.display = 'none';
         }
+
+        // 게임 시작 버튼 클릭 이벤트
+        startButton.addEventListener('click', startGame);
     </script>
 </body>
 </html>
