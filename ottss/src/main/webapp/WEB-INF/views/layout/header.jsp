@@ -9,26 +9,23 @@
             	<div class="imgArea"><img src="${pageContext.request.contextPath}/resources/images/ottssImg/ottssLogo.png"></div>
             	<p>삼식이네 놀이터</p>
            	</div>
-            <div class="btnWrap">
+            <div class="btnWrap" style="display: flex;">
                 <div class="login">
 	                <c:if test="${empty sessionScope.member}">
-						<a href="${pageContext.request.contextPath}/login/login">로그인</a> | 
+						<a href="${pageContext.request.contextPath}/login/login">로그인</a>&nbsp;|&nbsp;
                     	<a href="${pageContext.request.contextPath}/login/member">회원가입</a>	
 					</c:if>            
-                </div>
-                <div class="mypage">
   					<c:if test="${not empty sessionScope.member}">
-						<!-- <div class="p-2">
-							<a href="#" title="알림"><i class="bi bi-bell"></i></a>
-						</div> -->
 						<div class="p-2">
-							<a href="${pageContext.request.contextPath}/player/mypage">마이페이지</a> |
+							<a href="${pageContext.request.contextPath}/player/mypage">마이페이지</a>&nbsp;|&nbsp;
 							<a href="${pageContext.request.contextPath}/login/logout" title="로그아웃">로그아웃</a>
 						</div>					
 					</c:if>
+                </div>
+                <div class="mypage">
 					<c:if test="${sessionScope.member.powerCode == 99}">
 						<div class="p-2">
-							<a href="${pageContext.request.contextPath}/admin" title="관리자">관리자페이지</a>
+							|&nbsp;<a href="${pageContext.request.contextPath}/admin" title="관리자">관리자페이지</a>
 						</div>					
 					</c:if>
                 </div>
