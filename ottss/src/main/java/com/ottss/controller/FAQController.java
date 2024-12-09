@@ -1,5 +1,6 @@
 package com.ottss.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -7,15 +8,20 @@ import java.util.List;
 
 import com.ottss.dao.FAQDAO;
 import com.ottss.domain.FAQDTO;
+import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
+import com.ottss.mvc.annotation.RequestMethod;
 import com.ottss.mvc.view.ModelAndView;
+import com.ottss.util.FileManager;
+import com.ottss.util.MyMultipartFile;
 import com.ottss.util.MyUtil;
 import com.ottss.util.MyUtilBootstrap;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class FAQController {
@@ -96,5 +102,44 @@ public class FAQController {
 		}
 
 		return mav;
+	}
+
+	// 글 쓰기 폼
+	@RequestMapping(value = "/faq/write", method = RequestMethod.GET)
+	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("faq/write");
+		mav.addObject("mode", "write");
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/faq/write", method = RequestMethod.POST)
+	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		FAQDAO dao = new FAQDAO();
+		String page = req.getParameter("page");
+		String size = req.getParameter("size");
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+
+		FileManager fileManager = new FileManager();
+
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "faq";
+
+		try {
+			FAQDTO dto = new FAQDTO();
+			dto.setQ_title(req.getParameter("title"));
+			dto.setQ_content(req.getParameter("content"));
+			dto.setUser_id(info.getId());
+
+			List<MyMultipartFile> listFile = fileManager.doFileUpload(req.getParts(), pathname);
+			dto.setListFile(listFile);
+
+			long num = dao.insertQuestion(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("redirect:/faq/list?size=" + size);
 	}
 }

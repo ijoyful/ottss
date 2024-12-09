@@ -46,7 +46,7 @@
 	        <div class="drop-down">
 	        	<a href="${pageContext.request.contextPath}/board/AllList">커뮤니티</a>
 	        	<ul class="dropdownMenu">
-	        		<li><a href="${pageContext.request.contextPath}/">자유게시판</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/freeboard/list">자유게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/">분석게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/">자랑게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/faq/list">FAQ</a></li>
