@@ -58,7 +58,7 @@
 	        <div class="drop-down">
 	        	<a href="${pageContext.request.contextPath}/shop/shop">상점</a>
 	        	<ul class="dropdownMenu">
-	        		<li><a href="${pageContext.request.contextPath}/">상점</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/shop/shop">상점</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/">인벤토리</a></li>
 	        	</ul>
 	        </div>

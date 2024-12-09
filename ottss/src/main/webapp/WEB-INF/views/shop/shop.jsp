@@ -16,11 +16,16 @@
 	}
 #main .mainInner {width: 800px;}
 #main .listInner ul li:nth-child(1) {width: 10%;} /* 상품번호 */
-#main .listInner ul li:nth-child(2) {width: 12%;} /* 카테고리 */
-#main .listInner ul li:nth-child(3) {width: 30%;} /*  상품  */
-#main .listInner ul li:nth-child(4) {width: 58%;} /* 상품 설명*/
+#main .listInner ul li:nth-child(2) {width: 10%;} /* 카테고리 */
+#main .listInner ul li:nth-child(3) {width: 20%;} /*  상품  */
+#main .listInner ul li:nth-child(4) {width: 35%;} /* 상품 설명*/
 #main .listInner ul li:nth-child(5) {width: 20%;} /* 가격 */
+#main .listInner ul li:nth-child(6) {width: 2%;} /* 가격 */
+.btn {
+font-size:16px;
+padding : 0;
 
+}
 </style>
 
 </head>
@@ -43,6 +48,7 @@
                         <li class = "name">상품이름</li>
                         <li class = "explain">상품설명</li>
                         <li class = "amount">가격</li>
+                        <li>&nbsp;</li>
                     </ul>
                     <c:forEach var="dto" items="${itemList}">
                     <ul class="listContent">
@@ -51,6 +57,7 @@
                         <li class="name">${dto.item_name}</li>
                         <li class = "explain">${dto.item_explain }</li>                       
                         <li class="amount">${dto.amount}</li>
+	                    <li><button type="button" class = "btn btn-sm" style="color: white; background: #1b1f3b;">Buy</button></li>
                     </ul>
                     </c:forEach>
                 </div>
@@ -64,5 +71,14 @@
 		<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 		<!-- footer End -->
 	</div>
+	<script type="text/javascript">
+	$(function() {
+		$('.btn').click(function() {
+			if(! confirm('구매하시겠습니까?')) {
+				return false;
+			}	
+		});
+	});
+	</script>
 </body>
 </html>
