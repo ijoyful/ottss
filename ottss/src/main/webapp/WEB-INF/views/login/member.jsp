@@ -245,7 +245,7 @@ function userIdCheck() {
 				 		<div class="col-sm-10">
 				 			<div class ="row">
 				 				<div class="col-6">
-				 					<input type="text" name="nickname" id="nickname" class="form-control" value="${dto.nickname}" placeholder="닉네임">
+				 					<input type="text" name="nickName" id="nickName" class="form-control" value="${dto.nickName}" placeholder="닉네임">
 				 				</div>
 				 			</div>
 				 		</div>

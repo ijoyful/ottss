@@ -124,7 +124,7 @@ public class MemberController {
 			dto.setId(req.getParameter("id"));
 			dto.setPwd(req.getParameter("pwd"));
 			dto.setName(req.getParameter("name"));
-			dto.setNickName(req.getParameter("nickname"));
+			dto.setNickName(req.getParameter("nickName"));
 			dto.setBirth(req.getParameter("birth"));
 			
 			dto.setEmail1(req.getParameter("email1"));
@@ -188,11 +188,12 @@ public class MemberController {
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			
 			//DB에서 회원 정보 가져오기
-			MemberDTO dto = new MemberDTO();
-			if(dto == null) {
+			MemberDTO dto = dao.findById(info.getId());
+			if (dto == null) {
 				session.invalidate();
 				return new ModelAndView("redirect:/");
 			}
+		
 			
 			String pwd = req.getParameter("pwd");
 			String mode = req.getParameter("mode");
@@ -235,7 +236,30 @@ public class MemberController {
 	@RequestMapping(value = "/login/update", method = RequestMethod.POST)
 	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 회원정보 수정 완료
-	
+		MemberDAO dao = new MemberDAO();
+		HttpSession session = req.getSession();
+		
+		try {
+			MemberDTO dto = new MemberDTO();
+			
+			dto.setId(req.getParameter("id"));
+			dto.setPwd(req.getParameter("pwd"));
+			dto.setBirth(req.getParameter("birth"));
+			dto.setTel1(req.getParameter("tel1"));
+			dto.setTel2(req.getParameter("tel2"));
+			dto.setTel3(req.getParameter("tel3"));
+			dto.setEmail1(req.getParameter("email1"));
+			dto.setEmail2(req.getParameter("email2"));
+			
+			dao.updateMember(dto);
+			
+			session.setAttribute("mode", "update");
+			session.setAttribute("name", dto.getName());
+			return new ModelAndView("redirect:/login/complete");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	
 		return new ModelAndView("redirect:/");
 	}
