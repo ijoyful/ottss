@@ -16,19 +16,31 @@ public class FAQDAO {
 	private Connection conn = DBConn.getConnection();
 
 	// 질문 우선 등록, 답변은 존재하지 않으며 파일 등록!!할지 결정
-	public void insertQuestion(FAQDTO dto) throws SQLException {
+	public int insertQuestion(FAQDTO dto) throws SQLException {
+		int num = 0;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql;
 
 		try {
 			conn.setAutoCommit(false);
-			sql = "INSERT INTO faq (faq_num, q_title, q_content, q_date, hitCount, top_fix, user_id)"
-					+ " VALUES (faq_seq.NEXTVAL, ?, ?, SYSDATE, 0, 0, ?)";
+			sql = "SELECT faq_seq.NEXTVAL FROM dual";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				num = rs.getInt(1);
+			}
+			dto.setFaq_num(num);
+
+			pstmt = null;
+			sql = "INSERT INTO faq (faq_num, q_title, q_content, question_date, hitCount, top_fix, user_id)"
+					+ " VALUES (?, ?, ?, SYSDATE, 0, 0, ?)";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, dto.getQ_title());
-			pstmt.setString(2, dto.getQ_content());
-			pstmt.setString(3, dto.getUser_id());
+			pstmt.setLong(1, dto.getFaq_num());
+			pstmt.setString(2, dto.getQ_title());
+			pstmt.setString(3, dto.getQ_content());
+			pstmt.setString(4, dto.getUser_id());
 
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -36,16 +48,16 @@ public class FAQDAO {
 
 			if (dto.getListFile().size() != 0) {
 				sql = "INSERT INTO faq_file (fileNum, s_fileName, c_fileName, faq_num)"
-						+ " VALUES (faq_file_seq.NEXTVAL, ?, ?, faq_seq.CURRVAL)";
+						+ " VALUES (faq_file_seq.NEXTVAL, ?, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 				for (MyMultipartFile file : dto.getListFile()) {
 					pstmt.setString(1, file.getSaveFilename());
 					pstmt.setString(2, file.getOriginalFilename());
+					pstmt.setLong(3, dto.getFaq_num());
 
 					pstmt.executeUpdate();
 				}
 			}
-
 			conn.commit();
 		} catch (SQLException e) {
 			conn.rollback();
@@ -58,6 +70,7 @@ public class FAQDAO {
 			DBUtil.close(pstmt);
 			conn.setAutoCommit(true);
 		}
+		return num;
 	}
 
 	public int dataCount() {
@@ -122,7 +135,7 @@ public class FAQDAO {
 		String sql;
 
 		try {
-			sql = "SELECT faq_num, p.id id, p.nickname nickname, q_title, hitCount, a_date"
+			sql = "SELECT faq_num, p.id id, p.nickname nickname, q_title, hitCount, TO_CHAR(question_date, 'YYYY-MM-DD') question_date"
 					+ " FROM faq f JOIN player p ON f.user_id = p.id"
 					+ " ORDER BY faq_num DESC"
 					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
@@ -137,10 +150,10 @@ public class FAQDAO {
 
 				dto.setFaq_num(rs.getLong("faq_num"));
 				dto.setUser_id(rs.getString("id"));
-				dto.setA_nickname(rs.getString("nickname"));
+				dto.setQ_nickname(rs.getString("nickname"));
 				dto.setQ_title(rs.getString("q_title"));
 				dto.setHitCount(rs.getLong("hitCount"));
-				dto.setA_date("a_date");
+				dto.setQuestion_date(rs.getString("question_date"));
 
 				list.add(dto);
 			}
@@ -160,7 +173,7 @@ public class FAQDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT faq_num, p.id id, p.nickname nickname, q_title, hitCount, a_date");
+			sb.append("SELECT faq_num, p.id id, p.nickname nickname, q_title, hitCount, TO_CHAR(question_date, 'YYYY-MM-DD') question_date");
 			sb.append(" FROM faq f JOIN player p ON f.user_id = p.id");
 			if (schType.equals("all")) {
 				sb.append(" WHERE INSTR(q_title, ?) >= 1 OR INSTR(q_content, ?) >= 1 OR INSTR(a_content, ?) >= 1");
@@ -189,10 +202,10 @@ public class FAQDAO {
 				
 				dto.setFaq_num(rs.getLong("faq_num"));
 				dto.setUser_id(rs.getString("id"));
-				dto.setA_nickname(rs.getString("nickname"));
+				dto.setQ_nickname(rs.getString("nickname"));
 				dto.setQ_title(rs.getString("q_title"));
 				dto.setHitCount(rs.getLong("hitCount"));
-				dto.setA_date("a_date");
+				dto.setQuestion_date(rs.getString("question_date"));
 				
 				list.add(dto);
 			}
@@ -212,7 +225,7 @@ public class FAQDAO {
 		String sql;
 
 		try {
-			sql = "SELECT faq_num, p.id id, p.nickname nickname, q_title, hitCount, a_date"
+			sql = "SELECT faq_num, p.id id, p.nickname nickname, q_title, hitCount, TO_CHAR(question_date, 'YYYY-MM-DD') question_date"
 					+ " FROM faq f JOIN player p ON f.user_id = p.id"
 					+ " WHERE top_fix = 1"
 					+ " ORDER BY faq_num DESC";
@@ -223,10 +236,10 @@ public class FAQDAO {
 				FAQDTO dto = new FAQDTO();
 				dto.setFaq_num(rs.getLong("faq_num"));
 				dto.setUser_id(rs.getString("id"));
-				dto.setA_nickname(rs.getString("nickname"));
+				dto.setQ_nickname(rs.getString("nickname"));
 				dto.setQ_title(rs.getString("q_title"));
 				dto.setHitCount(rs.getLong("hitCount"));
-				dto.setA_date(rs.getString("a_date"));
+				dto.setQuestion_date(rs.getString("question_date"));
 				list.add(dto);
 			}
 		} catch (Exception e) {
