@@ -9,8 +9,8 @@ public class FAQDTO {
 	private String q_title; // 질문제목
 	private String q_content; // 질문 내용
 	private String a_content; // 답변 내용
-	private String q_date; // 질문 날짜
-	private String a_date; // 답변 날짜
+	private String question_date; // 질문 날짜
+	private String answer_date; // 답변 날짜
 	private long hitCount; // 조회수
 	private int top_fix; // 게시판에서 상단 고정 여부 0: 고정안함(기본값) 1: 고정
 	private String user_id; // 질문자 아이디
@@ -47,17 +47,17 @@ public class FAQDTO {
 	public void setA_content(String a_content) {
 		this.a_content = a_content;
 	}
-	public String getQ_date() {
-		return q_date;
+	public String getQuestion_date() {
+		return question_date;
 	}
-	public void setQ_date(String q_date) {
-		this.q_date = q_date;
+	public void setQuestion_date(String question_date) {
+		this.question_date = question_date;
 	}
-	public String getA_date() {
-		return a_date;
+	public String getAnswer_date() {
+		return answer_date;
 	}
-	public void setA_date(String a_date) {
-		this.a_date = a_date;
+	public void setAnswer_date(String answer_date) {
+		this.answer_date = answer_date;
 	}
 	public long getHitCount() {
 		return hitCount;
