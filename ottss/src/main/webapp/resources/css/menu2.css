@@ -6,9 +6,7 @@
 * {
   box-sizing: border-box; }
 
-:focus,
-:active {
-  outline: none; }
+:focus, :active {outline: none;}
 
 .toggle_menu {
   width: 35px;
@@ -31,7 +29,8 @@
   top: 50px;
   bottom: 0px;
   width: 200px;
-  background: #f6f6f6; }
+  background: #eee;
+ }
 
 .vertical_nav__closed {
   left: -200px !important; }

@@ -20,7 +20,8 @@
 	<div class="wrapper">
 		<div class="body-container">
 		    <div class="body-main">
-		    	<p> 관리자 페이지 입니다. </p>
+		    	<p>신고 된 내역</p>
+		    	<p>report table 보면 된다.</p>
 			</div>
 		</div>		
 	</div>

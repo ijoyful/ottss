@@ -55,89 +55,79 @@ $(function(){
 
 <nav class="vertical_nav">
 	<ul id="js-menu" class="menu">
-		<li class="menu--item">
-			<a href="${pageContext.request.contextPath}/admin" class="menu--link" title="Home">
-				<i class="menu--icon bi bi-h-square"></i>
-				<span class="menu--label">Home</span>
-			</a>
-		</li>
 	
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="회원관리">
-				<i class="menu--icon bi bi-person-square"></i>
-				<span class="menu--label">회원관리</span>
+	        <a href="${pageContext.request.contextPath}/admin" class="menu--link" title="신고된글">
+				<i class="menu--icon bi bi-ban"></i>
+				<span class="menu--label">신고된 글</span>
 			</a>
 		</li>
 	
 		<li class="menu--item menu--item__has_sub_menu">
-			<label class="menu--link" title="고객센터관리">
-				<i class="menu--icon bi bi-question-square"></i>
-				<span class="menu--label">고객센터관리</span>
+	        <label class="menu--link" title="회원관리">
+				<i class="menu--icon bi bi-person-square"></i>
+				<span class="menu--label">회원관리</span>
 			</label>
 	
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">자주하는 질문</a>
+					<a href="${pageContext.request.contextPath}/admin/player/list" class="sub_menu--link">회원리스트</a>
 				</li>
+				<li class="sub_menu--item">
+					<a href="${pageContext.request.contextPath}/admin/player/blind" class="sub_menu--link">Blind Player</a>
+				</li>
+			</ul>
+		</li>
+	
+		<li class="menu--item menu--item__has_sub_menu">
+			<label class="menu--link" title="게시글 관리">
+				<i class="menu--icon bi bi-list-task"></i>
+				<span class="menu--label">게시글 관리</span>
+			</label>
+	
+			<ul class="sub_menu">
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">공지사항</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">문의</a>
+					<a href="#" class="sub_menu--link">FAQ</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">이벤트</a>
+					<a href="#" class="sub_menu--link">자유게시판</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">신고</a>
+					<a href="#" class="sub_menu--link">분석게시판</a>
+				</li>
+				<li class="sub_menu--item">
+					<a href="#" class="sub_menu--link">자랑게시판</a>
 				</li>
 			</ul>
 		</li>
 	
 		<li class="menu--item menu--item__has_sub_menu">
-			<label class="menu--link" title="강좌관리">
-				<i class="menu--icon bi bi-book-half"></i>
-				<span class="menu--label">강좌관리</span>
+			<label class="menu--link" title="상점관리">
+				<i class="menu--icon bi bi-bag"></i>
+				<span class="menu--label">상점관리</span>
 			</label>
 		
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">카테고리</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">강좌</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">강사</a>
+					<a href="#" class="sub_menu--link">아이템</a>
 				</li>
 			</ul>
 		</li>
 	
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="일정관리">
-				<i class="menu--icon bi bi-calendar"></i>
-				<span class="menu--label">일정관리</span>
+	        <a href="#" class="menu--link" title="소개글 관리">
+		        <i class="menu--icon bi bi-info-square"></i>
+				<span class="menu--label">소개글 관리</span>
 			</a>
 		</li>
 		
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="지역명소관리">
-				<i class="menu--icon bi bi-geo"></i>
-				<span class="menu--label">지역명소관리</span>
-			</a>
-		</li>
-	
-		<li class="menu--item">
 	        <a href="#" class="menu--link" title="메인화면 설정">
 				<i class="menu--icon bi bi-gear-fill"></i>
 				<span class="menu--label">메인화면 설정</span>
-			</a>
-		</li>
-	
-		<li class="menu--item">
-	        <a href="#" class="menu--link" title="GroupWare">
-				<i class="menu--icon bi bi-c-square"></i>
-				<span class="menu--label">GroupWare</span>
 			</a>
 		</li>
 	
