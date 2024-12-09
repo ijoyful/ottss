@@ -76,7 +76,7 @@ public class MemberDAO {
 			pstmt.setInt(12, dto.getPowercode());
 
 			pstmt.executeUpdate();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			throw e;
@@ -152,7 +152,7 @@ public class MemberDAO {
 			pstmt.setString(8, dto.getId());
 			
 			pstmt.executeUpdate();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		} finally {
@@ -175,7 +175,7 @@ public class MemberDAO {
 			pstmt.setString(2, id);
 			
 			pstmt.executeUpdate();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		} finally {
