@@ -15,12 +15,11 @@
 	max-width: 600px;
 	}
 #main .mainInner {width: 800px;}
-#main .listInner ul li:nth-child(1) {width: 10%;} /* 상품번호 */
-#main .listInner ul li:nth-child(2) {width: 10%;} /* 카테고리 */
-#main .listInner ul li:nth-child(3) {width: 20%;} /*  상품  */
-#main .listInner ul li:nth-child(4) {width: 35%;} /* 상품 설명*/
-#main .listInner ul li:nth-child(5) {width: 20%;} /* 가격 */
-#main .listInner ul li:nth-child(6) {width: 2%;} /* 가격 */
+/* #main .listInner ul li:nth-child(1) {width: 10%;} /* 상품번호 */ 
+#main .listInner ul li:nth-child(1) {width: 10%;} /* 카테고리 */
+#main .listInner ul li:nth-child(2) {width: 22%;} /*  상품  */
+#main .listInner ul li:nth-child(3) {width: 37%;} /* 상품 설명 */
+#main .listInner ul li:nth-child(4) {width: 37%;} /* 구매 일자 */
 .btn {
 font-size:16px;
 padding : 0;
@@ -43,14 +42,12 @@ padding : 0;
 				<!-- div.listInner 테이블 처럼 쓸 수 있는 ul-li 입니당 foreach 돌리실때 ul로 돌리면 끗! -->
 				<div class="listInner">
                     <ul class="listTitle">
-                        <li class = "num">No.</li>
                         <li class = "categories">카테고리</li>
                         <li class = "name">상품이름</li>
                         <li class = "explain">상품설명</li>
                     </ul>
                     <c:forEach var="dto" items="${itemList}">
                     <ul class="listContent">
-                        <li class="num">${dto.item_num}</li>
                         <li class="categories">${dto.categories}</li>
                         <li class="name">${dto.item_name}</li>
                         <li class = "explain">${dto.item_explain }</li>                       
