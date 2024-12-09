@@ -10,6 +10,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ottssCss/list.css" type="text/css">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 </head>
+<style type="text/css">
+	#footer {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+</style>
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 	
