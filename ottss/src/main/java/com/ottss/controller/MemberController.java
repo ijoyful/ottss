@@ -291,5 +291,11 @@ public class MemberController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/player/mypage", method = RequestMethod.GET)
+	public ModelAndView mypage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 마이페이지
+		ModelAndView mav = new ModelAndView("player/mypage");
+		return mav;
+	}
 	
 }
