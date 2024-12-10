@@ -32,32 +32,35 @@
 				<div class="listInner">
                     <ul class="listTitle">
                         <li>No.</li>
+                        <li>구분</li>
                         <li>제목</li>
                         <li>작성자</li>
                         <li>작성일</li>
                         <li>조회수</li>
                     </ul>
+                   <c:forEach var = "dto" items="${freeList}">
                     <ul class="listContent">
-                        <li>1</li>
-                        <li>가위바위보 게임 확률 어떻게 되는거죠??</li>
-                        <li>비공개</li>
-                        <li>2024-12-02</li>
-                        <li>20</li>
+                        <li>${dto.fb_num}</li>
+                        <li>${dto.title}</li>
+                        <li>${dto.nickname}</li>
+                        <li>${dto.reg_date}</li>
+                        <li>${dto.hitCount }</li>
                     </ul>
+                   </c:forEach>
                 </div>
 			</div>
 			<div class="row board-list-footer">
 				<div class="col">
-					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/list';"><i class="bi bi-arrow-clockwise"></i></button>
+					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/free_board/list';"><i class="bi bi-arrow-clockwise"></i></button>
 				</div>
 				<div class="col-6 text-center">
-					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/notice/list" method="post">
+					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/free_board/list" method="post">
 						<div class="col-auto p-1">
 							<select name="schType" class="form-select">
 								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-								<option value="userName" ${schType=="userName"?"selected":""}>작성자</option>
+								<option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
 								<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
-								<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
+								<option value="title" ${schType=="title"?"selected":""}>제목</option>
 								<option value="content" ${schType=="content"?"selected":""}>내용</option>
 							</select>
 						</div>
