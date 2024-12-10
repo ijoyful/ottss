@@ -9,6 +9,12 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ottssCss/write.css" type="text/css">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
+<style type="text/css">
+input {
+	font-size: 16px; 
+	font-weight: 600;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
@@ -23,12 +29,15 @@
 	                </ul>
 	                <ul>
 	                    <li class="listTitle">작성자</li>
-	                    <li class="listContent"><input type="text" value="userNickName" readonly></li>
+	                    <li class="listContent"><input type="text" value="${sessionScope.member.nickName}" readonly ></li>
 	                </ul>
+	                
+					<!-- 
 	                <ul>
 	                    <li class="listTitle">날짜</li>
-	                    <li class="listContent"><input type="date" value="2024-11-12" readonly></li>
+	                    <li class="listContent"><input type="date" value="" readonly></li>
 	                </ul>
+					 -->
 	                <ul class="content">
 	                    <li class="listTitle">내용</li>
 	                    <li class="listContent"><textarea></textarea></li>
@@ -36,6 +45,11 @@
 	                <ul>
 	                    <li class="listTitle">첨부파일</li>
 	                    <li class="listContent"><input type="file"></li>
+	                </ul>
+	                <ul>
+	                	<li class ="submitBtn">
+	                		<button type="button" class = "btn btn-sm" onclick="location.href='${pageContext.request.contextPath}/freeboard/list'"> 등록</button>
+	                	</li>
 	                </ul>
 	            </form>
 	        </div>

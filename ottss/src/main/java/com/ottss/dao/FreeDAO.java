@@ -286,7 +286,7 @@ public class FreeDAO {
 		
 		try {
 			sql = "SELECT fb_num, title, content, hitCount, categories, fb.id, p.nickname, "
-					+ " TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date "
+					+ " TO_CHAR(fb.reg_date, 'YYYY-MM-DD') reg_date "
 					+ " FROM free_board fb"
 					+ " JOIN player p ON p.id = fb.id "
 					+ " WHERE fb_num = ? AND blind = 0" ;
