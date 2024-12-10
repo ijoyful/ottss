@@ -44,7 +44,7 @@ function sendOk() {
 	                </ul>
 	                <ul>
 	                    <li class="listTitle">작성자</li>
-	                    <li class="listContent"><input type="text" value="${sessionScope.member.powerCode >= 90 ? '관리자' : sessionScope.member.nickName}" readonly></li>
+	                    <li class="listContent"><input type="text" value="${sessionScope.member.nickName}" readonly></li>
 	                </ul>
 	                <!-- 
 	                <ul>

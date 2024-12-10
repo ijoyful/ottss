@@ -81,7 +81,7 @@
 						</tr>
 						<tr>
 							<td style="text-align: center;">
-								<img alt="달리는 고양이" src="${pageContext.request.contextPath}/resources/images/running_cat.png">
+								<img alt="달리는 고양이" src="${pageContext.request.contextPath}/resources/images/running_cat.jpg" style="width: 50%;">
 							</td>
 						</tr>
 					</thead>
