@@ -21,13 +21,13 @@
 </style>
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-	<!-- 
+
 	<div class="row board-list-footer">
 		<div class="col">
-			<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/bbs/list';"><i class="bi bi-arrow-clockwise"></i></button>
+			<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/faq/list';"><i class="bi bi-arrow-clockwise"></i></button>
 		</div>
 		<div class="col-6 text-center">
-			<form class="row" name="searchForm" action="${pageContext.request.contextPath}/bbs/list" method="post">
+			<form class="row" name="searchForm" action="${pageContext.request.contextPath}/faq/list" method="post">
 				<div class="col-auto p-1">
 					<select name="schType" class="form-select">
 						<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
@@ -46,10 +46,10 @@
 			</form>
 		</div>
 		<div class="col text-end">
-			<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/bbs/write';">글올리기</button>
+			<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/faq/write';">글올리기</button>
 		</div>
 	</div>
-	 -->
+
 	<main id="main">
 	    <div class="mainInner">
 	        <div class="listInner">

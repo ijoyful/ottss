@@ -15,6 +15,7 @@
 	
 	<main id="main">
 	    <div class="mainInner">
+	    	<div class="listTitle">FAQ</div>
 	        <div class="writeInner">
 	            <form action="">
 	                <ul>
@@ -23,7 +24,7 @@
 	                </ul>
 	                <ul>
 	                    <li class="listTitle">작성자</li>
-	                    <li class="listContent"><input type="text" value="userNickName" readonly></li>
+	                    <li class="listContent"><input type="text" value="${sessionScope.member.nickName}" readonly></li>
 	                </ul>
 	                <ul>
 	                    <li class="listTitle">날짜</li>
