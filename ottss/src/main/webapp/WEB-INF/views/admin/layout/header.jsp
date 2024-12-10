@@ -24,7 +24,7 @@
 						</div>
 						<div class="text-start">
 							<span>관리자 님</span>
-							&nbsp;<a href="${pageContext.request.contextPath}/"><i class="bi bi-box-arrow-right"></i></a>
+							&nbsp;<a href="${pageContext.request.contextPath}/"><i class="bi bi-box-arrow-right" style="color: #fff;"></i></a>
 						</div>
 					</div>
 				</div>
