@@ -8,7 +8,8 @@
     <title>두더지 게임</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
-    <style type="text/css">
+   <style type="text/css">
+     
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -142,7 +143,6 @@
         </div>
     </main>
 
-    <!-- 게임이 종료되었을 때 나오는 팝업 -->
     <div class="gameOver">
         <div class="gameOverInner">
             <div class="gameTitle">두더지 게임</div>
@@ -153,11 +153,11 @@
                 </tr>
                 <tr>
                     <th>획득 포인트</th>
-                    <td id="final-score">0p</td>
+                    <td id="final-score">${score}</td>
                 </tr>
                 <tr>
                     <th>현재 보유 포인트</th>
-                    <td id="current-points">870p</td>
+                    <td id="current-point">${userPoint}</td>  <!-- 현재 포인트 표시 -->
                 </tr>
             </table>
             <div class="okBtn"><button onclick="restartGame()">확인</button></div>
@@ -178,108 +178,128 @@
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
     <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 
-  <script type="text/javascript">
-        const holes = document.querySelectorAll('.hole');
-        const scoreDisplay = document.getElementById('score');
-        const startButton = document.getElementById('start-btn');
-        const gameOverPopup = document.querySelector('.gameOver');
-        const finalScoreDisplay = document.getElementById('final-score');
-        const currentPointsDisplay = document.getElementById('current-points');
-        const warningPopup = document.querySelector('.warning');
-        
-        let score = 0;
-        let gameInterval;
-        let moleTimeout;
-        let activeMole = null;
-        let isGameStarted = false;
-        let gameOver = false;
+<script type="text/javascript">
+    const holes = document.querySelectorAll('.hole');
+    const scoreDisplay = document.getElementById('score');
+    const startButton = document.getElementById('start-btn');
+    const gameOverPopup = document.querySelector('.gameOver');
+    const finalScoreDisplay = document.getElementById('final-score');
+    const currentPointsDisplay = document.getElementById('current-point');
+    const warningPopup = document.querySelector('.warning');
+    
+    let score = 0;
+    let gameInterval;
+    let moleTimeout;
+    let activeMole = null;
+    let isGameStarted = false;
+    let gameOver = false;
+    let userPoint = ${userPoint}; // 서버에서 전달받은 포인트
 
-        // 랜덤한 구멍 선택
-        function randomHole() {
-            return holes[Math.floor(Math.random() * holes.length)];
+    // 게임 시작을 위한 포인트 확인 AJAX 요청
+    function checkPointsAndStartGame() {
+        $.ajax({
+            url: "/games/mole/start",  // 서버의 요청 URL
+            type: "GET",
+            dataType: "json",  // 서버에서 JSON 형식으로 응답을 받을 것
+            success: function(response) {
+                if (response.status === "success") {
+                    alert(response.message);  // 게임 시작 메시지
+                    userPoint = response.updatedPoint;  // 최신 포인트 갱신
+                    startGame();  // 게임 시작 함수 호출
+                } else {
+                    alert(response.message);  // 포인트 부족 메시지
+                    // 포인트 부족 시 처리 로직 (게임 시작 불가)
+                }
+            },
+            error: function() {
+                alert("서버 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    // 게임 시작
+    function startGame() {
+        score = 0;
+        scoreDisplay.textContent = score;
+        gameOver = false; // 게임 오버 상태 초기화
+        isGameStarted = true;
+        startButton.disabled = true; // 게임 시작 후 버튼 비활성화
+        gameOverPopup.style.display = 'none';  // 게임 오버 팝업 숨김
+
+        // 게임 시작 시 두더지 나타내는 타이머 설정
+        gameInterval = setInterval(() => {
+            showMole();
+        }, 1000);
+    }
+
+    // 두더지 표시
+    function showMole() {
+        if (!isGameStarted || gameOver) return; // 게임이 시작되지 않거나 게임이 끝나면 두더지 표시하지 않음
+
+        if (activeMole) {
+            clearInterval(gameInterval);
+            finalScoreDisplay.textContent = `${score}p`;
+            gameOverPopup.style.display = 'block';
+            startButton.disabled = false; // 게임 종료 후 게임 시작 버튼 활성화
+            gameOver = true;
+            return;
         }
 
-        // 두더지를 표시하는 함수
-        function showMole() {
-            if (!isGameStarted || gameOver) return; // 게임이 시작되지 않거나 게임이 끝나면 두더지 표시하지 않음
+        const hole = randomHole();
+        const mole = hole.querySelector('.mole');
+        activeMole = mole;
 
-            if (activeMole) {
-                clearInterval(gameInterval);
-                finalScoreDisplay.textContent = `${score}p`;
-                gameOverPopup.style.display = 'block';
-                startButton.disabled = false; // 게임 종료 후 게임 시작 버튼 활성화
-                gameOver = true; // 게임 종료 플래그 설정
-                return;
-            }
+        mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/mole.png')`;
 
-            const hole = randomHole();
-            const mole = hole.querySelector('.mole');
-            activeMole = mole;
+        moleTimeout = setTimeout(() => {
+            mole.classList.remove('up');
+            mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/moledie.png')`;
+            activeMole = null;
+            showMole();
+        }, 800);
 
-            if (Math.random() < 0.1) {
-                mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/legendmole.png')`;
-            } else {
-                mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/mole.png')`;
-            }
+        mole.classList.add('up');
+    }
 
-            mole.classList.add('up');
+    // 랜덤으로 구멍 선택
+    function randomHole() {
+        return holes[Math.floor(Math.random() * holes.length)];
+    }
 
-            moleTimeout = setTimeout(() => {
+    // 두더지 클릭 이벤트
+    holes.forEach(hole => {
+        const mole = hole.querySelector('.mole');
+        hole.addEventListener('click', () => {
+            if (mole.classList.contains('up') && !gameOver) {
+                if (mole.style.backgroundImage.includes('legendmole.png')) {
+                    score += 5;
+                } else {
+                    score++;
+                }
+                scoreDisplay.textContent = score;
+
                 mole.classList.remove('up');
                 mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/moledie.png')`;
+
                 activeMole = null;
-                showMole();
-            }, 800);
-        }
-
-        // 게임 시작
-        function startGame() {
-            score = 0;
-            scoreDisplay.textContent = score;
-            gameOver = false; // 게임 오버 상태 초기화
-            isGameStarted = true;
-            startButton.disabled = true; // 게임 시작 후 버튼 비활성화
-            gameOverPopup.style.display = 'none';  // 게임 오버 팝업 숨김
-
-            // 게임 시작 시 두더지 나타내는 타이머 설정
-            gameInterval = setInterval(() => {
-                showMole();
-            }, 1000);
-        }
-
-        // 두더지 클릭 이벤트
-        holes.forEach(hole => {
-            const mole = hole.querySelector('.mole');
-            hole.addEventListener('click', () => {
-                if (mole.classList.contains('up') && !gameOver) {
-                    if (mole.style.backgroundImage.includes('legendmole.png')) {
-                        score += 10;
-                    } else {
-                        score++;
-                    }
-                    scoreDisplay.textContent = score;
-
-                    mole.classList.remove('up');
-                    mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/moledie.png')`;
-
-                    activeMole = null;
-                    clearTimeout(moleTimeout);
-                }
-            });
+                clearTimeout(moleTimeout);
+            }
         });
+    });
 
-        // 게임 다시 시작
-        function restartGame() {
-            location.reload();
-        }
+    // 게임 다시 시작
+    function restartGame() {
+        location.reload();
+    }
 
-        // 게임 종료 확인 팝업 닫기
-        function closeWarning() {
-            warningPopup.style.display = 'none';
-        }
+    // 게임 종료 확인 팝업 닫기
+    function closeWarning() {
+        warningPopup.style.display = 'none';
+    }
 
-        // 게임 시작 버튼 클릭 이벤트
-        startButton.addEventListener('click', startGame);
-    </script>
+    // 게임 시작 버튼 클릭 이벤트
+    startButton.addEventListener('click', checkPointsAndStartGame);
+</script>
+
 </body>
 </html>
