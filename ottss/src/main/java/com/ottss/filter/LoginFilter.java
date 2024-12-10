@@ -86,7 +86,14 @@ public class LoginFilter implements Filter {
 	}
 	
 	private boolean isExcludeUrl(HttpServletRequest req) {
-		// TODO Auto-generated method stub
+		String uri = req.getRequestURI();
+		String cp = req.getContextPath();
+		uri = uri.substring(cp.length());
+
+		// 로그인 체크를 하지 않아도 되는 URL
+		String[] uris = {
+			
+		};
 		return false;
 	}
 }
