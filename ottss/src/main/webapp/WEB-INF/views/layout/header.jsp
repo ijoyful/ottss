@@ -24,7 +24,7 @@
                 </div>
                 <div class="mypage">
 					<c:if test="${sessionScope.member.powerCode == 99}">
-						<div class="p-2">
+						<div class="py-2">
 							|&nbsp;<a href="${pageContext.request.contextPath}/admin" title="관리자">관리자페이지</a>
 						</div>					
 					</c:if>
@@ -48,7 +48,7 @@
 	        	<ul class="dropdownMenu">
 	        		<li><a href="${pageContext.request.contextPath}/freeboard/list">자유게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/">분석게시판</a></li>
-	        		<li><a href="${pageContext.request.contextPath}/">자랑게시판</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/show/list">자랑게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/faq/list">FAQ</a></li>
 	        	</ul>
 	        </div>

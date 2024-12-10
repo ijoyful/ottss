@@ -13,7 +13,7 @@ public class STDTO { // 자랑/분석게시판 게시글 DTO
 	private int blind; // 게시글 블라인드 여부 0: 기본값 1: 블라인드 처리
 	private long hitCount; // 게시글 조회수
 	private String ipAddr; // 게시글 작성자 ip 주소
-	private String board_type; // 자랑 게시글인지, 분석 게시글인지 속성값 저장
+	private String board_type; // 자랑 게시글인지, 분석 게시글인지 속성값 저장 "showing" :"analysis"
 	private String id; // 작성자 id
 	private String nickname; // 작성자 닉네임
 
