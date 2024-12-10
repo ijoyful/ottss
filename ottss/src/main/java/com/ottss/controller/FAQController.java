@@ -84,7 +84,7 @@ public class FAQController {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
 			}
 			listUrl = cp + "/faq/list?" + query;
-			articleUrl = cp + "/faq/article?page" + current_page + "&" + query;
+			articleUrl = cp + "/faq/article?page=" + current_page + "&" + query;
 			String paging = util.paging(current_page, total_page, listUrl);
 
 			mav.addObject("list", list);
@@ -145,7 +145,7 @@ public class FAQController {
 	}
 
 	// 글 보기
-	@RequestMapping(value = "/faq/article")
+	@RequestMapping(value = "/faq/article", method = RequestMethod.GET)
 	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
@@ -173,7 +173,9 @@ public class FAQController {
 				return new ModelAndView("redirect:/faq/list?" + query);
 			}
 			dto.setQ_content(dto.getQ_content().replaceAll("\n", "<br>"));
-			dto.setA_content(dto.getA_content().replaceAll("\n", "<br>"));
+			if (dto.getA_content() != null) {
+				dto.setA_content(dto.getA_content().replaceAll("\n", "<br>"));
+			}
 
 			FAQDTO prevDTO = dao.findByPrev(dto.getFaq_num(), schType, kwd);
 			FAQDTO nextDTO = dao.findByNext(dto.getFaq_num(), schType, kwd);

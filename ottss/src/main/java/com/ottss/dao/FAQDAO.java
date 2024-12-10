@@ -261,7 +261,7 @@ public class FAQDAO {
 			sql = "SELECT faq_num, q_title, q_content, a_content, question_date, answer_date, hitCount,"
 					+ " u.nickname usernickname, admin.nickname adminnickname"
 					+ " FROM FAQ f JOIN player u ON f.user_id = u.id"
-					+ " JOIN player admin ON f.admin_id = admin.id"
+					+ " LEFT OUTER JOIN player admin ON f.admin_id = admin.id"
 					+ " WHERE faq_num = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, num);
@@ -426,13 +426,14 @@ public class FAQDAO {
 		String sql;
 
 		try {
-			sql = "SELECT fileNum, s_fileName, c_fileName, faq_num FROM faq_file WHERE faq_num = ?";
+			sql = "SELECT file_Num, s_fileName, c_fileName, faq_num FROM faq_file WHERE faq_num = ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				FAQDTO dto = new FAQDTO();
-				dto.setFileNum(rs.getLong("fileNum"));
+				dto.setFileNum(rs.getLong("file_Num"));
 				dto.setS_fileName(rs.getString("s_fileName"));
 				dto.setC_fileName(rs.getString("c_fileName"));
 				dto.setFaq_num(rs.getLong("faq_num"));

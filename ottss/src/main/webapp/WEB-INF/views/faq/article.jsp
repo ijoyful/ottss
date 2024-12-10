@@ -72,6 +72,21 @@
 					</tbody>
 				</table>
 				<table class="table board-article">
+					<c:if test="${empty dto.a_nickname}">
+					<thead>
+						<tr>
+							<td colspan="2" align="center" style="font-weight: 700">
+								회원님의 궁금증 해결을 위해 삼식이가 열심히 달리고 있다냥🐈. 빠른 시일 내에 답변 하겠다냥!
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align: center;">
+								<img alt="달리는 고양이" src="${pageContext.request.contextPath}/resources/images/running_cat.png">
+							</td>
+						</tr>
+					</thead>
+					</c:if>
+					<c:if test="${not empty dto.a_nickname}">
 					<thead>
 						<tr>
 							<td colspan="2" align="left">
@@ -79,7 +94,6 @@
 							</td>
 						</tr>
 					</thead>
-					
 					<tbody>
 						<tr>
 							<td width="50%">
@@ -111,8 +125,8 @@
 								</c:if>
 							</td>
 						</tr>
-						
 					</tbody>
+					</c:if>
 				</table>
 				
 				<table class="table table-borderless">
