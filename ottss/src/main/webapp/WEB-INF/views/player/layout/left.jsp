@@ -107,7 +107,7 @@ $(function(){
 		</li>
 		
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="회원탈퇴">
+	        <a href="${pageContext.request.contextPath}/login/pwd?mode=delete" class="menu--link" title="회원탈퇴">
 				<i class="menu--icon bi bi-geo"></i>
 				<span class="menu--label">"회원탈퇴"</span>
 			</a>

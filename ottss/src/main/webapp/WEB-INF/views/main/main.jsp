@@ -158,6 +158,10 @@
 	            },
 	        },
 	    });
+	    
+	    <c:if test="${param.message == 'success'}">
+        alert('회원 탈퇴가 성공적으로 이루어졌습니다.');
+   		</c:if>
 	
 	</script>
 	

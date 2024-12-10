@@ -206,6 +206,7 @@ public class MemberController {
 				return mav;
 			}
 			
+			
 			if(mode.equals("delete")) {
 				//회원탈퇴
 				dao.deleteMember(info.getId());
@@ -213,8 +214,9 @@ public class MemberController {
 				session.removeAttribute("member");
 				session.invalidate();
 				
-				return new ModelAndView("redirect:/");
+				return new ModelAndView("redirect:/?message=success");
 			}
+			
 			
 			//회원정보수정 - 회원정보수정폼으로 이동
 			ModelAndView mav = new ModelAndView("login/member");

@@ -97,7 +97,7 @@ public class MemberDAO {
 		
 		try {
 			
-			sb.append(" SELECT id, pwd, name, nickname, TO_CHAR(birth, 'YYYY-MM-DD') birth, tel1, tel2, tel3, email1, email2, point, powercode, block, reg_date");
+			sb.append(" SELECT id, pwd, name, nickname, TO_CHAR(birth, 'YYYY-MM-DD') birth, tel1, tel2, tel3, email1, email2, point, powercode, block, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date");
 			sb.append(" FROM player");
 			sb.append(" WHERE id = ?");
 			
@@ -119,7 +119,7 @@ public class MemberDAO {
 				dto.setEmail1(rs.getString("email1"));
 				dto.setEmail2(rs.getString("email2"));
 				dto.setPoint(rs.getInt("point"));
-				dto.setPowercode(rs.getInt(1));
+				dto.setPowercode(rs.getInt("powercode"));
 				dto.setReg_date(rs.getString("reg_date"));
 			}
 			
@@ -201,5 +201,6 @@ public class MemberDAO {
 		}
 				
 	}
+	
 		
 }
