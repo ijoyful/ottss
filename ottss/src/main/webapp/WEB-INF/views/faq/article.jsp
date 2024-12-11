@@ -109,11 +109,12 @@
 								${dto.a_content}
 							</td>
 						</tr>
+					</c:if>
 						<tr>
 							<td colspan="2">
 								다음글 :
 								<c:if test="${not empty prevDTO}">
-									<a href="${pageContext.request.contextPath}/faq/article?${query}&num=${prevDTO.faq_num}">${prevDTO.title}</a>
+									<a href="${pageContext.request.contextPath}/faq/article?${query}&num=${prevDTO.faq_num}">${prevDTO.q_title}</a>
 								</c:if>
 							</td>
 						</tr>
@@ -121,12 +122,11 @@
 							<td colspan="2">
 								이전글 :
 								<c:if test="${not empty nextDTO}">
-									<a href="${pageContext.request.contextPath}/faq/article?${query}&num=${nextDTO.faq_num}">${nextDTO.title}</a>
+									<a href="${pageContext.request.contextPath}/faq/article?${query}&num=${nextDTO.faq_num}">${nextDTO.q_title}</a>
 								</c:if>
 							</td>
 						</tr>
 					</tbody>
-					</c:if>
 				</table>
 				
 				<table class="table table-borderless">
