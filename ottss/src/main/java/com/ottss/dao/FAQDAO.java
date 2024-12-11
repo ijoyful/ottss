@@ -47,7 +47,7 @@ public class FAQDAO {
 			pstmt = null;
 
 			if (dto.getListFile().size() != 0) {
-				sql = "INSERT INTO faq_file (fileNum, s_fileName, c_fileName, faq_num)"
+				sql = "INSERT INTO faq_file (file_Num, s_fileName, c_fileName, faq_num)"
 						+ " VALUES (faq_file_seq.NEXTVAL, ?, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 				for (MyMultipartFile file : dto.getListFile()) {
