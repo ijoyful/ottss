@@ -59,7 +59,7 @@ public class PlayerListManageController {
 			}
 			
 			// 전체 페이지
-			int size = 15;
+			int size = 10;
 			int total_page = util.pageCount(dataCount, size);
 			if(current_page > total_page) {
 				current_page = total_page;
@@ -71,9 +71,9 @@ public class PlayerListManageController {
 			
 			List<MemberDTO> list = null;
 			if(kwd.length() == 0) {
-				list = dao.listMember(offset, size);
+				list = dao.listMember(offset, size, false);
 			} else {
-				list = dao.listMember(offset, size, schType, kwd);
+				list = dao.listMember(offset, size, schType, kwd, false);
 			}
 			
 			// 쿼리

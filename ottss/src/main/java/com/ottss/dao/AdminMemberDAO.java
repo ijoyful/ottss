@@ -84,7 +84,7 @@ public class AdminMemberDAO {
 		
 	}
 
-	public List<MemberDTO> listMember(int offset, int size) {
+	public List<MemberDTO> listMember(int offset, int size, boolean blind) {
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -93,6 +93,7 @@ public class AdminMemberDAO {
 		try {
 			
 			sb.append("SELECT id, name, nickname, TO_CHAR(birth, 'YYYY-MM-DD') birth, tel1, tel2, tel3, email1, email2, TO_CHAR(reg_date,'YYYY-MM-DD') reg_date, point, powercode, block FROM player");
+			if(blind) sb.append(" WHERE block = 1");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
@@ -128,7 +129,7 @@ public class AdminMemberDAO {
 		return list;
 	}
 	
-	public List<MemberDTO> listMember(int offset, int size, String schType, String kwd) {
+	public List<MemberDTO> listMember(int offset, int size, String schType, String kwd, boolean blind) {
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -142,7 +143,7 @@ public class AdminMemberDAO {
 			} else {
 				sb.append(" AND INSTR(" + schType + ", ?) >= 1");
 			}
-			
+			if(blind) sb.append(" AND block = 1");
 			sb.append(" ORDER BY id DESC");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 			

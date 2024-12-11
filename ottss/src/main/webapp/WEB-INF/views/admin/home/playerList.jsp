@@ -107,6 +107,7 @@
 			},
 			dataType : 'json',
 			success : function(response) {
+				const button = $('.blockBtn');
 				
 				if(block === 0) {
 					current.text("차단 해제");
