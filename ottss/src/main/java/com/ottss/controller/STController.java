@@ -1,11 +1,14 @@
 package com.ottss.controller;
 
+import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.rmi.ServerException;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.ottss.mvc.annotation.RequestMethod;
+import com.ottss.domain.SessionInfo;
 import com.ottss.dao.STDAO;
 import com.ottss.domain.STDTO;
 import com.ottss.mvc.annotation.Controller;
@@ -14,8 +17,10 @@ import com.ottss.mvc.view.ModelAndView;
 import com.ottss.util.MyUtil;
 import com.ottss.util.MyUtilBootstrap;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class STController {
@@ -33,7 +38,7 @@ public class STController {
 			String page = req.getParameter("page");
 			int current_page = 1;
 			if(page != null) {
-				current_page = Integer.parseInt("page");
+				current_page = Integer.parseInt(page);
 			}
 			
 			//검색
@@ -86,7 +91,7 @@ public class STController {
 			String cp = req.getContextPath();
 			String listUrl = cp + "/show/list";
 			//글리스트 주소
-			String articleUrl = cp + "/bbs/article?page=" + current_page;
+			String articleUrl = cp + "/show/article?page=" + current_page;
 			//글보기 주소
 			if(query.length() != 0) {
 				listUrl += "?" + query;
@@ -112,6 +117,51 @@ public class STController {
 		}
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/show/write", method = RequestMethod.GET)
+	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// 글쓰기 폼
+
+		ModelAndView mav = new ModelAndView("show/write");
+		mav.addObject("mode", "write");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/show/write", method = RequestMethod.POST)
+	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// 글등록하기 : 넘어온 파라미터 - subject, content
+
+		STDAO dao = new STDAO();
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		try {
+			STDTO dto = new STDTO();
+
+			// id는 세션에 저장된 정보
+			dto.setId(info.getId());
+			
+			// 파라미터
+			dto.setTitle(req.getParameter("title"));
+			dto.setContent(req.getParameter("content"));
+
+			dao.insertST(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("redirect:/show/list");
+	}
+	
+	
+	@RequestMapping(value="/show/article", method =RequestMethod.GET)
+	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		return new ModelAndView("show/article");
+	
 	}
 	
 	

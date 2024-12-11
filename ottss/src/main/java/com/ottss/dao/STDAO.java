@@ -19,15 +19,18 @@ public class STDAO {
 		String sql;
 		
 		try {
-			sql = "INSERT INTO show_tip_board (st_num, title, content, reg_date, mod_date, blind, hitcount, ipaddr, board_type, id) "
-					+ "VALUES (st_seq.NEXTVAL, ?, ?, SYSDATE, SYSDATE, 0, 0, ?, showing, ? )";
+			sql = "INSERT INTO show_tip_board (st_num, title, content, reg_date, mod_date, blind, hitcount, board_type, id) "
+					+ "VALUES (st_seq.NEXTVAL, ?, ?, SYSDATE, SYSDATE, 0, 0, 'showing', ? )";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getTitle());
 			pstmt.setString(2, dto.getContent());
-			//pstmt.setString(3, "ip주소");
-			pstmt.setString(4, dto.getId());
+			pstmt.setString(3, dto.getId());
+			//pstmt.setString(4, "ip주소");
+			
+			
+			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,7 +76,7 @@ public class STDAO {
 		try {
 			sql = "SELECT COUNT(*) cnt "
 					+ " FROM show_tip_board s  "
-					+ " JOIN player m1 ON s.id = p.id "
+					+ " JOIN player p ON s.id = p.id "
 					+ " WHERE block = 0 ";
 			if(schType.equals("all")) { // title 또는 content
 				sql += " AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )";
@@ -131,7 +134,7 @@ public class STDAO {
 				STDTO dto = new STDTO();
 				
 				dto.setSt_num(rs.getLong("st_num"));
-				dto.setNickname(rs.getString("nickName"));
+				dto.setNickname(rs.getString("nickname"));
 				dto.setTitle(rs.getString("title"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setReg_date(rs.getString("reg_date"));
@@ -158,7 +161,7 @@ public class STDAO {
 		
 		try {
 			sb.append(" SELECT st_num, nickName, title, hitcount, ");
-			sb.append("     TO_CHAR(b.reg_date, 'YYYY-MM-DD') reg_date ");
+			sb.append("     TO_CHAR(s.reg_date, 'YYYY-MM-DD') reg_date ");
 			sb.append(" FROM show_tip_board s ");
 			sb.append(" JOIN player p ON s.id = p.id ");
 			sb.append(" WHERE block = 0 ");
@@ -192,7 +195,7 @@ public class STDAO {
 				STDTO dto = new STDTO();
 				
 				dto.setSt_num(rs.getLong("st_num"));
-				dto.setNickname(rs.getString("nickName"));
+				dto.setNickname(rs.getString("nickname"));
 				dto.setTitle(rs.getString("title"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setReg_date(rs.getString("reg_date"));
@@ -208,7 +211,67 @@ public class STDAO {
 		
 		return list;
 	}
+	
+	//조회수
+	public void updateHitCount(long num) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
 
+		try {
+			sql = "UPDATE show_tip_board SET hitCount=hitCount+1 WHERE st_num=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+
+	}
+	
+	//해당 게시물 보기
+	public STDTO findById(long num) {
+		STDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		//++게시글 좋아요 보류
+		try {
+			sql = " SELECT s.st_num, s.id, nickname, title, content, reg_date, hitCount, blind "
+					+ " FROM show_tip_board s"
+					+ " JOIN player p ON p.id=s.id"
+					+ " WHERE s.st_num = ? AND blind = 0";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new STDTO();
+				dto.setSt_num(rs.getLong("st_num"));
+				dto.setId(rs.getString("id"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setReg_date(rs.getString("reg_date"));
+				dto.setHitCount(rs.getLong("hitCount"));
+				dto.setBlind(rs.getInt("blind"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return dto;
+	}
+	
 
 
 
