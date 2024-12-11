@@ -10,18 +10,20 @@ import java.util.List;
 import com.ottss.domain.FreeDTO;
 import com.ottss.util.DBConn;
 import com.ottss.util.DBUtil;
+import com.ottss.util.MyMultipartFile;
 
 public class FreeDAO {
 	private Connection conn = DBConn.getConnection();
 	
 	// 글 작성
+	/*
 	public void insertBoard(FreeDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql = "INSERT INTO free_board(fb_num, title, content, reg_date, blind, hitCount, categories, id "
-					+ " VALUES(fb_seq.NEXTVAL, ?, ?, SYSDATE, 0, 0, ?, ?"; 
+			sql = "INSERT INTO free_board(fb_num, title, content, reg_date, blind, hitCount, categories, id)"
+					+ " VALUES(fb_seq.NEXTVAL, ?, ?, SYSDATE, 0, 0, ?, ?) "; 
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -32,12 +34,69 @@ public class FreeDAO {
 			
 			pstmt.executeUpdate();
 			
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		} finally {
 			DBUtil.close(pstmt);
 		}
+	}
+	*/
+	
+	public int insertBoard(FreeDTO dto) throws SQLException {
+		int fb_num = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			conn.setAutoCommit(false);
+			sql = "SELECT fb_seq.NEXTVAL FROM dual";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				fb_num = rs.getInt(1);
+			}
+			dto.setFb_num(fb_num);
+
+			pstmt = null;
+			sql = "INSERT INTO free_board (fb_num, title, categories ,content, reg_date, hitCount, id)"
+					+ " VALUES (fb_seq.NEXTVAL, ?, '잡담', ?, SYSDATE, 0, ?)";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, dto.getTitle());
+			
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getId());
+
+			pstmt.executeUpdate();
+			pstmt.close();
+			pstmt = null;
+
+			if (dto.getListFile().size() != 0) {
+				sql = "INSERT INTO free_file (file_Num, s_fileName, c_fileName, fb_num)"
+						+ " VALUES (fb_file_seq.NEXTVAL, ?, ?, fb_seq.CURRVAL)";
+				pstmt = conn.prepareStatement(sql);
+				for (MyMultipartFile file : dto.getListFile()) {
+					pstmt.setString(1, file.getSaveFilename());
+					pstmt.setString(2, file.getOriginalFilename());
+
+					pstmt.executeUpdate();
+				}
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			conn.rollback();
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			conn.rollback();
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+			conn.setAutoCommit(true);
+		}
+		return fb_num;
 	}
 	
 	public int dataCount() {
@@ -232,52 +291,7 @@ public class FreeDAO {
 	}
 	
 	// 해당 게시물 보기
-	public FreeDTO findBYId(long fb_num) {
-		FreeDTO dto = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
-		
-		try {
-			sql = " SELECT fb_num, fb.id, p.nickname, title, categories, content, reg_date, hitCount, blind "
-					
-					+ " FROM free_board fb "
-					+ " JOIN player p ON fb.id = p.id "
-					+ " WHERE fb_num = ? AND blind = 0 ";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setLong(1, fb_num);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				dto = new FreeDTO();
-				
-				dto.setFb_num(rs.getLong("fb_num"));
-				dto.setId(rs.getString("id"));
-				dto.setNickname(rs.getString("nickname"));
-				dto.setTitle(rs.getString("title"));
-				dto.setCategories(rs.getString("categories"));
-				dto.setContent(rs.getString("content"));
-				dto.setReg_date(rs.getString("reg_date"));
-				dto.setHitCount(rs.getInt("hitCount"));
-				
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
-		}
-		
-		return dto;
-	}
-	
-	
-	
-	
-	
-	public FreeDTO findById(long num) {
+	public FreeDTO findById(long fb_num) {
 		FreeDTO dto = null;
 		
 		PreparedStatement pstmt = null;
@@ -286,14 +300,14 @@ public class FreeDAO {
 		
 		try {
 			sql = "SELECT fb_num, title, content, hitCount, categories, fb.id, p.nickname, "
-					+ " TO_CHAR(fb.reg_date, 'YYYY-MM-DD') reg_date "
+					+ " TO_CHAR(fb.reg_date, 'YYYY-MM-DD') reg_date, fb.blind  "
 					+ " FROM free_board fb"
 					+ " JOIN player p ON p.id = fb.id "
 					+ " WHERE fb_num = ? AND blind = 0" ;
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1,num);
+			pstmt.setLong(1,fb_num);
 			
 			rs = pstmt.executeQuery();
 			
@@ -318,6 +332,35 @@ public class FreeDAO {
 			DBUtil.close(pstmt);
 		}
 		return dto;
+	}
+	
+	public List<FreeDTO> listFreeFile(long fb_num){
+		List<FreeDTO> list = new ArrayList<FreeDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT file_Num, s_fileName, c_fileName, fb_num"
+					+ " FROM free_file "
+					+ " WHERE fb_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, fb_num);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				FreeDTO dto = new FreeDTO();
+				dto.setFileNum(rs.getLong("file_Num"));
+				dto.setS_fileName(rs.getString("s_fileName"));
+				dto.setC_fileName(rs.getString("c_fileName"));
+				dto.setFb_num(rs.getLong("fb_num"));
+				
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

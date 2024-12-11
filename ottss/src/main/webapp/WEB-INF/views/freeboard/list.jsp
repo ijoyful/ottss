@@ -77,7 +77,7 @@
                     </ul>
                    <c:forEach var = "dto" items="${list}" varStatus="status">
                     <ul class="listContent">
-                        <li>${dto.fb_num}</li>
+                        <li>${dataCount - (page - 1) * size - status.index}</li>
                         <li>${dto.categories}</li>
                         <li><a href="${articleUrl}&num=${dto.fb_num}" class="text-reset">${dto.title}</a></li>
                         <li>${dto.nickname}</li>

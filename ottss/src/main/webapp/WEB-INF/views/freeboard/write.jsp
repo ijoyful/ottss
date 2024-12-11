@@ -15,6 +15,26 @@ input {
 	font-weight: 600;
 }
 </style>
+<script type="text/javascript">
+function sendOk() {
+	const f = document.freeForm;
+	let str;
+	
+	    str = f.title.value.trim();
+		if (!str) {
+			f.title.focus();
+			return;
+		}
+		str = f.content.value.trim();
+		if (!str) {
+			f.content.focus();
+			return;
+		}
+	
+	    f.action = '${pageContext.request.contextPath}/freeboard/write';
+	    f.submit();
+	}
+	</script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
@@ -22,10 +42,10 @@ input {
 	<main id="main">
 	    <div class="mainInner">
 	        <div class="writeInner">
-	            <form action="">
+	            <form name = "freeForm" method="post" enctype="multipart/form-data">
 	                <ul>
 	                    <li class="listTitle">제목</li>
-	                    <li class="listContent"><input type="text"></li>
+	                    <li class="listContent"><input type="text" name="title"></li>
 	                </ul>
 	                <ul>
 	                    <li class="listTitle">작성자</li>
@@ -40,23 +60,23 @@ input {
 					 -->
 	                <ul class="content">
 	                    <li class="listTitle">내용</li>
-	                    <li class="listContent"><textarea></textarea></li>
+	                    <li class="listContent"><textarea name="content"></textarea></li>
 	                </ul>
 	                <ul>
 	                    <li class="listTitle">첨부파일</li>
-	                    <li class="listContent"><input type="file"></li>
+	                    <li class="listContent"><input type="file" name="selectFile" multiple class="form-control"></li>
 	                </ul>
 	                <ul>
 	                	<li class ="submitBtn">
-	                		<button type="button" class = "btn btn-sm" onclick="location.href='${pageContext.request.contextPath}/freeboard/list'"> 등록</button>
+	                		<button type="button" class = "btn btn-sm" onclick="sendOk();"> 등록</button>
 	                	</li>
 	                </ul>
 	            </form>
 	        </div>
 	    </div> <!-- mainInner -->
 	</main>
-	
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 	<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
+
 </body>
 </html>

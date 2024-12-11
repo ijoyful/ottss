@@ -6,9 +6,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 
-import com.ottss.dao.FAQDAO;
 import com.ottss.dao.FreeDAO;
-import com.ottss.domain.FAQDTO;
 import com.ottss.domain.FreeDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
@@ -24,6 +22,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 
 @Controller
 public class Freecontroller {
@@ -41,7 +40,6 @@ public class Freecontroller {
 			if (page != null) {
 				current_page = Integer.parseInt(page);
 			}
-
 			// 검색
 			String schType = req.getParameter("schType");
 			String kwd = req.getParameter("kwd");
@@ -122,7 +120,6 @@ public class Freecontroller {
 		public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			ModelAndView mav = new ModelAndView("freeboard/write");
 			mav.addObject("mode", "write");
-
 			return mav;
 		}
 
@@ -147,9 +144,9 @@ public class Freecontroller {
 
 				List<MyMultipartFile> listFile = fileManager.doFileUpload(req.getParts(), pathname);
 				dto.setListFile(listFile);
-				
-				long fb_num = Long.parseLong(req.getParameter("fb_num"));
-				return new ModelAndView("redirect:/freeboard/article?page=1&size" + size + "&num=" + fb_num);
+
+				long fb_num = dao.insertBoard(dto);
+				return new ModelAndView("redirect:/freeboard/article?page=1&size=" + size + "&num=" + fb_num);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -189,14 +186,13 @@ public class Freecontroller {
 			if (dto.getContent() != null) {
 				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 			}
+			List<FreeDTO> listFile = dao.listFreeFile(num);
 			/*
 			FreeDTO prevDTO = dao.findByPrev(dto.getFb_num(), schType, kwd);
 			FreeDTO nextDTO = dao.findByNext(dto.getFb_num(), schType, kwd);
-			List<FAQDTO> listFile = dao.listFile(num);
 
 			mav.addObject("prevDTO", prevDTO);
 			mav.addObject("nextDTO", nextDTO);
-			mav.addObject("listFile", listFile);
 			 */
 
 			ModelAndView mav = new ModelAndView("freeboard/article");
@@ -204,6 +200,7 @@ public class Freecontroller {
 			mav.addObject("query", query);
 			mav.addObject("page", page);
 			mav.addObject("size", size);
+			mav.addObject("listFile", listFile);
 			return mav;
 		} catch (Exception e) {
 			e.printStackTrace();
