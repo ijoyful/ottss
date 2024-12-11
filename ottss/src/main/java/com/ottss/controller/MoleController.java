@@ -1,11 +1,12 @@
-
 package com.ottss.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.ottss.dao.MoleGameDAO;
+import com.ottss.domain.MoleGameDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
@@ -18,98 +19,120 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-/*
-- 게임기록을 테이블에 업데이트 
-player(플레이어) 테이블 
-- 아이디 
-
-- 포인트에 인서트
-
-point_record (포인트 내역) 테이블
-- id (아이디)
-
-- pt_num(번호) pt_seq 로 
-- categories(카테고리) 
-- point (포인트) 인서트
-- left_pt(잔여포인트) 업데이트 // 면 쿼리 3번써야할듯?
-- pt_date(포인트 발생날짜) 
-
-
-- 게임기록에 인서트  
-
-- play_record 테이블 
-- play_num 플레이 번호 NUMBER NN(NOTNULL) PK  / play_seq 로 
-- play_date 플레이한 날짜 DATE NN 
-- used_point 사용포인트 NUMBER NN 
-- win_point 얻은포인트 NUMBER NN
-- result 기록 VARCHAR2 NN 
-- id 아이디 VARCHAR2 NN FK 참조 TB : player  참조 컬럼 : id
-- game_num 게임번호 NUMBER NN FK 참조 TB : game 참조컬럼 : game_num 
-
-
-- 게임 시작전에 입장 포인트 보유 여부 확인
-- 입장 포인트는 게임시작 전에 확인 
-- 확인할 테이블 point_record 의 id 검색  left_pt 확인해서 
-- 입장 포인트 없으면 게임 x 
-- ajax- json으로 가져오기 alert창으로 << 돈이있으면 플레이 없으면 안됨 
-- 사용포인트와 얻은포인트 한번에 인서트 
- - 입장포인트는 게임시작버튼 클릭시 확인 하게 
- - 게임 종료시 사용포인트(입장료)와 얻은 포인트를 한번에 인서트 
- 
- */
-
-/*
-  1. 게임 화면으로 넘어가기 
-  2. 게임시작 버튼을 누르면 포인트 여부를 파악하여 게임 시작 or 못하게 ajax-json 사용
-  3. 게임 시키기 
-  4. 게임을 종료하면 
- */
 @Controller
 public class MoleController {
-	@RequestMapping("/games/mole")
-	public ModelAndView main(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("games/mole");
-		
-		return mav;
-	}
 
-	@RequestMapping(value = "/games/mole/end", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> endGame(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	    HttpSession session = req.getSession();
-	    SessionInfo info = (SessionInfo) session.getAttribute("member");
-	    Map<String, Object> model = new HashMap<>();
+    private MoleGameDAO dao = new MoleGameDAO();
 
-	    // 세션에 사용자 정보가 없을 경우 처리
-	    if (info == null) {
-	        model.put("status", "error");
-	        model.put("message", "세션 정보가 없습니다. 로그인해주세요.");
-	        return model;
-	    }
+    // 게임 페이지로 이동
+    @RequestMapping("/games/mole")
+    public ModelAndView main(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	ModelAndView mav = new ModelAndView("games/mole");
+    	return mav;
+    }
 
-	    String userId = info.getId();  // 세션에서 사용자 ID 가져오기
-	    int usedPoint = 10; // 게임 참여에 사용된 포인트
-	    int winPoint = 15; // 게임에서 얻은 포인트 (예시로 15포인트)
-	    MoleGameDAO dao = new MoleGameDAO();
+    // 포인트 확인 및 게임 시작 요청
+    @ResponseBody
+    @RequestMapping(value = "/games/mole/start", method = RequestMethod.POST)
+    public Map<String, Object> startGame(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        Map<String, Object> model = new HashMap<>();
+        HttpSession session = req.getSession();
+        String state = "false";  
+        int point = 0;
 
-	    try {
-	        // 포인트 차감 (게임 입장 시 사용된 포인트)
-	        int remainingPoint = dao.updateUserPoint(userId, usedPoint, winPoint);  // DB에서 포인트 업데이트
+        try {
+           SessionInfo info = (SessionInfo)session.getAttribute("member");
+            if (info == null) {
+                model.put("state", "false");
+                model.put("message", "로그인된 사용자가 없습니다.");
+                return model;
+            }
 
-	        // 게임 기록 저장
-	        dao.insertPlayRecord(userId, usedPoint, winPoint, remainingPoint, userId); // 게임 기록 삽입
+            boolean canEnter = dao.checkPoint(info.getId());
 
-	        model.put("status", "success");
-	        model.put("message", "게임이 종료되었습니다. 결과를 저장했습니다.");
-	        model.put("remainingPoint", remainingPoint);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        model.put("status", "error");
-	        model.put("message", "게임 종료 처리 중 오류가 발생했습니다.");
-	    }
+            if (canEnter) {
+                state = "true"; 
+                MoleGameDTO dto = new MoleGameDTO();
+                dto.setId(info.getId());
+                dto.setUsedPoint(10);
+                boolean gameStarted = dao.startGame(dto);
+                if (gameStarted) {
+                    point = dao.updateUserPoint(dto);
+                }
+            } else {
 
-	    return model;
-	}
+                point = 0;
+            }
+        } catch (SQLException e) {
+
+            model.put("errorMessage", e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+
+            model.put("errorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+
+        model.put("state", state);
+        model.put("updatedPoint", point);
+        return model;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/games/mole/end", method = RequestMethod.POST)
+    public Map<String, Object> endGame(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Map<String, Object> model = new HashMap<String, Object>();
+        String state = "false";  // 기본적으로 상태는 "false"로 설정
+        
+        HttpSession session = req.getSession();
+        
+        try {
+            // 세션에서 로그인한 사용자 정보 가져오기
+            SessionInfo info = (SessionInfo) session.getAttribute("member");
+            
+            if (info == null) {
+                model.put("state", state);
+                model.put("message", "로그인된 사용자가 없습니다.");
+                return model;
+            }
+
+            // MoleGameDAO와 MoleGameDTO 객체 생성
+            MoleGameDAO dao = new MoleGameDAO();
+            MoleGameDTO dto = new MoleGameDTO();
+
+            // 요청 파라미터 받아오기
+            String userId = info.getId();
+            int usedPoint = Integer.parseInt(req.getParameter("usedPoint"));
+            int winPoint = Integer.parseInt(req.getParameter("winPoint"));
+            int gameNum = Integer.parseInt(req.getParameter("gameNum"));
+            String result = req.getParameter("result");
+
+            // DTO 설정
+            dto.setId(userId);
+            dto.setUsedPoint(usedPoint);
+            dto.setWinPoint(winPoint);
+            dto.setGameNum(gameNum);
+            dto.setResult(result);
+            
+            // 포인트를 업데이트하고, 게임 기록을 저장
+            int newPoint = dao.updateUserPoint(dto);  // 새로운 포인트 값을 받음
+            dao.insertPlayRecord(dto);  // 게임 기록 저장
+
+            // 상태를 "true"로 설정
+            state = "true";
+            
+            model.put("message", "게임이 종료되었습니다. 사용 포인트: " + usedPoint + ", 얻은 포인트: " + winPoint);
+            model.put("newPoint", newPoint);  // 새로 갱신된 포인트 추가
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.put("state", state);
+            model.put("message", "게임 종료 중 오류가 발생했습니다.");
+        }
+        
+        // 응답 상태 반환
+        model.put("state", state);
+        return model;
+    }
 
 
 }

@@ -149,7 +149,7 @@
             <table>
                 <tr>
                     <th>참여 포인트</th>
-                    <td>- 10p</td>
+                    <td>-10p</td>
                 </tr>
                 <tr>
                     <th>획득 포인트</th>
@@ -191,24 +191,25 @@
     let gameInterval;
     let moleTimeout;
     let activeMole = null;
-    let isGameStarted = false;
+    let state = false; // 게임 상태를 관리하는 변수 (false: 게임 종료, true: 게임 진행 중)
     let gameOver = false;
-    let userPoint = ${userPoint}; // 서버에서 전달받은 포인트
+    let userPoint = 0; // 서버에서 전달받은 포인트
 
-    // 게임 시작을 위한 포인트 확인 AJAX 요청
     function checkPointsAndStartGame() {
         $.ajax({
-            url: "/games/mole/start",  // 서버의 요청 URL
-            type: "GET",
+            url: "${pageContext.request.contextPath}/games/mole/start",  // 서버의 요청 URL
+            type: "POST",  // POST 요청
             dataType: "json",  // 서버에서 JSON 형식으로 응답을 받을 것
             success: function(response) {
-                if (response.status === "success") {
-                    alert(response.message);  // 게임 시작 메시지
+                if (response.state === "true") {
+                    alert("게임 시작!");
                     userPoint = response.updatedPoint;  // 최신 포인트 갱신
                     startGame();  // 게임 시작 함수 호출
-                } else {
-                    alert(response.message);  // 포인트 부족 메시지
+                } else if (response.state === "false") {
+                    alert("포인트 부족! 게임을 시작할 수 없습니다.");
                     // 포인트 부족 시 처리 로직 (게임 시작 불가)
+                } else {
+                    alert("서버 오류가 발생했습니다.");
                 }
             },
             error: function() {
@@ -222,7 +223,7 @@
         score = 0;
         scoreDisplay.textContent = score;
         gameOver = false; // 게임 오버 상태 초기화
-        isGameStarted = true;
+        state = true;  // 게임 진행 중으로 상태 변경
         startButton.disabled = true; // 게임 시작 후 버튼 비활성화
         gameOverPopup.style.display = 'none';  // 게임 오버 팝업 숨김
 
@@ -234,7 +235,7 @@
 
     // 두더지 표시
     function showMole() {
-        if (!isGameStarted || gameOver) return; // 게임이 시작되지 않거나 게임이 끝나면 두더지 표시하지 않음
+        if (!state || gameOver) return; // 게임이 시작되지 않거나 게임이 끝나면 두더지 표시하지 않음
 
         if (activeMole) {
             clearInterval(gameInterval);
@@ -242,6 +243,7 @@
             gameOverPopup.style.display = 'block';
             startButton.disabled = false; // 게임 종료 후 게임 시작 버튼 활성화
             gameOver = true;
+            state = false; // 게임 종료 상태로 변경
             return;
         }
 
@@ -286,6 +288,46 @@
             }
         });
     });
+    // 게임 종료 후 서버에 포인트 업데이트 요청
+    function endGame() {
+        const usedPoint = 10;  //사용된 포인트
+        const winPoint = score;  // 게임에서 얻은 포인트
+        const gameNum = 1;  // 게임 번호
+        const result = "win";  // 결과
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/games/mole/end",  // 서버 요청 URL
+            type: "POST",  // POST 요청
+            dataType: "json",  // 서버에서 JSON 형식으로 응답 받음
+            data: {
+                usedPoint: usedPoint,
+                winPoint: winPoint,
+                gameNum: gameNum,
+                result: result
+            },
+            success: function(response) {
+                if (response.state === "true") {
+                    // 게임 종료 성공 시 포인트와 메시지 출력
+                    $('#final-score').text(response.newPoint + "p");
+                    $('#current-point').text(response.newPoint + "p");
+                    alert("게임이 종료되었습니다! 사용 포인트: " + usedPoint + "p, 얻은 포인트: " + winPoint + "p");
+                } else {
+                    alert("게임 종료에 실패했습니다: " + response.message);
+                }
+            },
+            error: function() {
+                alert("서버 오류가 발생했습니다.");
+            }
+        });
+    }
+
+    // 게임 종료 후 버튼 클릭 시 처리
+    $(document).ready(function() {
+        $('.okBtn button').on('click', function() {
+            endGame();  // 게임 종료 요청
+        });
+    });
+
 
     // 게임 다시 시작
     function restartGame() {
@@ -300,6 +342,7 @@
     // 게임 시작 버튼 클릭 이벤트
     startButton.addEventListener('click', checkPointsAndStartGame);
 </script>
+
 
 </body>
 </html>

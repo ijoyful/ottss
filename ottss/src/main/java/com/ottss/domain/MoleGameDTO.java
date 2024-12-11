@@ -10,16 +10,9 @@ public class MoleGameDTO {
     private String result;       // 기록 (게임 결과)
     private String id;           // 사용자 아이디
     private int gameNum;         // 게임 번호
-    private int userPoint; // 보유포인트
-   
-    public int getUserPoint() {
-		return userPoint;
-	}
-	public void setUserPoint(int userPoint) {
-		this.userPoint = userPoint;
-	}
-	
-	
+    private int userPoint;       // 보유 포인트
+
+    // Getter and Setter Methods
     public int getPlayNum() {
         return playNum;
     }
@@ -61,5 +54,11 @@ public class MoleGameDTO {
     }
     public void setGameNum(int gameNum) {
         this.gameNum = gameNum;
+    }
+    public int getUserPoint() {
+        return userPoint;
+    }
+    public void setUserPoint(int userPoint) {
+        this.userPoint = userPoint;
     }
 }
