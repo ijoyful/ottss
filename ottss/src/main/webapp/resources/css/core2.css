@@ -1,15 +1,14 @@
 ﻿@charset "UTF-8";
 @charset "UTF-8";
 
-* { padding: 0; margin: 0; }
-*, *::after, *::before { box-sizing: border-box; }
+@font-face {
+	font-family: 'S-CoreDream-3Light';
+	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
 
-body { font-size: 14px; font-family: "Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif; }
-
-a { text-decoration: none; color: #333; }
-a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #F28011; }
-
-textarea:focus, input:focus { outline: none; }
+body {font-family: 'S-CoreDream-3Light' !important;}
 
 /* clear */
 .clear::after { content:''; display:block; clear: both; }

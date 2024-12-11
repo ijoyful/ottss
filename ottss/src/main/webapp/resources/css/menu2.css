@@ -3,10 +3,14 @@
   -webkit-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out; }
 
-* {
-  box-sizing: border-box; }
+@font-face {
+	font-family: 'S-CoreDream-3Light';
+	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
 
-:focus, :active {outline: none;}
+body {font-family: 'S-CoreDream-3Light' !important;}
 
 .toggle_menu {
   width: 35px;

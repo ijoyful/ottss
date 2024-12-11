@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+#main .body-main {width: 100%;}
+
+#main .body-main ul {
+    width: 100%;
+    display: flex;
+    border-radius: 10px;
+}
+
+#main .body-main ul:not(:last-child) {margin-bottom: 10px;}
+
+#main .body-main ul li {
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+#main .body-main ul li:nth-child(1) {width: 10%;} /* 아이디 */
+#main .body-main ul li:nth-child(2) {width: 10%;} /* 이름 */
+#main .body-main ul li:nth-child(3) {width: 10%;} /* 닉네임 */
+#main .body-main ul li:nth-child(4) {width: 10%;} /* 생년월일 */
+#main .body-main ul li:nth-child(5) {width: 12%;} /* 전화번호 */
+#main .body-main ul li:nth-child(6) {width: 14%;} /* 이메일 */
+#main .body-main ul li:nth-child(7) {width: 14%;} /* 가입 날짜 */
+#main .body-main ul li:nth-child(8) {width: 10%;} /* 보유포인트 */
+#main .body-main ul li:nth-child(9) {width: 5%;} /* 코드 번호 */
+#main .body-main ul li:nth-child(10) {width: 5%;} /* 블락 여부 */
+
+#main .body-main .listTitle {background-color: #1B1F3B; color: #fff;}
+
+#main .body-main .listContent {background-color: #eee;}
+
+#main .body-main .btn {
+	border: 1px solid #000;
+	border-radius: 10px;
+	padding: 5px 10px;
+	font-size: 12px;
+	background-color: #fff;
+}
+#main .body-main .btn:hover {background-color: #f00; color: #fff;}
