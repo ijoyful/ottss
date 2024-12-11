@@ -32,11 +32,11 @@
 
 #main .body-main .listContent {background-color: #eee;}
 
-#main .body-main .btn {
+#main .body-main .blockBtn {
 	border: 1px solid #000;
 	border-radius: 10px;
 	padding: 5px 10px;
 	font-size: 12px;
 	background-color: #fff;
 }
-#main .body-main .btn:hover {background-color: #f00; color: #fff;}
+#main .body-main .blockBtn:hover {background-color: #f00; color: #fff;}
