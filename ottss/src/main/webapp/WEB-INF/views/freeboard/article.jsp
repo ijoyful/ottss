@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<title></title>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
@@ -70,6 +70,20 @@
 									</p>
 							</td>
 						</c:forEach>
+						</tr>
+						<tr>
+							<td colspan = "2"> 다음글 :
+								<c:if test="${not empty prevDTO}">
+									<a href="${pageContext.request.contextPath}/freeboard/article?${query}&num=${prevDTO.fb_num}">${prevDTO.title}</a>
+								</c:if>
+							</td>
+						</tr>
+						<tr>
+							<td colspan = "2"> 이전글 :
+								<c:if test="${not empty nextDTO}">
+									<a href="${pageContext.request.contextPath}/freeboard/article?${query}&num=${nextDTO.fb_num}">${nextDTO.title}</a>
+								</c:if>
+							</td>
 						</tr>
 					</tbody>
 				</table>

@@ -186,17 +186,15 @@ public class Freecontroller {
 			if (dto.getContent() != null) {
 				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 			}
-			List<FreeDTO> listFile = dao.listFreeFile(num);
-			/*
 			FreeDTO prevDTO = dao.findByPrev(dto.getFb_num(), schType, kwd);
 			FreeDTO nextDTO = dao.findByNext(dto.getFb_num(), schType, kwd);
 
-			mav.addObject("prevDTO", prevDTO);
-			mav.addObject("nextDTO", nextDTO);
-			 */
+			List<FreeDTO> listFile = dao.listFreeFile(num);
 
 			ModelAndView mav = new ModelAndView("freeboard/article");
 			mav.addObject("dto", dto);
+			mav.addObject("prevDTO", prevDTO);
+			mav.addObject("nextDTO", nextDTO);
 			mav.addObject("query", query);
 			mav.addObject("page", page);
 			mav.addObject("size", size);

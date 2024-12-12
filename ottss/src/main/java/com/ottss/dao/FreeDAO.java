@@ -334,7 +334,118 @@ public class FreeDAO {
 		return dto;
 	}
 	
-	public List<FreeDTO> listFreeFile(long fb_num){
+	public FreeDTO findByPrev(long num, String schType, String kwd) {
+		FreeDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			if(kwd != null && kwd.length() !=0) {
+				sb.append(" SELECT fb_num, title ");
+				sb.append(" FROM free_board ");
+				sb.append(" WHERE(fb_num > ?) ");
+				if(schType.equals("all")) {
+					sb.append("	AND(INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1) ");
+				} else {
+					sb.append("	AND(INSTR(" + schType + ", ?) >= 1");
+				}
+				sb.append(" ORDER BY fb_num");
+				sb.append(" FETCH FIRST 1 ROWS ONLY");
+				
+				pstmt = conn.prepareStatement(sb.toString());
+				
+				pstmt.setLong(1, num);
+				pstmt.setString(2, kwd);
+				if(schType.equals("all")) {
+					pstmt.setString(3,kwd);
+				} else {
+					sb.append(" SELECT fb_num, title FROM free_board ");
+					sb.append(" WHERE fb_num > ?");
+					sb.append(" ORDER BY fb_num ");
+					sb.append(" FETCH FIRST 1 ROWS ONLY");
+					
+					pstmt = conn.prepareStatement(sb.toString());
+					
+					pstmt.setLong(1, num);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					dto = new FreeDTO();
+					dto.setFb_num(rs.getLong("fb_num"));
+					dto.setTitle(rs.getString("title"));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return dto;
+	}
+	
+	public FreeDTO findByNext(long num, String schType, String kwd) {
+		FreeDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			if (kwd != null && kwd.length() != 0) {
+				sb.append(" SELECT fb_num, title");
+				sb.append(" FROM free_board");
+				sb.append(" WHERE ( fb_num < ? ) ");
+				if (schType.equals("all")) {
+					sb.append("   AND (INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1) ");
+				} else {
+					sb.append("   AND (INSTR(" + schType + ", ?) >= 1) ");
+				}
+				sb.append(" ORDER BY fb_num DESC");
+				sb.append(" FETCH FIRST 1 ROWS ONLY");
+
+				pstmt = conn.prepareStatement(sb.toString());
+				
+				pstmt.setLong(1, num);
+				pstmt.setString(2, kwd);
+				if (schType.equals("all")) {
+					pstmt.setString(3, kwd);
+				}
+			} else {
+				sb.append(" SELECT fb_num, title FROM free_board ");
+				sb.append(" WHERE fb_num < ? ");
+				sb.append(" ORDER BY fb_num DESC ");
+				sb.append(" FETCH FIRST 1 ROWS ONLY");
+
+				pstmt = conn.prepareStatement(sb.toString());
+				
+				pstmt.setLong(1, num);
+			}
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new FreeDTO();
+				
+				dto.setFb_num(rs.getLong("fb_num"));
+				dto.setTitle(rs.getString("title"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+
+		return dto;
+	}
+	
+	// 파일 리스트 
+	public List<FreeDTO> listFreeFile(long num){
 		List<FreeDTO> list = new ArrayList<FreeDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -345,7 +456,7 @@ public class FreeDAO {
 					+ " FROM free_file "
 					+ " WHERE fb_num = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, fb_num);
+			pstmt.setLong(1, num);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {

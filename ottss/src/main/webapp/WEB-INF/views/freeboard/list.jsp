@@ -39,7 +39,7 @@
 		            <div class="col-auto">&nbsp;</div>
 		        </div>
 				<div class="row board-list-footer">
-				<div class="col">
+				<div class="col p-1 text-start">
 					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
 				</div>
 				<div class="col-6 text-center">
@@ -60,13 +60,10 @@
 							<input type="hidden" name="size" value="${size}">
 							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
 						</div>
-						<div class ="col-auto p-1">
-							<button type="button" style="align-content: right" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/write';">글쓰기</button>
+						<div class ="col text-end">
+							<button type="button" style="align-content: right" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/write';">글올리기</button>
 						</div>
 					</form>
-				</div>
-				<div class="col text-end">
-					&nbsp;
 				</div>
 			</div>
 				<!-- div.listInner 테이블 처럼 쓸 수 있는 ul-li 입니당 foreach 돌리실때 ul로 돌리면 끗! -->
@@ -90,7 +87,9 @@
                     </ul>
                    </c:forEach>
                 </div>
-			
+				<div class="page-navigation">
+					${dataCount==0?"등록된 게시물이 없습니다.":paging}
+				</div>
 			</div>
 		</main>
 		<!-- main End -->
