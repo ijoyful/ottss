@@ -117,6 +117,8 @@
 			
 		});
 		
+		current.closest('.listContent').remove();
+		
 	};
 	
 	$(function() {

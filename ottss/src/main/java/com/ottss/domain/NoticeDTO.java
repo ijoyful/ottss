@@ -6,6 +6,7 @@ import com.ottss.util.MyMultipartFile;
 
 public class NoticeDTO {
 	private long n_num; // 공지 게시판 게시글 번호. 시퀀스 n_seq
+	private int notice_status; // 공지 여부
 	private String title; // 게시글 제목
 	private String content; // 게시글 내용
 	private long hitCount; // 게시글 조회수
@@ -20,6 +21,12 @@ public class NoticeDTO {
 	private String c_fileName; // 클라이언트가 저장한 파일명
 	private List<MyMultipartFile> listFile;
 
+	public int getNotice_status() {
+		return notice_status;
+	}
+	public void setNotice_status(int notice_status) {
+		this.notice_status = notice_status;
+	}
 	public long getN_num() {
 		return n_num;
 	}

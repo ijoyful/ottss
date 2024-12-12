@@ -87,19 +87,19 @@ $(function(){
 	
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">공지사항</a>
+					<a href="${pageContext.request.contextPath}/admin/notice/list" class="sub_menu--link">공지사항</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">FAQ</a>
+					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">FAQ</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">자유게시판</a>
+					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">자유게시판</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">분석게시판</a>
+					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">분석게시판</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">자랑게시판</a>
+					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">자랑게시판</a>
 				</li>
 			</ul>
 		</li>
@@ -112,20 +112,20 @@ $(function(){
 		
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">아이템</a>
+					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">아이템</a>
 				</li>
 			</ul>
 		</li>
 	
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="소개글 관리">
+	        <a href="${pageContext.request.contextPath}/admin" class="menu--link" title="소개글 관리">
 		        <i class="menu--icon bi bi-info-square"></i>
 				<span class="menu--label">소개글 관리</span>
 			</a>
 		</li>
 		
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="메인화면 설정">
+	        <a href="${pageContext.request.contextPath}/admin" class="menu--link" title="메인화면 설정">
 				<i class="menu--icon bi bi-gear-fill"></i>
 				<span class="menu--label">메인화면 설정</span>
 			</a>
