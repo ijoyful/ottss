@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Base64.Decoder;
+import java.util.List;
 
 import com.ottss.dao.NoticeDAO;
 import com.ottss.domain.NoticeDTO;
@@ -13,6 +14,7 @@ import com.ottss.mvc.annotation.RequestMapping;
 import com.ottss.mvc.annotation.RequestMethod;
 import com.ottss.mvc.view.ModelAndView;
 import com.ottss.util.FileManager;
+import com.ottss.util.MyMultipartFile;
 import com.ottss.util.MyUtil;
 import com.ottss.util.MyUtilBootstrap;
 
@@ -29,42 +31,30 @@ public class NoticeManageController {
 		
 		ModelAndView mav = new ModelAndView("admin/notice/list");
 		
-		int size = 10;
-		NoticeDAO dao = new NoticeDAO();
-		MyUtil util = new MyUtilBootstrap();
-		
-		try {
-			
-			String page = req.getParameter("page");
-			int current_page = 1;
-			if(page != null) {
-				current_page = Integer.parseInt(page);
-			}
-			
-			String schType = req.getParameter("schType");
-			String kwd = req.getParameter("kwd");
-			if(schType == null) {
-				schType = "all";
-				kwd = "";
-			}
-			
-			if(req.getMethod().equalsIgnoreCase("GET")) {
-				kwd = URLDecoder.decode(kwd, "utf-8");
-			}
-			
-			String pageSize = req.getParameter("size");
-			if(pageSize != null) {
-				size = Integer.parseInt(pageSize);
-			}
-			
-			int dataCount, total_page;
-			
-			if(kwd.length() != 0) {
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		/*
+		 * int size = 10; NoticeDAO dao = new NoticeDAO(); MyUtil util = new
+		 * MyUtilBootstrap();
+		 * 
+		 * try {
+		 * 
+		 * String page = req.getParameter("page"); int current_page = 1; if(page !=
+		 * null) { current_page = Integer.parseInt(page); }
+		 * 
+		 * String schType = req.getParameter("schType"); String kwd =
+		 * req.getParameter("kwd"); if(schType == null) { schType = "all"; kwd = ""; }
+		 * 
+		 * if(req.getMethod().equalsIgnoreCase("GET")) { kwd = URLDecoder.decode(kwd,
+		 * "utf-8"); }
+		 * 
+		 * String pageSize = req.getParameter("size"); if(pageSize != null) { size =
+		 * Integer.parseInt(pageSize); }
+		 * 
+		 * int dataCount, total_page;
+		 * 
+		 * if(kwd.length() != 0) { }
+		 * 
+		 * } catch (Exception e) { e.printStackTrace(); }
+		 */
 		
 		return mav;
 	}
@@ -102,15 +92,23 @@ public class NoticeManageController {
 			NoticeDTO dto = new NoticeDTO();
 			
 			dto.setId(info.getId());
+			
 			if(req.getParameter("notice_status") != null) {
-				
+				dto.setNotice_status(Integer.parseInt(req.getParameter("notice_status")));
 			}
+			dto.setTitle(req.getParameter("content"));
+			dto.setContent(req.getParameter("content"));
+			
+			List<MyMultipartFile> listFile = fileManager.doFileUpload(req.getParts(), pathname);
+			dto.setListFile(listFile);
+			
+			dao.insertNotice(dto);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/admin/notice/list");
+		return new ModelAndView("redirect:/admin/notice/list?size=" + size);
 	}
 	
 	@RequestMapping(value = "/admin/notice/article", method = RequestMethod.GET)

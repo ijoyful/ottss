@@ -21,17 +21,16 @@ public class NoticeDAO {
 		
 		try {
 			
-			sql = "INSERT INTO notice_board(n_num, notice_status, title, content, hitCount, reg_date, mod_date, id, nickname)"
-					+ " VALUES (n_seq.NEXTVAL, ?, ?, ?, ?, SYSDATE, SYSDATE, ?, ?)";
+			sql = "INSERT INTO notice_board(n_num, notice_status, title, content, hitCount, reg_date, mod_date, id)"
+					+ " VALUES (n_seq.NEXTVAL, ?, ?, ?, ?, SYSDATE, SYSDATE, ?)";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setInt(2, dto.getNotice_status());
+			pstmt.setInt(1, dto.getNotice_status());
+			pstmt.setString(2, dto.getTitle());
 			pstmt.setString(3, dto.getContent());
 			pstmt.setLong(4, dto.getHitCount());
 			pstmt.setString(5, dto.getId());
-			pstmt.setString(6, dto.getNickname());
 			
 			pstmt.executeUpdate();
 			

@@ -9,13 +9,14 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 //페이지이름 아직 안정해져서 isExcludeUrl 아직 안건듬
 
-//@WebFilter("/*")
+@WebFilter("/*")
 public class LoginFilter implements Filter {
 
 	@Override
@@ -57,7 +58,7 @@ public class LoginFilter implements Filter {
 				// 로그인 전 주소를 세션에 저장
 				session.setAttribute("preLoginURI", uri);
 
-				resp.sendRedirect(cp + "/member/login");
+				resp.sendRedirect(cp + "/login/login");
 			}
 
 			return;
@@ -74,7 +75,7 @@ public class LoginFilter implements Filter {
 		chain.doFilter(request, response);
 
 		// response 필터 : 후 작업
-
+		
 	}
 
 
@@ -92,8 +93,28 @@ public class LoginFilter implements Filter {
 
 		// 로그인 체크를 하지 않아도 되는 URL
 		String[] uris = {
-			
+			"/index.jsp", "/main",
+			"/login/login", "/login/logout",
+			"/notice/list",
+			"/uploads/photo/**",
+			"/resources/**"
 		};
+		
+		if(uri.length() <= 1) {
+			return true;
+		}
+		
+		for(String s: uris) {
+			if(s.lastIndexOf("**") != -1) {
+				s = s.substring(0, s.lastIndexOf("**"));
+				if(uri.indexOf(s) == 0) {
+					return true;
+				}
+			} else if(uri.equals(s)) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 }

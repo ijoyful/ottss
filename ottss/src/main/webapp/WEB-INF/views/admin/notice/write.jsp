@@ -66,7 +66,7 @@
 				                <ul>
 				                    <li class="listTitle">공지 여부</li>
 				                    <li class="listContent" style="justify-content: flex-start; padding-left: 20px;">
-				                    	<input type="checkbox" name="notice" id="notice" value="1" style="width: auto;" ${dto.notice==1 ? "checked":""}>
+				                    	<input type="checkbox" name="notice_status" id="notice" value="1" style="width: auto;" ${dto.notice_status==1 ? "checked":""}>
 										<label class="form-check-label" for="notice">&nbsp;&nbsp;공지</label>
 				                    </li>
 				                </ul>
