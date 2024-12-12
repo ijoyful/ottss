@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>spring</title>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ottssCss/list.css" type="text/css">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
@@ -34,6 +34,10 @@
 		<main id="main">
 			<!-- div.mainInner까지 있어야 폼 안망가집니다. 안에다가 코딩 해주세용 -->
 			<div class="mainInner">
+				<div class="row board-list-header">
+		            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
+		            <div class="col-auto">&nbsp;</div>
+		        </div>
 				<div class="row board-list-footer">
 				<div class="col">
 					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
