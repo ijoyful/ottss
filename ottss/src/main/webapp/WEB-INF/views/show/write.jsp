@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/ottssCss/write.css"
@@ -70,7 +69,7 @@ function sendOk() {
 							<button type="reset" class="btn btn-light">다시입력</button>
 							<button type="button" class="btn btn-light"onclick="location.href='${pageContext.request.contextPath}/show/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button> 
 							<c:if test="${mode=='update'}">
-								<input type="hidden" name="num" value="${dto.st_num}">
+								<input type="hidden" name="st_num" value="${dto.st_num}">
 								<input type="hidden" name="page" value="${page}">
 							</c:if>
 						</li>
