@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>게시판</title>
 
     <!-- Static Header Include -->
     <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
@@ -18,6 +17,18 @@
     </style>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
+
+<c:if test="${sessionScope.member.id==dto.id || sessionScope.member.powercode == 51}">
+	<script type="text/javascript">
+		function deleteOk() {
+			if(confirm('게시글을 삭제 하시 겠습니까 ? ')) {
+				let query = 'st_num=${dto.st_num}&${query}';
+				let url = '${pageContext.request.contextPath}/show/delete?' + query;
+				location.href = url;
+			}
+		}
+	</script>
+</c:if>
 
 </head>
 <body>
@@ -40,7 +51,7 @@
                     <thead>
                         <tr>
                             <td colspan="2" align="center">
-                                <!-- 제목 부분, 동적 값 없음 -->
+                                ${dto.title}
                             </td>
                         </tr>
                     </thead>
@@ -48,16 +59,22 @@
                     <tbody>
                         <tr>
                             <td width="50%">
-                                이름 : <!-- 사용자 이름 부분 -->
+                                이름 : ${dto.nickname}
                             </td>
                             <td align="right">
-                                <!-- 날짜 및 조회수 부분 -->
+                                ${dto.reg_date} | 조회 ${dto.hitCount}
                             </td>
                         </tr>
                         
                         <tr>
                             <td colspan="2" valign="top" height="200">
-                                <!-- 게시글 내용 부분 -->
+                                ${dto.content}
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td colspan="2" valign="top" height="200">
+                                파일자리요!!!!!!
                             </td>
                         </tr>
                         
@@ -65,7 +82,7 @@
                             <td colspan="2">
                                 이전글 :
                                 <c:if test="${not empty prevDto}">
-                                    <a href="#">이전 글 제목</a>
+                                    <a href="${pageContext.request.contextPath}/show/article?${query}&st_num=${prevDto.st_num}">${prevDto.title}</a>
                                 </c:if>
                             </td>
                         </tr>
@@ -73,7 +90,7 @@
                             <td colspan="2">
                                 다음글 :
                                 <c:if test="${not empty nextDto}">
-                                    <a href="#">다음 글 제목</a>
+                                    <a href="${pageContext.request.contextPath}/show/article?${query}&st_num=${nextDto.st_num}">${nextDto.title}</a>
                                 </c:if>
                             </td>
                         </tr>
@@ -84,11 +101,27 @@
                     <tr>
                         <td width="50%">
                             <!-- 수정, 삭제 버튼 부분 -->
-                            <button type="button" class="btn btn-light">수정</button>
-                            <button type="button" class="btn btn-light">삭제</button>
+                            <c:choose>
+                            	<c:when test="${sessionScope.member.id==dto.id}">                                                                    
+                            		<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/update?st_num=${dto.st_num}&page=${page}';">수정</button>
+                           		</c:when>
+                           		<c:otherwise>
+									<button type="button" class="btn btn-light" disabled>수정</button>
+								</c:otherwise>
+                            </c:choose>
+                            
+                            <c:choose>
+                            	<c:when test="${sessionScope.member.id==dto.id || sessionScope.member.powercode==99 }">
+                            		<button type="button" class="btn btn-light"  onclick="deleteOk();">삭제</button>
+                        		</c:when>
+                        		<c:otherwise>
+					    			<button type="button" class="btn btn-light" disabled>삭제</button>
+					    		</c:otherwise>
+                        	</c:choose>
+                        
                         </td>
                         <td class="text-end">
-                            <button type="button" class="btn btn-light">리스트</button>
+                            <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/list?${query}';">리스트</button>
                         </td>
                     </tr>
                 </table>

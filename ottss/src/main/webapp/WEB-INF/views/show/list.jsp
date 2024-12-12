@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 <link rel="icon" href="data:;base64;iVBORw0KGgo=">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/ottssCss/list.css"
@@ -39,11 +38,11 @@ function searchList() {
 
 		<main id="main">
 			<div class="mainInner">
-				<!-- 
+				
 				<div class="body-title">
                 <h3><i class="bi bi-app"></i> 자랑게시판 </h3>
             	</div>
-            	-->
+            	
 				<div class="listInner">
 					<ul class="listTitle">
 						<li>No.</li>
@@ -55,7 +54,7 @@ function searchList() {
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<ul class="listContent">
 							<li>${dataCount - (page - 1) * size - status.index}</li>
-							<li><a href="${articleUrl}&num=${dto.st_num}">${dto.title}</a></li>
+							<li><a href="${articleUrl}&st_num=${dto.st_num}">${dto.title}</a></li>
 							<li>${dto.nickname}</li>
 							<li>${dto.reg_date}</li>
 							<li>${dto.hitCount}</li>

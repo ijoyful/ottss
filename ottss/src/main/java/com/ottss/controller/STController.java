@@ -8,12 +8,12 @@ import java.rmi.ServerException;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.ottss.mvc.annotation.RequestMethod;
-import com.ottss.domain.SessionInfo;
 import com.ottss.dao.STDAO;
 import com.ottss.domain.STDTO;
+import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
+import com.ottss.mvc.annotation.RequestMethod;
 import com.ottss.mvc.view.ModelAndView;
 import com.ottss.util.FileManager;
 import com.ottss.util.MyMultipartFile;
@@ -66,7 +66,7 @@ public class STController {
 			}
 			
 			//전체 페이지 수
-			int size = 10;
+			int size = 5;
 			int total_page = util.pageCount(dataCount, size);
 			if(current_page > total_page) {
 				current_page = total_page;
@@ -123,8 +123,7 @@ public class STController {
 	}
 	
 	@RequestMapping(value = "/show/write", method = RequestMethod.GET)
-	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 
 		ModelAndView mav = new ModelAndView("show/write");
@@ -133,8 +132,7 @@ public class STController {
 	}
 	
 	@RequestMapping(value = "/show/write", method = RequestMethod.POST)
-	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글등록하기 : 넘어온 파라미터 - subject, content
 
 		STDAO dao = new STDAO();
@@ -170,9 +168,170 @@ public class STController {
 	
 	@RequestMapping(value="/show/article", method =RequestMethod.GET)
 	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		return new ModelAndView("show/article");
+		//글보기
+		
+		STDAO dao = new STDAO();
+		MyUtil util = new MyUtilBootstrap();
+		
+		String page = req.getParameter("page");
+		String query = "page=" + page;
+		
+		try {
+			long num = Long.parseLong(req.getParameter("st_num"));
+			String schType = req.getParameter("schType");
+			String kwd = req.getParameter("kwd");
+			if(schType == null) {
+				schType ="all";
+				kwd="";
+			}
+			kwd = URLDecoder.decode(kwd,"utf-8");
+			if(kwd.length() != 0) {
+				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd,"UTF-8");
+			}
+			
+			dao.updateHitCount(num);
+			
+			STDTO dto = dao.findById(num);
+			if (dto == null) {
+				return new ModelAndView("redirect:/show/list?" + query);
+			}
+			dto.setContent(util.htmlSymbols(dto.getContent())); //???
+			
+			STDTO prevDto = dao.findByPrev(dto.getSt_num(), schType, kwd);
+			STDTO nextDto = dao.findByNext(dto.getSt_num(), schType, kwd);
+			
+			ModelAndView mav = new ModelAndView("show/article");
+			
+			mav.addObject("dto", dto);
+			mav.addObject("page", page);
+			mav.addObject("query", query);
+			mav.addObject("prevDto", prevDto);
+			mav.addObject("nextDto", nextDto);
+			
+			return mav;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		return new ModelAndView("redirect:/show/list?" + query);
 	
 	}
+	
+	
+	@RequestMapping(value="/show/update", method =RequestMethod.GET)
+	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//수정폼
+		STDAO dao = new STDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		
+		try {
+			long num = Long.parseLong(req.getParameter("st_num"));
+			STDTO dto = dao.findById(num);
+			
+			if(dto == null) {
+				return new ModelAndView("redirect:/show/list?page=" + page);
+			}
+			
+			if (!dto.getId().equals(info.getId())) {
+				return new ModelAndView("redirect:/bbs/list?page=" + page);
+			}
+			
+			ModelAndView mav = new ModelAndView("show/write");
+			mav.addObject("dto", dto);
+			mav.addObject("page", page);
+			mav.addObject("mode", "update");
+
+			return mav;			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/show/list?page=" + page);
+	}
+	
+	
+	@RequestMapping(value = "/show/update", method = RequestMethod.POST)
+	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// 수정 완료
+		STDAO dao = new STDAO();
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		String page = req.getParameter("page");
+		try {
+			STDTO dto = new STDTO();
+
+			dto.setSt_num(Long.parseLong(req.getParameter("st_num")));
+			dto.setTitle(req.getParameter("title"));
+			dto.setContent(req.getParameter("content"));
+
+			dto.setId(info.getId());
+			
+			
+			dao.updateST(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("redirect:/show/list?page=" + page);
+	}
+	
+	@RequestMapping(value = "/show/delete", method = RequestMethod.GET)
+	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//삭제
+		STDAO dao = new STDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		String query = "page=" + page;
+		
+		try {
+			long num = Long.parseLong(req.getParameter("st_num"));
+			String schType = req.getParameter("schType");
+			String kwd = req.getParameter("kwd");
+			if (schType == null) {
+				schType = "all";
+				kwd = "";
+			}
+			kwd = URLDecoder.decode(kwd, "utf-8");
+			
+			if (kwd.length() != 0) {
+				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "UTF-8");
+			}
+			
+			dao.deleteST(num, info.getId(), info.getPowerCode());	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/show/list?" + query);
+	}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
