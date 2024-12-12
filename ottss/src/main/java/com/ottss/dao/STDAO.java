@@ -10,32 +10,65 @@ import java.util.List;
 import com.ottss.domain.STDTO;
 import com.ottss.util.DBConn;
 import com.ottss.util.DBUtil;
+import com.ottss.util.MyMultipartFile;
 
 public class STDAO {
 	public Connection conn = DBConn.getConnection();
 	
 	public void insertST(STDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql;
 		
 		try {
+			conn.setAutoCommit(false);
+			//테이블 참조하는 컬럼이 시퀀스라 시퀀스만 미리 저장
+			sql = "SELECT st_seq.NEXTVAL FROM dual";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setSt_num(rs.getInt(1));
+			}
+			
+			pstmt.close();
+			pstmt = null;
+			
 			sql = "INSERT INTO show_tip_board (st_num, title, content, reg_date, mod_date, blind, hitcount, board_type, id) "
-					+ "VALUES (st_seq.NEXTVAL, ?, ?, SYSDATE, SYSDATE, 0, 0, 'showing', ? )";
+					+ "VALUES (?, ?, ?, SYSDATE, SYSDATE, 0, 0, 'showing', ? )";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setString(2, dto.getContent());
-			pstmt.setString(3, dto.getId());
-			//pstmt.setString(4, "ip주소");
-			
-			
+			pstmt.setLong(1, dto.getSt_num());
+			pstmt.setString(2, dto.getTitle());
+			pstmt.setString(3, dto.getContent());
+			pstmt.setString(4, dto.getId());
+			//pstmt.setString(5, "ip주소");
 			pstmt.executeUpdate();
 			
-		} catch (Exception e) {
+			pstmt.close();
+			pstmt = null;
+			
+			sql = "INSERT INTO show_tip_file (file_Num, s_fileName, c_fileName, st_num)"
+					+ " VALUES (st_file_seq.NEXTVAL, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			for (MyMultipartFile m : dto.getListFile()) {
+				pstmt.setString(1, m.getSaveFilename());
+				pstmt.setString(2, m.getOriginalFilename());
+				pstmt.setLong(3, dto.getSt_num());
+				pstmt.executeUpdate();
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			DBUtil.rollback(conn);
 			e.printStackTrace();
+			throw e;
 		} finally {
 			DBUtil.close(pstmt);
+			try {
+				conn.setAutoCommit(true);
+			} catch (Exception e2) {
+			}
+		
 		}
 	}	
 

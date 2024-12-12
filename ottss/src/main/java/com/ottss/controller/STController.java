@@ -1,5 +1,6 @@
 package com.ottss.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -14,6 +15,8 @@ import com.ottss.domain.STDTO;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
 import com.ottss.mvc.view.ModelAndView;
+import com.ottss.util.FileManager;
+import com.ottss.util.MyMultipartFile;
 import com.ottss.util.MyUtil;
 import com.ottss.util.MyUtilBootstrap;
 
@@ -138,17 +141,24 @@ public class STController {
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
+		
+		//파일 처리
+		FileManager filemanager = new FileManager();
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "show";
+		
 		try {
 			STDTO dto = new STDTO();
 
 			// id는 세션에 저장된 정보
 			dto.setId(info.getId());
-			
 			// 파라미터
 			dto.setTitle(req.getParameter("title"));
 			dto.setContent(req.getParameter("content"));
-
+			
+			List<MyMultipartFile> listFile = filemanager.doFileUpload(req.getParts(), pathname);
+			dto.setListFile(listFile);
+			
 			dao.insertST(dto);
 		} catch (Exception e) {
 			e.printStackTrace();

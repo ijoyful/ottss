@@ -22,6 +22,7 @@
 	right: 0;
 	bottom: 0;
 }
+
 </style>
 
 <script type="text/javascript">
@@ -38,7 +39,11 @@ function searchList() {
 
 		<main id="main">
 			<div class="mainInner">
-				<h1>자랑 게시판</h1>
+				<!-- 
+				<div class="body-title">
+                <h3><i class="bi bi-app"></i> 자랑게시판 </h3>
+            	</div>
+            	-->
 				<div class="listInner">
 					<ul class="listTitle">
 						<li>No.</li>

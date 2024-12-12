@@ -44,7 +44,7 @@ function sendOk() {
 	<main id="main">
 		<div class="mainInner">
 			<div class="writeInner">
-				<form name="boardForm" method="post">
+				<form name="boardForm" method="post" enctype="multipart/form-data">
 					<ul>
 						<li class="listTitle">제목</li>
 						<li class="listContent"><input type="text" name="title" value="${dto.title}"></li>
@@ -59,7 +59,7 @@ function sendOk() {
 					</ul>
 					<ul>
 						<li class="listTitle">첨부파일</li>
-						<li class="listContent"><input type="file"></li>
+						<li class="listContent"><input type="file" name="selectFile"></li>
 					</ul>
 
 
