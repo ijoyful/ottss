@@ -2,7 +2,10 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 
+<title>삼식이네 놀이터</title>
+
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/ottssImg/ottssLogo.ico"> <!-- title icon -->
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/icon/bootstrap-icons.css" type="text/css">
