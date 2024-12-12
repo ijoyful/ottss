@@ -145,8 +145,8 @@ public class Freecontroller {
 				List<MyMultipartFile> listFile = fileManager.doFileUpload(req.getParts(), pathname);
 				dto.setListFile(listFile);
 
-				long fb_num = dao.insertBoard(dto);
-				return new ModelAndView("redirect:/freeboard/article?page=1&size=" + size + "&num=" + fb_num);
+				long num = dao.insertBoard(dto);
+				return new ModelAndView("redirect:/freeboard/article?page=1&size=" + size + "&num=" + num);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -192,6 +192,7 @@ public class Freecontroller {
 			List<FreeDTO> listFile = dao.listFreeFile(num);
 
 			ModelAndView mav = new ModelAndView("freeboard/article");
+			
 			mav.addObject("dto", dto);
 			mav.addObject("prevDTO", prevDTO);
 			mav.addObject("nextDTO", nextDTO);

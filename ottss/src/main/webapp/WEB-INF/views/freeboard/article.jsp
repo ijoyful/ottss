@@ -61,15 +61,14 @@
 						</tr>
 						
 						<tr>
-						<c:forEach var="vo" items="${listFreeFile}" varStatus="status">
 							<td colspan="2">
-								<img src="${pageContext.request.contextPath}/uploads/freeboard/{dto.{c_FileName}" >
+								<c:forEach var="vo" items="${listFreeFile}" varStatus="status">
 									<p class="border text-secondary mb-1 p-2">
 										<i class="bi bi-folder2-open"></i>
 										<a href="${pageContext.request.contextPath}/freeboard/download?fileNum=${vo.fileNum}">${vo.c_fileName}</a>
 									</p>
+								</c:forEach>
 							</td>
-						</c:forEach>
 						</tr>
 						<tr>
 							<td colspan = "2"> 다음글 :

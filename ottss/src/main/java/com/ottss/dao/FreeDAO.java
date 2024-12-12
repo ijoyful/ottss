@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ottss.domain.FreeComDTO;
 import com.ottss.domain.FreeDTO;
 import com.ottss.util.DBConn;
 import com.ottss.util.DBUtil;
@@ -291,7 +292,7 @@ public class FreeDAO {
 	}
 	
 	// 해당 게시물 보기
-	public FreeDTO findById(long fb_num) {
+	public FreeDTO findById(long num) {
 		FreeDTO dto = null;
 		
 		PreparedStatement pstmt = null;
@@ -307,7 +308,7 @@ public class FreeDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1,fb_num);
+			pstmt.setLong(1,num);
 			
 			rs = pstmt.executeQuery();
 			
@@ -445,18 +446,20 @@ public class FreeDAO {
 	}
 	
 	// 파일 리스트 
-	public List<FreeDTO> listFreeFile(long num){
+	public List<FreeDTO> listFreeFile(long fb_num){
 		List<FreeDTO> list = new ArrayList<FreeDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
-			sql = "SELECT file_Num, s_fileName, c_fileName, fb_num"
+			sql = "SELECT file_Num, s_fileName, c_fileName, fb_num "
 					+ " FROM free_file "
 					+ " WHERE fb_num = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, num);
+			
+			pstmt.setLong(1, fb_num);
+			
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -473,5 +476,171 @@ public class FreeDAO {
 		}
 		return list;
 	}
+	
+	// 댓글 저장
+	public void insertComment(FreeComDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+			
+		try {
+			sql = "INSERT INTO free_comment (fbc_num, content, reg_date, id, fb_num) "
+					+ " VALUES(fbc_seq.NEXTVAL, ?, SYSDATE, ?, ?) ";
+			pstmt = conn.prepareStatement(sql);
+				
+			pstmt.setString(1, dto.getContent());
+			pstmt.setString(2, dto.getId());
+			pstmt.setLong(3, dto.getFb_num());
+				
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	// 댓글 개수
+	public int dataCountComment(long fb_num) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT COUNT(*) FROM free_comment "
+					+ " WHERE fb_num = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, fb_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	// 게시글의 댓글 
+	public List<FreeComDTO> listComment(long fb_num, int offset, int size){
+		List<FreeComDTO> list = new ArrayList<FreeComDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append(" SELECT fc.fbc_num, p.id, p.nickname, fb.fb_num, ");
+			sb.append("		content, fbc.reg_date, ");
+			sb.append(" FROM free_comment fc ");
+			sb.append(" JOIN player p ON p.id = fc.id ");
+			sb.append(" JOIN free_board fb ON fb.fb_num = fc.fb_fb_num ");
+			sb.append(" WHERE fb_num = ? ");
+			sb.append(" ORDER BY fc.Num DESC ");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setLong(1, fb_num);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, size);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				FreeComDTO dto = new FreeComDTO();
+				dto.setFbc_num(rs.getLong("fbc_num"));
+				dto.setId(rs.getString("id"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setFb_num(rs.getLong("fb_num"));
+				dto.setContent(rs.getString("content"));
+				dto.setReg_date(rs.getString("reg_date"));
+				
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		return list;
+	}
+	
+	public FreeComDTO findByComId(long fbc_num) {
+		FreeComDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = " SELECT fbc_num, fb_num, fb.id, p.nickname, fbc.content, fbc.reg_date "
+					+ " FROM free_coment fc "
+					+ " JOIN player p ON p.id = fb.id "
+					+ " JOIN free_board fb ON fb.id = fbc.id "
+					+ " WHERE fbc_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, fbc_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new FreeComDTO();
+				
+				dto.setFbc_num(rs.getLong("fbc_num"));
+				dto.setFb_num(rs.getLong("fb_num"));
+				dto.setId(rs.getString("id"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setContent(rs.getString("content"));
+				dto.setReg_date(rs.getString("reg_date"));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return dto;
+	}	
+	
+	// 댓글 삭제
+	public void deleteComment(long fbc_num, String id, int powerCode ) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		if(powerCode < 98) {
+			FreeComDTO dto = findByComId(fbc_num);
+			if(dto == null || (! id.equals(dto.getId()))) {
+				return;
+			}
+		}
+		
+		try {
+			sql = "DELETE FROM free_comment WHERE fbc_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, fbc_num);
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	
 }

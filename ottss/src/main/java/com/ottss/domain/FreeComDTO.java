@@ -6,6 +6,14 @@ public class FreeComDTO { // 자유게시판 댓글 DTO
 	private String reg_date; // 댓글 작성일
 	private String id; // 작성자 아이디
 	private long fb_num; // 댓글을 작성한 게시글 번호
+	private String nickname;
+	
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public long getFbc_num() {
 		return fbc_num;
 	}
