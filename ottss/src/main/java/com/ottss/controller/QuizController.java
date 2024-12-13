@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
 import com.ottss.mvc.annotation.ResponseBody;
@@ -26,7 +27,14 @@ public class QuizController {
 		HttpSession session = req.getSession();
 		
 		try {
-			
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) {
+			model.put("state", "false");
+			return model;
+		}
+		
+		String userId = info.getId();
+	
 		} catch (Exception e) {
 
 		}

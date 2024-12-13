@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="games/quiz/quiz.css" type="text/css">
-<script type="text/javascript" src="games/quiz/quiz_data.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/games/quiz.css" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/games/quiz_data.js"></script>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 <style type="text/css">

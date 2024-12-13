@@ -40,7 +40,7 @@
 					<li><a href="${pageContext.request.contextPath}/">가위바위보</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/games/mole">두더지</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/games/roulette">룰렛</a></li>
-	        		<li><a href="${pageContext.request.contextPath}/games/quiz/quiz">퀴즈</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/games/quiz">퀴즈</a></li>
 				</ul>
 			</div>
 	        <div class="drop-down">
