@@ -41,7 +41,7 @@
 							</td>
 						</tr>
 					</thead>
-					
+
 					<tbody>
 						<tr>
 							<td width="50%">
