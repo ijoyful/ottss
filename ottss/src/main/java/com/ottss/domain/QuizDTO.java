@@ -7,6 +7,7 @@ public class QuizDTO { // 퀴즈 DB
 	private String choice1; // 선택지B
 	private String choice2; // 선택지C
 	private String choice3; // 선택지D
+	
 	public int getQuiz_num() {
 		return quiz_num;
 	}
