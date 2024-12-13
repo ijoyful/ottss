@@ -20,7 +20,16 @@ public class NoticeDTO {
 	private String s_fileName; // 서버에 저장된 파일
 	private String c_fileName; // 클라이언트가 저장한 파일명
 	private List<MyMultipartFile> listFile;
+	
+	// 현재시간 게시글 시간차이 구하는 거..
+	private long gap;
 
+	public long getGap() {
+		return gap;
+	}
+	public void setGap(long gap) {
+		this.gap = gap;
+	}
 	public int getNotice_status() {
 		return notice_status;
 	}

@@ -112,16 +112,35 @@
 					                <li>작성일</li>
 					                <li>조회수</li>
 					            </ul>
-					            <ul class="listContent">
-						            <li>
-						            	<input type="checkbox" class="form-check-input" name="nums" value="">
-						            </li>
-					                <li>1</li>
-					                <li>가위바위보 게임 확률 어떻게 되는거죠??</li>
-					                <li>비공개</li>
-					                <li>2024-12-02</li>
-					                <li>20</li>
-					            </ul>
+					            <c:forEach var="listNotice" items="${listNotice}">
+						            <ul class="listContent">
+							            <li>
+							            	<input type="checkbox" class="form-check-input" name="nums" value="${listNotice.n_num}">
+							            </li>
+						                <li>공지</li>
+						                <li>
+						                	<a href="${articleUrl}&num=${listNotice.n_num}">${listNotice.title}</a>
+					                	</li>
+						                <li>${listNotice.nickname}</li>
+						                <li>${listNotice.reg_date}</li>
+						                <li>${listNotice.hitCount}</li>
+						            </ul>
+					            </c:forEach>
+					            <c:forEach var="list" items="${list}" varStatus="status">
+						            <ul class="listContent">
+							            <li>
+							            	<input type="checkbox" class="form-check-input" name="nums" value="${list.n_num}">
+							            </li>
+						                <li>${dataCount-(page-1)*size-status.index}</li>
+						                <li>
+						                	<c:if test="${dto.gap<1}"><img src="${pageContext.request.contextPath}/resources/images/new.gif"></c:if>
+						                	<a href="${articleUrl}&num=${list.n_num}">${list.title}</a>
+					                	</li>
+						                <li>${list.nickname}</li>
+						                <li>${list.reg_date}</li>
+						                <li>${list.hitCount}</li>
+						            </ul>
+					            </c:forEach>
 					        </div>
 				        </form>
 				    </div> <!-- mainInner -->
