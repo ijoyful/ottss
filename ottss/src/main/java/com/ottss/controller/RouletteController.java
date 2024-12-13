@@ -19,13 +19,13 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class RouletteController {
-	@RequestMapping(value = "/game/roulette")
+	@RequestMapping(value = "/games/roulette")
 	public ModelAndView rouletteStart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		return new ModelAndView("game/roulette");
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/game/roulette")
+	@RequestMapping(value = "/games/roulette/start")
 	public Map<String, Object> startGame(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, Object> model = new HashMap<String, Object>();
 		HttpSession session = req.getSession();
