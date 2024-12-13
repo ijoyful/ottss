@@ -1,13 +1,5 @@
 @charset "UTF-8";
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
-* {
-  font-family: Pretendard;
-}
-
-body {
-  background: #f7f8fc;
-}
 
 canvas {
   transition: 2s;
@@ -31,7 +23,7 @@ button:active {
   color: #f9f9f9;
 }
  
-div {
+div.game-board {
   width: 380px;
   display: flex;
   align-items: center;
@@ -39,7 +31,7 @@ div {
   position: relative;
 }
 
-div::before {
+div.game-board::before {
   content: "";
   position: absolute;
   width: 10px;

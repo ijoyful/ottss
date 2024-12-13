@@ -8,16 +8,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
-
 <style type="text/css">
 .body-container {
 	max-width: 800px;
 }
 </style>
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/roulette.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 </head>
 <body>
+<header>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+</header>
 <main id="main">
 	<div class="mainInner">
 		<div class="title">
@@ -33,6 +35,7 @@
 	</div>
 </main>
 
-<script type="text/javascript" src="roulette2.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/roulette.js"></script>
+
 </body>
 </html>
