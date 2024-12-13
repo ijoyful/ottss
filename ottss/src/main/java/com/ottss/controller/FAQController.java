@@ -172,8 +172,12 @@ public class FAQController {
 			if (dto == null) {
 				return new ModelAndView("redirect:/faq/list?" + query);
 			}
+			dto.setQ_content(dto.getQ_content().replaceAll("<", "&lt;"));
+			dto.setQ_content(dto.getQ_content().replaceAll(">", "&gt;"));
 			dto.setQ_content(dto.getQ_content().replaceAll("\n", "<br>"));
 			if (dto.getA_content() != null) {
+				dto.setA_content(dto.getA_content().replaceAll("<", "&lt;"));
+				dto.setA_content(dto.getA_content().replaceAll(">", "&gt;"));
 				dto.setA_content(dto.getA_content().replaceAll("\n", "<br>"));
 			}
 
