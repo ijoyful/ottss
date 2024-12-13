@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class RouletteController {
+	@ResponseBody
 	@RequestMapping(value = "/games/roulette")
 	public ModelAndView rouletteStart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		return new ModelAndView("games/roulette");

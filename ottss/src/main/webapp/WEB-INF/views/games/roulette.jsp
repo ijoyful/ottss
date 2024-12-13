@@ -24,13 +24,13 @@
 	<div class="mainInner">
 		<div class="title">
 			<p>삼식이의 룰렛</p>
-			<p>획득 포인트 <span id="score">0p</span></p>
+			<p>배팅할 포인트: <input type="text" name="bet"></p>
+		</div>
+		<div class="btnWrap">
+			<button onclick="start();">룰렛 시작</button>
 		</div>
 		<div class="game-board">
 			<canvas width="380" height="380"></canvas>
-		</div>
-		<div class="btnWrap">
-			<button onclick="rotate();">룰렛 시작</button>
 		</div>
 	</div>
 </main>
