@@ -39,7 +39,7 @@
 				<ul class="dropdownMenu">
 					<li><a href="${pageContext.request.contextPath}/">가위바위보</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/games/mole">두더지</a></li>
-	        		<li><a href="${pageContext.request.contextPath}/games/roulette">룰렛</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/game/roulette">룰렛</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/">퀴즈</a></li>
 				</ul>
 			</div>
