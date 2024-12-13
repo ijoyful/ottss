@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
-<c:if test="${sessionScope.member.id==dto.id || sessionScope.member.powercode == 51}">
+<c:if test="${sessionScope.member.id==dto.id || sessionScope.member.powerCode == 99}">
 	<script type="text/javascript">
 		function deleteOk() {
 			if(confirm('게시글을 삭제 하시 겠습니까 ? ')) {
