@@ -17,9 +17,9 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class QuizController {
-	@RequestMapping("/games/quiz/quiz") // GET, POST 모두 처리
+	@RequestMapping("/games/quiz") // GET, POST 모두 처리
 	public ModelAndView quiz(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		return new ModelAndView("/games/quiz/quiz");
+		return new ModelAndView("/games/quiz");
 	}
 	
 	public Map<String, Object> startGame(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
