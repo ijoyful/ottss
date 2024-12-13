@@ -94,6 +94,7 @@ public class LoginFilter implements Filter {
 		// 로그인 체크를 하지 않아도 되는 URL
 		String[] uris = {
 			"/index.jsp", "/main",
+			"/login/member",
 			"/login/login", "/login/logout",
 			"/notice/list",
 			"/uploads/photo/**",
