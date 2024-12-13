@@ -18,6 +18,7 @@
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
+<!-- 에러 있어서 일단 주석  
 <c:if test="${sessionScope.member.id==dto.id || sessionScope.member.powerCode == 99}">
 	<script type="text/javascript">
 		function deleteOk() {
@@ -29,6 +30,7 @@
 		}
 	</script>
 </c:if>
+-->
 
 </head>
 <body>
@@ -59,7 +61,7 @@
                     <tbody>
                         <tr>
                             <td width="50%">
-                                이름 : ${dto.nickname}
+                                닉네임 : ${dto.nickname}
                             </td>
                             <td align="right">
                                 ${dto.reg_date} | 조회 ${dto.hitCount}
@@ -71,10 +73,12 @@
                                 ${dto.content}
                             </td>
                         </tr>
-                        
+          
                         <tr>
                             <td colspan="2" valign="top" height="200">
-                                파일자리요!!!!!!
+                                <c:forEach var="vo" items="${listFile}" varStatus="status">
+									<img src="${pageContext.request.contextPath}/uploads/show/${vo.s_fileName}" class="img-fluid img-thumbnail w-100 h-auto">
+								</c:forEach>
                             </td>
                         </tr>
                         
@@ -111,7 +115,7 @@
                             </c:choose>
                             
                             <c:choose>
-                            	<c:when test="${sessionScope.member.id==dto.id || sessionScope.member.powercode==99 }">
+                            	<c:when test="${sessionScope.member.id==dto.id || sessionScope.member.powerCode==99 }">
                             		<button type="button" class="btn btn-light"  onclick="deleteOk();">삭제</button>
                         		</c:when>
                         		<c:otherwise>
@@ -153,6 +157,72 @@
         </div>
     </div>
 </main>
+
+
+<script type="text/javascript">
+function login() {
+	location.href = '${pageContext.request.contextPath}/show/login';
+}	
+
+
+
+function ajaxFun(url, method, formData, dataType, fn, file=false){
+	const settings = {
+			type: method,
+			data: formData,
+			dataType: dataType,
+			success: function(data){
+				fn(data);
+			},
+			beforeSend: function(jqXHR) {
+				jqXHR.setRequestHeader('AJAX', true);
+			},
+			complete: function(){
+				
+			},
+			error: function(jqXHR){
+				if(jqXHR.status === 403){
+					login();
+					return false;
+				} else if (jqXHR.status === 406){
+					alert('요청 처리가 실패했습니다.');
+					return false;
+				}
+				console.log(jqXHR.responseText);
+			}
+	};
+	
+	if(file) {
+		settings.processData = false; // 파일 전송시 필수. 서버로 보낼 데이터를 쿼리문자열로 변환 여부
+		settings.contentType = false; // 파일 전송시 필수. 기본은 application/x-www-urlencoded
+	}
+
+	$.ajax(url, settings);
+}
+
+
+//이거랑 listPage가 있어야 나온다. ajax
+$(function() {
+	listPage(1);
+});
+
+function listPage(page) {
+	let url = '${pageContext.request.contextPath}/show/listReply';
+	let query ='st_num=${dto.st_num}&pageNo=' + page;
+	let selector = '#listReply';
+	
+	const fn = function(data) {
+		$(selector).html(data);
+	};
+	ajaxFun(url, 'get', query, 'text', fn);
+}
+
+
+
+
+</script>
+
+
 
 <footer>
     <!-- Static Footer Include -->

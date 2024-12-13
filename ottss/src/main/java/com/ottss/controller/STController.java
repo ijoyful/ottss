@@ -6,14 +6,18 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.rmi.ServerException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ottss.dao.STDAO;
+import com.ottss.domain.STComDTO;
 import com.ottss.domain.STDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
 import com.ottss.mvc.annotation.RequestMethod;
+import com.ottss.mvc.annotation.ResponseBody;
 import com.ottss.mvc.view.ModelAndView;
 import com.ottss.util.FileManager;
 import com.ottss.util.MyMultipartFile;
@@ -200,6 +204,9 @@ public class STController {
 			STDTO prevDto = dao.findByPrev(dto.getSt_num(), schType, kwd);
 			STDTO nextDto = dao.findByNext(dto.getSt_num(), schType, kwd);
 			
+			//파일
+			List<STDTO> listFile = dao.listSTFile(num);
+			
 			ModelAndView mav = new ModelAndView("show/article");
 			
 			mav.addObject("dto", dto);
@@ -207,6 +214,7 @@ public class STController {
 			mav.addObject("query", query);
 			mav.addObject("prevDto", prevDto);
 			mav.addObject("nextDto", nextDto);
+			mav.addObject("listFile", listFile);
 			
 			return mav;
 		} catch (Exception e) {
@@ -318,9 +326,95 @@ public class STController {
 	}	
 	
 	
+	// 댓글 저장 - AJAX - JSON
+	@ResponseBody
+	@RequestMapping(value = "/show/insertReply", method=RequestMethod.POST)
+	public Map<String, Object> insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		String state = "false";
+		STDAO dao = new STDAO();
+		HttpSession session = req.getSession();
+		
+		try {
+			
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			STComDTO dto = new STComDTO();
+			
+			dto.setStc_num(Long.parseLong(req.getParameter("stc_num")));
+			dto.setSt_num(Long.parseLong(req.getParameter("num")));
+			dto.setContent(req.getParameter("content"));
+			
+			dto.setId(info.getId());
+			
+			dao.insertReply(dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);
+		
+		return model;
+		
+	}
 	
-	
-	
+	// 댓글 리스트 - AJAX : Test
+	@RequestMapping(value = "/show/listReply", method = RequestMethod.GET)
+	public ModelAndView listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		//넘어오는 파라미터 : num, pageNo
+		
+		STDAO dao = new STDAO();
+		MyUtil util = new MyUtilBootstrap();
+		
+		//HttpSession session = req.getSession(); 댓글 좋아요 구현하려면 필요함!! id
+		
+		try {
+			//SessionInfo info = (SessionInfo)session.getAttribute("member"); 댓글 좋아요 구현하려면 필요함!!
+			long num = Long.parseLong(req.getParameter("st_num"));
+			String pageNo = req.getParameter("pageNo");
+			int current_page = 1;
+			if(pageNo != null) {
+				current_page = Integer.parseInt(pageNo);
+			}
+			int size = 5;
+			int total_page = 0;
+			int replyCount = 0;
+			
+			replyCount = dao.dataCountReply(num);
+			total_page = util.pageCount(replyCount, size);
+			if(current_page > total_page) {
+				current_page = total_page;
+			}
+			
+			int offset = (current_page -1)* size;
+			if(offset < 0) offset = 0;			
+			
+			List<STComDTO> list = dao.listReply(num, offset, size);
+			
+			for(STComDTO dto : list) {
+				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+			}
+			
+			String paging = util.pagingMethod(current_page, total_page, "listPage");
+			
+			ModelAndView mav = new ModelAndView("show/listReply");
+			mav.addObject("listReply", list);
+			mav.addObject("pageNo",current_page);
+			mav.addObject("replyCount", replyCount);
+			mav.addObject("total_page", total_page);
+			mav.addObject("paging", paging);
+			
+			return mav;			
+		} catch (Exception e) {
+
+			resp.sendError(406);
+			throw e;
+		}
+		
+		
+		
+	}
 	
 	
 	
