@@ -72,15 +72,15 @@
 						</tr>
 						<tr>
 							<td colspan = "2"> 다음글 :
-								<c:if test="${not empty prevDTO}">
-									<a href="${pageContext.request.contextPath}/freeboard/article?${query}&num=${prevDTO.fb_num}">${prevDTO.title}</a>
+								<c:if test="${not empty nextDTO}">
+									<a href="${pageContext.request.contextPath}/freeboard/article?${query}&fb_num=${nextDTO.fb_num}">${nextDTO.title}</a>
 								</c:if>
 							</td>
 						</tr>
 						<tr>
 							<td colspan = "2"> 이전글 :
-								<c:if test="${not empty nextDTO}">
-									<a href="${pageContext.request.contextPath}/freeboard/article?${query}&num=${nextDTO.fb_num}">${nextDTO.title}</a>
+								<c:if test="${not empty prevDTO}">
+									<a href="${pageContext.request.contextPath}/freeboard/article?${query}&num=${prevDTO.fb_num}">${prevDTO.title}</a>
 								</c:if>
 							</td>
 						</tr>
