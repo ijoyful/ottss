@@ -87,23 +87,22 @@ function ajaxFunc(url, method, formData, dataType, fn, file=false) {
 }
 
 const start = () => {
-	const $bet = $('input[name=bet]');
-	let bet = $bet.value;
+	const $bet = document.querySelector('input[name="bet"]');
+	var bet = $bet.value;
 	let url = cp + '/games/roulette/start';
 	const fn = function(data) {
 		if (data.state === "false") {
 			alert(data.message);
-			bet = '';
+			$bet.value = '';
 			$bet.focus();
 		} else {
-			rotate();
+			rotate(bet);
 		}
 	}
-
 	ajaxFunc(url, 'post', {bet: bet}, 'json', fn);
 }
 
-const rotate = () => {
+const rotate = (bet) => {
 	$c.style.transform = `initial`;
 	$c.style.transition = `initial`;
 	  
@@ -128,8 +127,16 @@ const rotate = () => {
 		
 		$c.style.transform = `rotate(-${rotate}deg)`;
 		$c.style.transition = `5s`;
-		console.log(rotate);
-		setTimeout(() => alert(`${product[i]}배에 당첨되셨습니다. 10 포인트의 ${product[i]}배인 ${10 * product[i]} 포인트를 얻습니다!`), 5000);
+		var result = product[i];
+		const fn = function(data) {
+			if (data.state === "false") {
+				alert('룰렛이 잠시 고장났다냥~ 불편을 끼쳐 미안하다냥ㅠ 조금 이따 다시 시도해달라냥!');
+				location.href = cp + '/games/roulette';
+			} else {
+				setTimeout(() => alert(`${result}배에 당첨되셨습니다. ${bet} 포인트의 ${product[i]}배인 ${bet * product[i]} 포인트를 얻습니다!`), 5000);				
+			}
+		}
+		ajaxFunc(cp + '/games/roulette/end', 'post', {win_point: bet * result, bet: bet, result: result, game_num: '3'}, 'json', fn);	
 	}, 1);
 };
 
