@@ -13,18 +13,18 @@
 	        <td width="50%">
 	            <div class="row reply-writer">
 	                <div class="col-auto align-self-center">
-	                    <div class="name">작성자</div>
+	                    <div class="name">${vo.nickname}</div>
 	                </div>
 	            </div>
 	        </td>
 	        <td width="50%" align="right" class="align-middle">
-	            <span>작성일</span> | 
+	            <span>${vo.reg_date}</span> | 
 	            <span class="deleteReply">삭제</span> |
 	            <span class="notifyReply">신고</span>
 	        </td>
 	    </tr>
 	    <tr>
-	        <td colspan="2" valign="top">댓글 내용</td>
+	        <td colspan="2" valign="top">${vo.content}</td>
 	    </tr>
 	
 	    <tr>
@@ -58,5 +58,5 @@
 </table>
 
 <div class="page-navigation">
-    페이지 네비게이션
+    ${replyCount==0?"등록된 게시글이 없습니다." : paging}
 </div>

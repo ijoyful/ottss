@@ -217,7 +217,50 @@ function listPage(page) {
 	ajaxFun(url, 'get', query, 'text', fn);
 }
 
+$(function() {
+	$('.btnSendReply').click(function() {
+		const $tb = $(this).closest('table');
+		let content = $tb.find('textarea').val().trim();
+		
+		if(! content){
+			$tb.find('textarea').focus();
+			return false;
+		}
+		
+		let st_num = '${dto.st_num}';
+		let url = '${pageContext.request.contextPath}/show/insertReply';
+		let query = {st_num:st_num, content:content, parentNum:0};
+					//formDate를 객체로 처리하면 content를 인코딩하면 안된다.
+					
+		const fn = function(data) {
+			if(data.state === 'true'){
+				$tb.find('textarea').val('');
+				listPage(1);
+			} else {
+				alert('댓글 등록이 실패 했습니다.');
+			}
+		};
+		
+		ajaxFun(url, 'post', query, 'json', fn);
+		
+		
+		
+	});
+	
+	
+	
+});
 
+function listPage(page) {
+	let url = '${pageContext.request.contextPath}/show/listReply';
+	let query ='st_num=${dto.st_num}&pageNo=' + page;
+	let selector = '#listReply';
+	
+	const fn = function(data) {
+		$(selector).html(data);
+	};
+	ajaxFun(url, 'get', query, 'text', fn);
+}
 
 
 </script>

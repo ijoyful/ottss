@@ -6,6 +6,14 @@ public class STComDTO { // 자랑/분석게시판 게시글 댓글
 	private String reg_date; // 댓글 작성일
 	private String id; // 댓글 작성자 아이디
 	private long st_num; // 댓글을 작성한 게시글
+	private String nickname;
+	
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public long getStc_num() {
 		return stc_num;
 	}

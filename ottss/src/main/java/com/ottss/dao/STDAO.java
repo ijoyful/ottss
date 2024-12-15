@@ -592,6 +592,7 @@ public class STDAO {
 				dto.setStc_num(rs.getLong("stc_num"));
 				dto.setContent(rs.getString("content"));
 				dto.setReg_date(rs.getString("reg_date"));
+				dto.setNickname(rs.getString("nickname"));
 				dto.setId(rs.getString("id"));
 				dto.setSt_num(rs.getLong("st_num"));
 			}
