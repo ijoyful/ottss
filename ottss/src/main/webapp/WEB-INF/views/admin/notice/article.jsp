@@ -8,6 +8,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <jsp:include page="/WEB-INF/views/admin/layout/staticHeader.jsp"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ottssCss/write.css" type="text/css">
+<script type="text/javascript">
+	
+	function deleteBoard() {
+		if(confirm('게시글을 삭제하시겠습니까?')) {
+			let query = 'num=${dto.n_num}&${query}';
+			let url = '${pageContext.request.contextPath}/admin/notice/delete?' + query;
+			location.href = url;
+		}
+	}
+	
+</script>
 </head>
 <body>
 
@@ -37,26 +48,40 @@
 			                </ul>
 			                <ul class="content">
 			                    <li class="listTitle">내용</li>
-			                    <li class="listContent"><textarea>${dto.content}</textarea></li>
+			                    <li class="listContent"><textarea readonly>${dto.content}</textarea></li>
 			                </ul>
 			                <ul>
 			                    <li class="listTitle">첨부파일</li>
-			                    <li class="listContent"></li>
+			                    <li class="listContent">
+			                    	<c:forEach var="vo" items="${listFile}" varStatus="status">
+			                    		<a href="${pageContext.request.contextPath}/admin/notice/download?fileNum=${vo.fileNum}">${vo.fileNum}</a>
+			                    	</c:forEach>
+			                    </li>
 			                </ul>
+					        <ul>
+					        	<li class="listTitle">이전글</li>
+			                    <li class="listContent">
+			                    	<c:if test="${not empty prevDto}">
+			                    		<a href="${pageContext.request.contextPath}/admin/notice/article?${query}&num=${prevDto.n_num}">${prevDto.title}</a>
+			                    	</c:if>
+			                    </li>
+					        </ul>
+					        <ul>
+					        	<li class="listTitle">다음글</li>
+			                    <li class="listContent">
+			                    	<c:if test="${not empty NextDto}">
+			                    		<a href="${pageContext.request.contextPath}/admin/notice/article?${query}&num=${NextDto.n_num}">${NextDto.title}</a>
+			                    	</c:if>
+			                    </li>
+					        </ul>
 				        </div>
-				        <ul>
-				        	<li>이전글</li>
-				        </ul>
-				        <ul>
-				        	<li>다음글</li>
-				        </ul>
 				        
-				        <%-- <table class="table table-borderless">
+				        <table class="table table-borderless">
 							<tr>
 								<td width="50%">
 									<c:choose>
-										<c:when test="${sessionScope.member.userId == dto.userId}">
-											<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/notice/update?num=${dto.num}&page=${page}&size=${size}';">수정</button>
+										<c:when test="${sessionScope.member.id == dto.id}">
+											<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/notice/update?num=${dto.n_num}&page=${page}&size=${size}';">수정</button>
 										</c:when>
 										<c:otherwise>
 											<button type="button" class="btn btn-light" disabled>수정</button>
@@ -69,7 +94,7 @@
 									<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/notice/list?${query}';">리스트</button>
 								</td>
 							</tr>
-						</table> --%>
+						</table>
 				    </div> <!-- mainInner -->
 				</div>
 			</div>		

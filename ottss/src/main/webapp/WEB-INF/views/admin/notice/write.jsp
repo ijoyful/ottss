@@ -16,16 +16,16 @@
 	    const f = document.noticeForm;
 		let str;
 		
-	    str = f.subject.value.trim();
+	    str = f.title.value.trim();
 	    if(!str) {
-	        alert('제목을 입력하세요. ');
-	        f.subject.focus();
+	        alert('제목을 입력하세요.');
+	        f.title.focus();
 	        return;
 	    }
 	
 	    str = f.content.value.trim();
 	    if(!str) {
-	        alert('내용을 입력하세요. ');
+	        alert('내용을 입력하세요.');
 	        f.content.focus();
 	        return;
 	    }
@@ -40,7 +40,7 @@
 				return;
 			}
 			
-			let qs = 'num=${dto.num}&fileNum=' + fileNum + '&page=${page}&size=${size}';
+			let qs = 'num=${dto.n_num}&fileNum=' + fileNum + '&page=${page}&size=${size}';
 			let url = '${pageContext.request.contextPath}/admin/notice/deleteFile?' + qs;
 			location.href = url;
 		}
@@ -61,7 +61,7 @@
 				            <form name="noticeForm" method="post" enctype="multipart/form-data">
 				                <ul>
 				                    <li class="listTitle">제목</li>
-				                    <li class="listContent"><input type="text" name="subject" value="${dto.subject}"></li>
+				                    <li class="listContent"><input type="text" name="title" value="${dto.title}"></li>
 				                </ul>
 				                <ul>
 				                    <li class="listTitle">공지 여부</li>
@@ -89,8 +89,8 @@
 											<li class="bg-light col-sm-2">첨부된파일</li>
 											<li>
 												<p class="form-control-plaintext">
-													<a href="javascript:deleteFile('${vo.fileNum}')"><i class="bi bi-trash"></i></a>
-													${vo.originalFilename}
+													<a href="javascript:deleteFile('${vo.file_num}')"><i class="bi bi-trash"></i></a>
+													${vo.c_filename}
 												</p>
 											</li>
 										</ul>
@@ -105,7 +105,7 @@
 											<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/notice/list?size=${size}';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 											<input type="hidden" name="size" value="${size}">
 											<c:if test="${mode=='update'}">
-												<input type="hidden" name="num" value="${dto.num}">
+												<input type="hidden" name="n_num" value="${dto.n_num}">
 												<input type="hidden" name="page" value="${page}">
 											</c:if>
 										</td>

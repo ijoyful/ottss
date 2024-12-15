@@ -144,6 +144,8 @@
 					        </div>
 				        </form>
 				    </div> <!-- mainInner -->
+				    
+					<div class="page-navigation">${dataCount != 0 ? paging : "등록된 게시글이 없습니다."}</div>
 					
 					<div class="row board-list-footer">
 						<div class="col">
@@ -174,9 +176,6 @@
 						</div>
 					</div>
 									
-					<div class="page-navigation">
-						${dataCount != 0 ? paging : "등록된 게시글이 없습니다."}
-					</div>
 				</div>
 			</div>		
 		</div>
