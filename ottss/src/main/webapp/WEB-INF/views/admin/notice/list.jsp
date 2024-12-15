@@ -117,7 +117,7 @@
 							            <li>
 							            	<input type="checkbox" class="form-check-input" name="nums" value="${listNotice.n_num}">
 							            </li>
-						                <li>공지</li>
+						                <li><span style="background-color: #edc239; padding: 5px; border-radius: 5px;">공지</span></li>
 						                <li>
 						                	<a href="${articleUrl}&num=${listNotice.n_num}">${listNotice.title}</a>
 					                	</li>
