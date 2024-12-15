@@ -99,7 +99,7 @@ public class MoleController {
             // MoleGameDAO와 MoleGameDTO 객체 생성
             MoleGameDAO dao = new MoleGameDAO();
             MoleGameDTO dto = new MoleGameDTO();
-
+            
             // 요청 파라미터 받아오기
             String userId = info.getId();
             int usedPoint = Integer.parseInt(req.getParameter("usedPoint"));
@@ -121,10 +121,15 @@ public class MoleController {
             // 상태를 "true"로 설정
             state = "true";
             
-            model.put("message", "게임이 종료되었습니다. 사용 포인트: " + usedPoint + ", 얻은 포인트: " + winPoint);
+           // model.put("message", "게임이 종료되었습니다. 사용 포인트: " + usedPoint + ", 얻은 포인트: " + winPoint);
             model.put("newPoint", newPoint);  // 새로 갱신된 포인트 추가
+            model.put("usedPoint", usedPoint);
+            model.put("winPoint", winPoint);
+            model.put("gameNum", gameNum);
+            model.put("result: ", result);
         } catch (Exception e) {
             e.printStackTrace();
+            
             model.put("state", state);
             model.put("message", "게임 종료 중 오류가 발생했습니다.");
         }

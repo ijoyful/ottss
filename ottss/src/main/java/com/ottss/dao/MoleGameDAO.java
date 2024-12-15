@@ -133,27 +133,40 @@ public class MoleGameDAO {
         String sql1, sql2;
 
         try {
-        	System.out.println("Params: " + dto.getUsedPoint() + ", " + dto.getWinPoint() + ", " + dto.getId());
             // 첫 번째 INSERT: play_record에 게임 기록 저장
             sql1 = "INSERT INTO play_record (play_num, play_date, used_point, win_point, result, id, game_num) "
-                    + "VALUES (play_seq.NEXTVAL, SYSDATE, ?, ?, 1, ?, 1)";
+                    + "VALUES (play_seq.NEXTVAL, SYSDATE, ?, ?, ?, ?, ?)";
+            
+            
             pstmt1 = conn.prepareStatement(sql1);
-
+           
             pstmt1.setInt(1, dto.getUsedPoint());    // 사용한 포인트
             pstmt1.setInt(2, dto.getWinPoint());     // 얻은 포인트
-            pstmt1.setString(3, dto.getId());        // 사용자 ID
+            pstmt1.setString(3, dto.getResult());        // 사용자 ID
+            pstmt1.setString(4, dto.getId());        // 사용자 ID
+            pstmt1.setInt(5, dto.getGameNum());        // 사용자 ID
 
             pstmt1.executeUpdate(); // play_record 테이블에 쿼리 실행
-
+            
             // 두 번째 INSERT: point_record에 포인트 기록 저장
             sql2 = "INSERT INTO point_record (pt_num, categories, point, left_pt, pt_date, id) "
                     + "VALUES (pt_seq.NEXTVAL, 1, ?, ?, SYSDATE, ?)";
             pstmt2 = conn.prepareStatement(sql2);
+            
+            System.out.println(pstmt2);
 
-            int pointDifference = dto.getWinPoint() - dto.getUsedPoint(); // 얻은 포인트 - 사용한 포인트
+            int pointDifference = dto.getWinPoint() - dto.getUsedPoint();
+
             pstmt2.setInt(1, pointDifference);  // 기록할 포인트 차이
-            pstmt2.setInt(2, dto.getUsedPoint()); // 남은 포인트 계산 값 (이 예시는 left_pt로 계산)
+            pstmt2.setInt(2, dto.getUserPoint()); // 
             pstmt2.setString(3, dto.getId()); // 사용자 ID
+            
+//            int pointDifference = dto.getWinPoint() - dto.getUsedPoint(); // 얻은 포인트 - 사용한 포인트
+//            int leftPoint = dto.getUserPoint() - 10;
+//            
+//            pstmt2.setInt(1, pointDifference);  // 기록할 포인트 차이
+//            pstmt2.setInt(2, leftPoint); // 
+//            pstmt2.setString(3, dto.getId()); // 사용자 ID
 
             pstmt2.executeUpdate(); // point_record 테이블에 쿼리 실행
 

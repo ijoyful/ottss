@@ -153,14 +153,14 @@
                 </tr>
                 <tr>
                     <th>획득 포인트</th>
-                    <td id="final-score">${score}</td>
+                    <td id="final-score">${winPoint}</td>
                 </tr>
                 <tr>
                     <th>현재 보유 포인트</th>
                     <td id="current-point">${userPoint}</td>  <!-- 현재 포인트 표시 -->
                 </tr>
             </table>
-            <div class="okBtn"><button onclick="restartGame()">확인</button></div>
+            <div class="okBtn"><button type="button" onclick="restartGame()">확인</button></div>
         </div>
     </div>
 
@@ -171,7 +171,7 @@
                 <p>게임에 참여한 포인트를 잃게 됩니다.</p>
                 <p>정말 종료하시겠습니까?</p>
             </div>
-            <div class="okBtn"><button onclick="closeWarning()">확인</button></div>
+            <div class="okBtn"><button type="button" onclick="closeWarning()">확인</button></div>
         </div>
     </div>
 
@@ -241,10 +241,11 @@ function showMole() {
     if (activeMole) {
         clearInterval(gameInterval);
         finalScoreDisplay.textContent = `${score}p`;
-        gameOverPopup.style.display = 'block';
+//         gameOverPopup.style.display = 'block';
         startButton.disabled = false; // 게임 종료 후 게임 시작 버튼 활성화
         gameOver = true;
         state = false; // 게임 종료 상태로 변경
+        endGame();
         return;
     }
 
@@ -253,7 +254,7 @@ function showMole() {
     activeMole = mole;
 
     mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/mole.png')`;
-
+    mole.style.backgroundImage.includes = `url('${pageContext.request.contextPath}/resources/images/moletest/legendmole.png')`;
     moleTimeout = setTimeout(() => {
         mole.classList.remove('up');
         mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/moledie.png')`;
@@ -280,6 +281,7 @@ function showMole() {
                     score++;
                 }
                 scoreDisplay.textContent = score;
+                
 
                 mole.classList.remove('up');
                 mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/moledie.png')`;
@@ -295,33 +297,40 @@ function showMole() {
         const winPoint = score;  // 게임에서 얻은 포인트
         const gameNum = 1;  // 게임 번호
         const result = "win";  // 결과
+        
+        let url = '${pageContext.request.contextPath}/games/mole/end';
+        let formData = {
+            usedPoint: usedPoint,
+            winPoint: winPoint,
+           	gameNum: gameNum,
+           	result: result
+        };
+        
         $.ajax({
-            url: "${pageContext.request.contextPath}/games/mole/end",  // 서버 요청 URL
+            url: url,  // 서버 요청 URL
             type: "POST",  // POST 요청
             dataType: "json",  // 서버에서 JSON 형식으로 응답 받음
-            data: {
-                usedPoint: usedPoint,
-                winPoint: winPoint,
-               	gameNum: gameNum,
-               	result: result
-            },
+            data: formData,
             success: function(response) { 
-            	alert(response.state);
+            	gameOverPopup.style.display = 'block';
+//             	console.log('일단 들어옴');    	
+//             	console.log(response)
                 if (response.state === "true") {
                     // 게임 종료 성공 시 포인트와 메시지 출력
-                    $('#final-score').text(response.newPoint + "p");
+                     $('#final-score').text(response.winPoint + "p");
                     $('#current-point').text(response.newPoint + "p");
-                    alert(usedPoint);
-                    alert(winPoint);
-                    alert("게임이 종료되었습니다! 사용 포인트: " + usedPoint + "p, 얻은 포인트: " + winPoint + "p");
-                } else {
-                    alert("게임 종료에 실패했습니다: " + response.message);
-                }
+//                     alert(usedPoint);
+//                      alert(winPoint);
+//                      alert("게임이 종료되었습니다! 사용 포인트: " + usedPoint + "p, 얻은 포인트: " + winPoint + "p");
+                 } else {
+                     alert("게임 종료에 실패했습니다: " + response.message);
+                 }
             },
-            error: function() {
-                alert("서버 오류가 발생했습니다.");
+            error: function(e) {
+                console.log(e.responseText);
             }
         });
+        
     }
 
     // 게임 종료 후 버튼 클릭 시 처리
