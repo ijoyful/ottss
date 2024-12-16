@@ -122,7 +122,7 @@ body {
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 	<div class="container">
 	<div class="container-header">
-		<h1> Q U I Z </h1>
+		<h1> 삼식이의 퀴즈 </h1>
 		<button type="button" onclick="quizstart()" class="btn btn-start btn-lg">S T A R T</button>
 	</div>
 	
@@ -164,11 +164,11 @@ function quizstart() {
 
 	  // START 버튼 비활성화
 	  document.querySelector("button[onclick='quizstart()']").disabled = true;
+	};	
+</script>
 
-	  // 퀴즈 초기화 및 타이머 시작
-	  initializeQuiz(); // 퀴즈 데이터를 초기화하고 첫 문제 출력
-	  startQuizTimer(); // 타이머 시작 (이미 구현된 타이머 함수 호출)
-	}
+<script type="text/javascript">
+
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/quiz_data.js"></script>
 </body>

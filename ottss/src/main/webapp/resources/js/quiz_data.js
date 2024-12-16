@@ -362,7 +362,12 @@ window.addEventListener('load', () => {
 });
 
 // 슬라이더
-window.addEventListener('load', () => {
+const btnStartEl = document.querySelector('.btn-start');
+
+btnStartEl.addEventListener('click', () => {
+	if(! confirm('퀴즈를 시작하시겠습니까? 10포인트가 소모됩니다. ')) {
+				return;
+			}
 	const sliderWrapEl = document.querySelector('div.slider-wrap');
 	const itemListsEls = document.querySelectorAll('.slider-content > .slider-wrap > .item');
 	if(itemListsEls.length === 0) {
@@ -412,7 +417,7 @@ window.addEventListener('load', () => {
 	const btnSubmitEL = document.querySelector("button.btnSubmit");
 	const timerEL = document.querySelector("div.timer");
 	
-	let timeLimit = 86400;  // 제한시간(2분)
+	let timeLimit = 120;  // 제한시간(2분)
 	
 	// 타이머
 	const quizRemaining = () => {
@@ -459,9 +464,10 @@ window.addEventListener('load', () => {
 			
 			if(select === 0) select = '선택안함';
 			
-			htmlText += `<p class="scoring-result">${num+1}번 정답 : ${correct} → ${select}, ${bResult ? "○":"×"}</p>`;
+			// htmlText += `<p class="scoring-result">${num+1}번 정답 : ${correct} → ${select}, ${bResult ? "○":"×"}</p>`;
 		}
-		htmlText += `<p class="scoring-result">점수 : ${count * 20}점</p>`;
+		htmlText += `<p class="scoring-result"> 정답 : ${count}/30개</p>`;
+		htmlText += `<p class="scoring-result"> 획득 포인트 : ${count*2}점</p>`;
 		
 		containerEl.innerHTML = htmlText;
 	};
