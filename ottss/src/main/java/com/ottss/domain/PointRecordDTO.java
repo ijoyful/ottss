@@ -3,6 +3,7 @@ package com.ottss.domain;
 public class PointRecordDTO { // 포인트 내역
 	private long pt_num; // 포인트 내역 번호. 시퀀스 pt_seq
 	private int categories; // 포인트 사용 카테고리. 소비: 0x 획득: 1x
+	private String category;
 	private int point; // 포인트
 	private int left_point; // 잔여 포인트
 	private String pt_date; // 포인트 내역 발생 날짜
@@ -18,6 +19,12 @@ public class PointRecordDTO { // 포인트 내역
 	}
 	public void setCategories(int categories) {
 		this.categories = categories;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	public int getPoint() {
 		return point;

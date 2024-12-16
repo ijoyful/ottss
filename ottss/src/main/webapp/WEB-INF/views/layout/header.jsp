@@ -50,7 +50,7 @@
 	        		<li><a href="${pageContext.request.contextPath}/freeboard/list">자유게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/">분석게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/show/list">자랑게시판</a></li>
-	        		<li><a href="${pageContext.request.contextPath}/faq/list">FAQ</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/qna/list">QnA</a></li>
 	        	</ul>
 	        </div>
 	        <div class="drop-down">

@@ -28,7 +28,7 @@
 	<div class="container">
 		<div class="body-container">	
 			<div class="body-title">
-				<h3><i class="bi bi-clipboard"></i> FAQ </h3>
+				<h3><i class="bi bi-clipboard"></i> QnA </h3>
 			</div>
 			
 			<div class="body-main">
@@ -113,7 +113,7 @@
 							<td colspan="2">
 								다음글 :
 								<c:if test="${not empty prevDTO}">
-									<a href="${pageContext.request.contextPath}/faq/article?${query}&num=${prevDTO.faq_num}">${prevDTO.q_title}</a>
+									<a href="${pageContext.request.contextPath}/qna/article?${query}&num=${prevDTO.faq_num}">${prevDTO.q_title}</a>
 								</c:if>
 							</td>
 						</tr>
@@ -121,7 +121,7 @@
 							<td colspan="2">
 								이전글 :
 								<c:if test="${not empty nextDTO}">
-									<a href="${pageContext.request.contextPath}/faq/article?${query}&num=${nextDTO.faq_num}">${nextDTO.q_title}</a>
+									<a href="${pageContext.request.contextPath}/qna/article?${query}&num=${nextDTO.faq_num}">${nextDTO.q_title}</a>
 								</c:if>
 							</td>
 						</tr>
@@ -134,7 +134,7 @@
 							&nbsp;
 						</td>
 						<td class="text-end">
-							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/faq/list?${query}';">리스트</button>
+							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/list?${query}';">리스트</button>
 						</td>
 					</tr>
 				</table>

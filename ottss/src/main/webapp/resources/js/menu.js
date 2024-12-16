@@ -9,8 +9,7 @@ var tid = setInterval( function () {
   var nav = document.querySelector('.vertical_nav');
   var wrapper = document.querySelector('.wrapper');
 
-  var menu = document.getElementById("js-menu");
-  var subnavs = menu.querySelectorAll('.menu--item__has_sub_menu');    
+  var menu = document.getElementById("js-menu"); 
 
   // Open Sub Menu
   for (var i = 0; i < subnavs.length; i++) {

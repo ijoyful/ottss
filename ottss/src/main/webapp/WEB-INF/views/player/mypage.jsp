@@ -13,7 +13,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 <main>
-<jsp:include page="/WEB-INF/views/player/left.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/player/layout/left.jsp"/>
 </main>
 
 

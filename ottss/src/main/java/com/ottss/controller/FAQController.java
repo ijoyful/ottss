@@ -26,10 +26,10 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class FAQController {
 	// FAQ 게시글 리스트
-	@RequestMapping(value = "/faq/list")
+	@RequestMapping(value = "/qna/list")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 넘어온 파라미터: [page, schType, kwd]
-		ModelAndView mav = new ModelAndView("faq/list");
+		ModelAndView mav = new ModelAndView("qna/list");
 		FAQDAO dao = new FAQDAO();
 		MyUtil util = new MyUtilBootstrap();
 
@@ -83,8 +83,8 @@ public class FAQController {
 			if (kwd.length() != 0) {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
 			}
-			listUrl = cp + "/faq/list?" + query;
-			articleUrl = cp + "/faq/article?page=" + current_page + "&" + query;
+			listUrl = cp + "/qna/list?" + query;
+			articleUrl = cp + "/qna/article?page=" + current_page + "&" + query;
 			String paging = util.paging(current_page, total_page, listUrl);
 
 			mav.addObject("list", list);
@@ -105,16 +105,16 @@ public class FAQController {
 	}
 
 	// 글 쓰기 폼
-	@RequestMapping(value = "/faq/write", method = RequestMethod.GET)
+	@RequestMapping(value = "/qna/write", method = RequestMethod.GET)
 	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("faq/write");
+		ModelAndView mav = new ModelAndView("qna/write");
 		mav.addObject("mode", "write");
 
 		return mav;
 	}
 
 	// 글 쓰기 제출
-	@RequestMapping(value = "/faq/write", method = RequestMethod.POST)
+	@RequestMapping(value = "/qna/write", method = RequestMethod.POST)
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		FAQDAO dao = new FAQDAO();
 		String size = req.getParameter("size");
@@ -124,7 +124,7 @@ public class FAQController {
 		FileManager fileManager = new FileManager();
 
 		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "faq";
+		String pathname = root + "uploads" + File.separator + "qna";
 
 		try {
 			FAQDTO dto = new FAQDTO();
@@ -136,16 +136,16 @@ public class FAQController {
 			dto.setListFile(listFile);
 
 			long num = dao.insertQuestion(dto);
-			return new ModelAndView("redirect:/faq/article?page=1&size" + size + "&num=" + num);
+			return new ModelAndView("redirect:/qna/article?page=1&size" + size + "&num=" + num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/faq/list?size=" + size);
+		return new ModelAndView("redirect:/qna/list?size=" + size);
 	}
 
 	// 글 보기
-	@RequestMapping(value = "/faq/article", method = RequestMethod.GET)
+	@RequestMapping(value = "/qna/article", method = RequestMethod.GET)
 	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
@@ -170,7 +170,7 @@ public class FAQController {
 			// 게시물 가져오기
 			FAQDTO dto = dao.findByNum(num);
 			if (dto == null) {
-				return new ModelAndView("redirect:/faq/list?" + query);
+				return new ModelAndView("redirect:/qna/list?" + query);
 			}
 			dto.setQ_content(dto.getQ_content().replaceAll("<", "&lt;"));
 			dto.setQ_content(dto.getQ_content().replaceAll(">", "&gt;"));
@@ -186,7 +186,7 @@ public class FAQController {
 
 			List<FAQDTO> listFile = dao.listFAQFile(num);
 
-			ModelAndView mav = new ModelAndView("faq/article");
+			ModelAndView mav = new ModelAndView("qna/article");
 			mav.addObject("dto", dto);
 			mav.addObject("prevDTO", prevDTO);
 			mav.addObject("nextDTO", nextDTO);
@@ -199,6 +199,6 @@ public class FAQController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/faq/list?" + query);
+		return new ModelAndView("redirect:/qna/list?" + query);
 	}
 }
