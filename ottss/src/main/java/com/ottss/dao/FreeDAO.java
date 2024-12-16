@@ -294,7 +294,6 @@ public class FreeDAO {
 	// 해당 게시물 보기
 	public FreeDTO findById(long num) {
 		FreeDTO dto = null;
-		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
@@ -478,6 +477,61 @@ public class FreeDAO {
 		return list;
 	}
 	
+	// 게시글 수정 
+	public void updateFree(FreeDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE Free_board SET title = ?, content = ? WHERE fb_num = ? AND id = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setLong(3, dto.getFb_num());
+			pstmt.setString(4, dto.getId());
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	// 게시물 삭제
+	public void deleteFree(long num, String id, int powercode) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			if(powercode >= 99) {
+				sql = "DELETE FROM free_board WHERE fb_num = ? ";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, num);
+				
+				pstmt.execute();
+			} else {
+				sql = "DELETE FROM free_board WHERE fb_num=? AND id = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, num);
+				pstmt.setString(2, id);
+				
+				pstmt.executeUpdate();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
 	// 댓글 저장
 	public void insertComment(FreeComDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
@@ -538,13 +592,12 @@ public class FreeDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append(" SELECT fc.fbc_num, p.id, p.nickname, fb.fb_num, ");
-			sb.append("		content, fbc.reg_date, ");
+			sb.append(" SELECT fbc_num, fc.id, p.nickname, fb_num, ");
+			sb.append("		content, fc.reg_date ");
 			sb.append(" FROM free_comment fc ");
 			sb.append(" JOIN player p ON p.id = fc.id ");
-			sb.append(" JOIN free_board fb ON fb.fb_num = fc.fb_fb_num ");
 			sb.append(" WHERE fb_num = ? ");
-			sb.append(" ORDER BY fc.Num DESC ");
+			sb.append(" ORDER BY fbc_num DESC ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -642,6 +695,98 @@ public class FreeDAO {
 			DBUtil.close(pstmt);
 		}
 	}
+	
+	// 로그인 유저의 게시글 좋아요 유무
+	public boolean isUserFreeLike(long st_num, String id) {
+		boolean result = false;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+			
+			
+		try {
+			sql = "SELECT fb_num,id FROM free_like WHERE fb_num=? AND id=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, st_num);
+			pstmt.setString(2, id);
+				
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = true;
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+				
+		return result;
+		}
+	
+	// 게시글의 좋아요 추가
+		public void insertFreeLike(long fb_num, String id) throws SQLException {
+			PreparedStatement pstmt = null;
+			String sql;
+			try {
+				sql = "INSERT INTO free_like (fb_num, id) VALUES (?,?) ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setLong(1, fb_num);
+				pstmt.setString(2, id);
+				
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				DBUtil.close(pstmt);
+			}
+		}	
+	// 게시글의 좋아요 삭제
+		public void deleteFreeLike(long st_num, String id) throws SQLException {
+			PreparedStatement pstmt = null;
+			String sql;
+			try {
+				sql = "DELETE FROM free_like WHERE fb_num =? AND id = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setLong(1, st_num);
+				pstmt.setString(2, id);
+				
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				DBUtil.close(pstmt);
+			}
+		}
+	// 게시글의 좋아요 개수
+	public int countFreeLike(long st_num) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			sql = "SELECT count(*) FROM free_like WHERE fb_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, st_num);
+				
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1); 
+			}
+				
+		} catch (Exception e) {
+				e.printStackTrace();
+		} finally {
+				DBUtil.close(pstmt);
+				DBUtil.close(rs);
+		}
+			return result;
+	}	
+		
 	
 	
 }

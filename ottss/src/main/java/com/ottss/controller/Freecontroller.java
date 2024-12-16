@@ -4,14 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ottss.dao.FreeDAO;
+import com.ottss.domain.FreeComDTO;
 import com.ottss.domain.FreeDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
 import com.ottss.mvc.annotation.RequestMethod;
+import com.ottss.mvc.annotation.ResponseBody;
 import com.ottss.mvc.view.ModelAndView;
 import com.ottss.util.FileManager;
 import com.ottss.util.MyMultipartFile;
@@ -207,4 +212,261 @@ public class Freecontroller {
 
 		return new ModelAndView("redirect:/freeboard/list?" + query);
 	}
+	
+	@RequestMapping(value="/freeboard/update", method =RequestMethod.GET)
+	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//수정폼
+		FreeDAO dao = new FreeDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		
+		try {
+			long num = Long.parseLong(req.getParameter("fb_num"));
+			FreeDTO dto = dao.findById(num);
+			
+			if(dto == null) {
+				return new ModelAndView("redirect:/freeboard/list?page=" + page);
+			}
+			
+			if (!dto.getId().equals(info.getId())) {
+				return new ModelAndView("redirect:/freeboard/list?page=" + page);
+			}
+			
+			ModelAndView mav = new ModelAndView("freeboard/write");
+			mav.addObject("dto", dto);
+			mav.addObject("page", page);
+			mav.addObject("mode", "update");
+
+			return mav;			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView("redirect:/freeboard/list?page=" + page);
+		
+	}
+	
+	
+	@RequestMapping(value = "/freeboard/update", method = RequestMethod.POST)
+	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// 수정 완료
+		FreeDAO dao = new FreeDAO();
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		String page = req.getParameter("page");
+		try {
+			FreeDTO dto = new FreeDTO();
+
+			dto.setFb_num(Long.parseLong(req.getParameter("fb_num")));
+			dto.setTitle(req.getParameter("title"));
+			dto.setContent(req.getParameter("content"));
+
+			dto.setId(info.getId());
+			
+			
+			dao.updateFree(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("redirect:/freeboard/list?page=" + page);
+	}
+	
+	@RequestMapping(value = "/freeboard/delete", method = RequestMethod.GET)
+	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//삭제
+		FreeDAO dao = new FreeDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		String query = "page=" + page;
+		
+		try {
+			long num = Long.parseLong(req.getParameter("fb_num"));
+			String schType = req.getParameter("schType");
+			String kwd = req.getParameter("kwd");
+			if (schType == null) {
+				schType = "all";
+				kwd = "";
+			}
+			kwd = URLDecoder.decode(kwd, "utf-8");
+			
+			if (kwd.length() != 0) {
+				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "UTF-8");
+			}
+			
+			dao.deleteFree(num, info.getId(), info.getPowerCode());	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/freeboard/list?" + query);
+	}	
+	
+	
+	// 댓글 저장 - AJAX - JSON
+	@ResponseBody
+	@RequestMapping(value = "/freeboard/insertComment", method=RequestMethod.POST)
+	public Map<String, Object> insertComment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		String state = "false";
+		FreeDAO dao = new FreeDAO();
+		HttpSession session = req.getSession();
+		
+		try {
+			
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			FreeComDTO dto = new FreeComDTO();
+			
+			dto.setFb_num(Long.parseLong(req.getParameter("fb_num")));
+			dto.setContent(req.getParameter("content"));
+			
+			dto.setId(info.getId());
+			
+			dao.insertComment(dto);
+			
+			state = "true";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);
+		
+		return model;
+		
+	}
+	
+	// 댓글 리스트 - AJAX : Test
+	@RequestMapping(value = "/freeboard/listComment", method = RequestMethod.GET)
+	public ModelAndView listComment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		//넘어오는 파라미터 : num, pageNo
+		
+		FreeDAO dao = new FreeDAO();
+		MyUtil util = new MyUtilBootstrap();
+		
+		//HttpSession session = req.getSession(); 댓글 좋아요 구현하려면 필요함!! id
+		
+		try {
+			//SessionInfo info = (SessionInfo)session.getAttribute("member"); 댓글 좋아요 구현하려면 필요함!!
+			long num = Long.parseLong(req.getParameter("fb_num"));
+			String pageNo = req.getParameter("pageNo");
+			int current_page = 1;
+			if(pageNo != null) {
+				current_page = Integer.parseInt(pageNo);
+			}
+			int size = 5;
+			int total_page = 0;
+			int replyCount = 0;
+			
+			replyCount = dao.dataCountComment(num);
+			total_page = util.pageCount(replyCount, size);
+			if(current_page > total_page) {
+				current_page = total_page;
+			}
+			
+			int offset = (current_page -1)* size;
+			if(offset < 0) offset = 0;			
+			
+			List<FreeComDTO> list = dao.listComment(num, offset, size);
+			
+			for(FreeComDTO dto : list) {
+				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+			}
+			
+			String paging = util.pagingMethod(current_page, total_page, "listPage");
+			
+			ModelAndView mav = new ModelAndView("freeboard/listComment");
+			mav.addObject("listComment", list);
+			mav.addObject("pageNo",current_page);
+			mav.addObject("replyCount", replyCount);
+			mav.addObject("total_page", total_page);
+			mav.addObject("paging", paging);
+			
+			return mav;			
+		} catch (Exception e) {
+
+			resp.sendError(406);
+			throw e;
+		}
+
+	}
+	
+	//댓글 삭제 - AJAX : JSON
+	@ResponseBody
+	@RequestMapping(value = "/Freeboard/deleteComment", method = RequestMethod.POST)
+	public Map<String, Object> deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
+		//넘어온 파라미터 : stc_num
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		FreeDAO dao = new FreeDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String state = "false";
+		
+		try {
+			long stc_num = Long.parseLong(req.getParameter("fbc_num"));
+			dao.deleteComment(stc_num, info.getId(), info.getPowerCode());
+			state = "true";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);	
+		
+		return model;
+	
+	}
+	
+	//게시글 공감 저장
+	@ResponseBody
+	@RequestMapping(value = "/freeboard/insertFreeLike", method = RequestMethod.POST)
+	public Map<String, Object> insertShowLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//넘어온 파라미터 : fb_num, 공감/취소여부
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		FreeDAO dao = new FreeDAO();
+		
+		HttpSession session = req.getSession();
+		
+		String state = "false";
+		int likeCount = 0;
+		
+		try {
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			long fb_num = Long.parseLong(req.getParameter("fb_num"));
+			String userLiked = req.getParameter("userLiked");
+			String id = info.getId();
+			
+			if(userLiked.equals("true")) {
+				dao.deleteFreeLike(fb_num, id);
+			} else {
+				dao.insertFreeLike(fb_num, id);
+			}
+			likeCount = dao.countFreeLike(fb_num);
+			state = "true";
+		} catch (SQLException e) {
+			state = "liked";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);
+		model.put("likeCount", likeCount);
+		
+		return model;
+	}
+
 }

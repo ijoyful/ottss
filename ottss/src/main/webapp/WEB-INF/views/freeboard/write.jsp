@@ -31,7 +31,7 @@ function sendOk() {
 			return;
 		}
 	
-	    f.action = '${pageContext.request.contextPath}/freeboard/write';
+	    f.action = '${pageContext.request.contextPath}/freeboard/${mode}';
 	    f.submit();
 	}
 	</script>
@@ -68,7 +68,13 @@ function sendOk() {
 	                </ul>
 	                <ul>
 	                	<li class ="submitBtn">
-	                		<button type="button" class = "btn btn-sm" onclick="sendOk();"> 등록</button>
+	                		<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
+							<button type="reset" class="btn btn-light">다시입력</button>
+							<button type="button" class="btn btn-light"onclick="location.href='${pageContext.request.contextPath}/show/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button> 
+							<c:if test="${mode=='update'}">
+								<input type="hidden" name="st_num" value="${dto.st_num}">
+								<input type="hidden" name="page" value="${page}">
+							</c:if>
 	                	</li>
 	                </ul>
 	            </form>
