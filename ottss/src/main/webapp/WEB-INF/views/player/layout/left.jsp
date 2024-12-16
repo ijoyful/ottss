@@ -63,32 +63,17 @@ $(function(){
 		</li>
 	
 		<li class="menu--item menu--item__has_sub_menu">
-			<label class="menu--link" title="최고기록확인">
+	        <a href="#" class="menu--link" title="최고기록확인">
 				<i class="menu--icon bi bi-question-square"></i>
 				<span class="menu--label">최고기록확인</span>
-			</label>
-	
-			<ul class="sub_menu">
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">가위바위보</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">두더지</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">룰렛</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">퀴즈</a>
-				</li>
-			</ul>
+			</a>
 		</li>
 	
 	
 		<li class="menu--item">
-	        <a href="${pageContext.request.contextPath}/mypage/mypoint?mode=all" class="menu--link" title="포인트확인">
+	        <a href="${pageContext.request.contextPath}/mypage/mypoint" class="menu--link" title="포인트확인">
 				<i class="menu--icon bi bi-calendar"></i>
-				<span class="menu--label">포인트확인</span>
+				<span class="menu--label">포인트 이용내역</span>
 			</a>
 		</li>
 		<li class="menu--item">
