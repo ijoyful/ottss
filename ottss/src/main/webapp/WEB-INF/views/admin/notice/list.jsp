@@ -119,7 +119,7 @@
 							            </li>
 						                <li><span style="background-color: #edc239; padding: 5px; border-radius: 5px;">공지</span></li>
 						                <li>
-						                	<a href="${articleUrl}&num=${listNotice.n_num}">${listNotice.title}</a>
+						                	<a href="${articleUrl}&n_num=${listNotice.n_num}">${listNotice.title}</a>
 					                	</li>
 						                <li>${listNotice.nickname}</li>
 						                <li>${listNotice.reg_date}</li>
@@ -134,7 +134,7 @@
 						                <li>${dataCount-(page-1)*size-status.index}</li>
 						                <li>
 						                	<c:if test="${dto.gap<1}"><img src="${pageContext.request.contextPath}/resources/images/new.gif"></c:if>
-						                	<a href="${articleUrl}&num=${list.n_num}">${list.title}</a>
+						                	<a href="${articleUrl}&n_num=${list.n_num}">${list.title}</a>
 					                	</li>
 						                <li>${list.nickname}</li>
 						                <li>${list.reg_date}</li>

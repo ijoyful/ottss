@@ -12,7 +12,7 @@
 	
 	function deleteBoard() {
 		if(confirm('게시글을 삭제하시겠습니까?')) {
-			let query = 'num=${dto.n_num}&${query}';
+			let query = 'n_num=${dto.n_num}&${query}';
 			let url = '${pageContext.request.contextPath}/admin/notice/delete?' + query;
 			location.href = url;
 		}
@@ -62,7 +62,7 @@
 					        	<li class="listTitle">이전글</li>
 			                    <li class="listContent">
 			                    	<c:if test="${not empty prevDto}">
-			                    		<a href="${pageContext.request.contextPath}/admin/notice/article?${query}&num=${prevDto.n_num}">${prevDto.title}</a>
+			                    		<a href="${pageContext.request.contextPath}/admin/notice/article?${query}&n_num=${prevDto.n_num}">${prevDto.title}</a>
 			                    	</c:if>
 			                    </li>
 					        </ul>
@@ -70,7 +70,7 @@
 					        	<li class="listTitle">다음글</li>
 			                    <li class="listContent">
 			                    	<c:if test="${not empty NextDto}">
-			                    		<a href="${pageContext.request.contextPath}/admin/notice/article?${query}&num=${NextDto.n_num}">${NextDto.title}</a>
+			                    		<a href="${pageContext.request.contextPath}/admin/notice/article?${query}&n_num=${NextDto.n_num}">${NextDto.title}</a>
 			                    	</c:if>
 			                    </li>
 					        </ul>
@@ -81,7 +81,7 @@
 								<td width="50%">
 									<c:choose>
 										<c:when test="${sessionScope.member.id == dto.id}">
-											<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/notice/update?num=${dto.n_num}&page=${page}&size=${size}';">수정</button>
+											<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/notice/update?n_num=${dto.n_num}&page=${page}&size=${size}';">수정</button>
 										</c:when>
 										<c:otherwise>
 											<button type="button" class="btn btn-light" disabled>수정</button>

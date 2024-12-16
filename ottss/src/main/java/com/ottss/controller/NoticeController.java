@@ -152,7 +152,7 @@ public class NoticeController {
 	
 		
 		try {
-			long num = Long.parseLong(req.getParameter("num"));
+			long n_num = Long.parseLong(req.getParameter("n_num"));
 			
 			String schType = req.getParameter("schType");
 			String kwd = req.getParameter("kwd");
@@ -169,10 +169,10 @@ public class NoticeController {
 			}
 			
 			// 조회수
-			dao.updateHitCount(num);
+			dao.updateHitCount(n_num);
 			
 			// 게시물 가져오기
-			NoticeDTO dto = dao.findById(num);
+			NoticeDTO dto = dao.findById(n_num);
 			if (dto == null) {
 				return new ModelAndView("redirect:/notice/list?" + query);
 			}
@@ -180,10 +180,10 @@ public class NoticeController {
 			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 			
 			// 이전글 다음글
-			NoticeDTO prevDto = dao.findByPrev(dto.getFileNum(), schType, kwd);
-			NoticeDTO NextDto = dao.findByNext(dto.getFileNum(), schType, kwd);
+			NoticeDTO prevDto = dao.findByPrev(dto.getN_num(), schType, kwd);
+			NoticeDTO NextDto = dao.findByNext(dto.getN_num(), schType, kwd);
 			
-			List<NoticeDTO> listFile = dao.listNoticeFile(num);
+			List<NoticeDTO> listFile = dao.listNoticeFile(n_num);
 			
 			ModelAndView mav = new ModelAndView("notice/article");
 			

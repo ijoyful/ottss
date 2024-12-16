@@ -6,12 +6,12 @@
 
 #main .listInner ul:not(:last-child) {margin-bottom: 10px;}
 
-#main .listInner ul li {display: flex; height: 40px; align-items: center; justify-content: center;}
-
-#main .listInner ul li:nth-child(1) {width: 70%;} /* 제목 */
-#main .listInner ul li:nth-child(2) {width: 30%;} /* 작성일 */
+#main .listInner ul li {display: flex; height: 40px; align-items: center; justify-content: center; width: 100%;}
 
 #main .listInner .listTitle {background-color: #FF007F; color: #fff;}
 
 #main .listInner .listContent {background-color: #eee;}
 #main .listInner .listContent a:hover {text-decoration: underline; color: #000;}
+
+#main .listInner .listBigTitle {display: flex; justify-content: space-between; margin-bottom: 10px;}
+#main .listInner .listBigTitle span {font-weight: bold;}

@@ -40,7 +40,7 @@
 				return;
 			}
 			
-			let qs = 'num=${dto.n_num}&fileNum=' + fileNum + '&page=${page}&size=${size}';
+			let qs = 'n_num=${dto.n_num}&fileNum=' + fileNum + '&page=${page}&size=${size}';
 			let url = '${pageContext.request.contextPath}/admin/notice/deleteFile?' + qs;
 			location.href = url;
 		}

@@ -212,7 +212,7 @@ public class NoticeManageController {
 	
 		
 		try {
-			long num = Long.parseLong(req.getParameter("num"));
+			long n_num = Long.parseLong(req.getParameter("n_num"));
 			
 			String schType = req.getParameter("schType");
 			String kwd = req.getParameter("kwd");
@@ -229,10 +229,10 @@ public class NoticeManageController {
 			}
 			
 			// 조회수
-			dao.updateHitCount(num);
+			dao.updateHitCount(n_num);
 			
 			// 게시물 가져오기
-			NoticeDTO dto = dao.findById(num);
+			NoticeDTO dto = dao.findById(n_num);
 			if (dto == null) {
 				return new ModelAndView("redirect:/admin/notice/list?" + query);
 			}
@@ -240,10 +240,10 @@ public class NoticeManageController {
 			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 			
 			// 이전글 다음글
-			NoticeDTO prevDto = dao.findByPrev(dto.getFileNum(), schType, kwd);
-			NoticeDTO NextDto = dao.findByNext(dto.getFileNum(), schType, kwd);
+			NoticeDTO prevDto = dao.findByPrev(dto.getN_num(), schType, kwd);
+			NoticeDTO NextDto = dao.findByNext(dto.getN_num(), schType, kwd);
 			
-			List<NoticeDTO> listFile = dao.listNoticeFile(num);
+			List<NoticeDTO> listFile = dao.listNoticeFile(n_num);
 			
 			ModelAndView mav = new ModelAndView("admin/notice/article");
 			
@@ -313,15 +313,15 @@ public class NoticeManageController {
 		
 		try {
 			
-			long num = Long.parseLong(req.getParameter("num"));
+			long n_num = Long.parseLong(req.getParameter("n_num"));
 			
-			NoticeDTO dto = dao.findById(num);
+			NoticeDTO dto = dao.findById(n_num);
 			if(dto == null) {
 				return new ModelAndView("admin/notice/list?page=" + page + "&size=" + size);
 			}
 			
 			// 파일
-			List<NoticeDTO> listFile = dao.listNoticeFile(num);
+			List<NoticeDTO> listFile = dao.listNoticeFile(n_num);
 			
 			ModelAndView mav = new ModelAndView("admin/notice/write");
 			
@@ -382,7 +382,7 @@ public class NoticeManageController {
 			
 			dao.updateNotice(dto);
 			
-			return new ModelAndView("redirect:/admin/notice/article?page=" + page + "&size=" + size + "&num=" + dto.getN_num());
+			return new ModelAndView("redirect:/admin/notice/article?page=" + page + "&size=" + size + "&n_num=" + dto.getN_num());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -409,7 +409,7 @@ public class NoticeManageController {
 
 		try {
 			
-			long num = Long.parseLong(req.getParameter("num"));
+			long n_num = Long.parseLong(req.getParameter("n_num"));
 			long fileNum = Long.parseLong(req.getParameter("file_num"));
 			
 			NoticeDTO dto = dao.findByFileId(fileNum);
@@ -423,7 +423,7 @@ public class NoticeManageController {
 			}
 			
 			// 다시 수정 화면으로
-			return new ModelAndView("redirect:/admin/notice/update?num=" + num + "&page=" + page + "&size=" + size);
+			return new ModelAndView("redirect:/admin/notice/update?n_num=" + n_num + "&page=" + page + "&size=" + size);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -451,7 +451,7 @@ public class NoticeManageController {
 		
 		try {
 			
-			long num = Long.parseLong(req.getParameter("num")); // 얘는 n_num 아니고 왜 num 임..
+			long n_num = Long.parseLong(req.getParameter("n_num"));
 			String schType = req.getParameter("schType");
 			String kwd = req.getParameter("kwd");
 			if(schType == null) {
@@ -466,17 +466,17 @@ public class NoticeManageController {
 			}
 			
 			// 파일 삭제
-			List<NoticeDTO> listFile = dao.listNoticeFile(num);
+			List<NoticeDTO> listFile = dao.listNoticeFile(n_num);
 			for(NoticeDTO dto : listFile) {
 				fileManager.doFiledelete(pathname, dto.getS_fileName());
 			}
 			
 			
 			// 파일 테이블 삭제
-			dao.deleteNoticeFile("all", num);
+			dao.deleteNoticeFile("all", n_num);
 			
 			// 게시글 삭제
-			dao.deleteNotice(num);
+			dao.deleteNotice(n_num);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

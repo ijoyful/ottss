@@ -43,76 +43,74 @@
                 </div>
             </div>
             <div class="listWrap">
+            	<!-- 공지사항 시작 -->
                 <div class="listInner">
+                	<div class="listBigTitle">
+                		<span>[ 공지사항 ]</span>
+                		<a href="${pageContext.request.contextPath}/notice/list">더보기</a>
+               		</div>
                 	<ul class="listTitle">
 	                    <li>제목</li>
-	                    <li>작성일</li>
 	                </ul>
+	                <c:forEach var="listNotice" items="${listNotice}">
 	                <ul class="listContent">
-	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
+	                    <li><a href="${pageContext.request.contextPath}/notice/article?page=1&size=10&n_num=${listNotice.n_num}">${listNotice.title}</a></li>
 	                </ul>
-	                <ul class="listContent">
-	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
-	                </ul>
-	                <ul class="listContent">
-	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
-	                </ul>
+	                </c:forEach>
 	            </div>
+	            <!-- 공지사항 끝 -->
                 <div class="listInner">
+                	<div class="listBigTitle">
+                		<span>[ 0000 ]</span>
+                		<a href="${pageContext.request.contextPath}/">더보기</a>
+               		</div>
                 	<ul class="listTitle">
 	                    <li>제목</li>
-	                    <li>작성일</li>
 	                </ul>
 	                <ul class="listContent">
 	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
 	                </ul>
 	                <ul class="listContent">
 	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
 	                </ul>
 	                <ul class="listContent">
 	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
 	                </ul>
 	            </div>
 	            <div class="listInner">
+	            	<div class="listBigTitle">
+                		<span>[ 0000 ]</span>
+                		<a href="${pageContext.request.contextPath}/">더보기</a>
+               		</div>
                 	<ul class="listTitle">
 	                    <li>제목</li>
-	                    <li>작성일</li>
 	                </ul>
 	                <ul class="listContent">
 	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
 	                </ul>
 	                <ul class="listContent">
 	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
 	                </ul>
 	                <ul class="listContent">
 	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
 	                </ul>
 	            </div>
 	            <div class="listInner">
+	            	<div class="listBigTitle">
+                		<span>[ 0000 ]</span>
+                		<a href="${pageContext.request.contextPath}/">더보기</a>
+               		</div>
                 	<ul class="listTitle">
 	                    <li>제목</li>
-	                    <li>작성일</li>
 	                </ul>
 	                <ul class="listContent">
 	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
 	                </ul>
 	                <ul class="listContent">
 	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
 	                </ul>
 	                <ul class="listContent">
 	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                    <li>2024-12-02</li>
 	                </ul>
 	            </div>
             </div> <!-- tableListWrap -->

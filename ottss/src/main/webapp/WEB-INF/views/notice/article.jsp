@@ -44,7 +44,7 @@
 		        	<li class="listTitle">이전글</li>
                     <li class="listContent">
                     	<c:if test="${not empty prevDto}">
-                    		<a href="${pageContext.request.contextPath}/notice/article?${query}&num=${prevDto.n_num}">${prevDto.title}</a>
+                    		<a href="${pageContext.request.contextPath}/notice/article?${query}&n_num=${prevDto.n_num}">${prevDto.title}</a>
                     	</c:if>
                     </li>
 		        </ul>
@@ -52,7 +52,7 @@
 		        	<li class="listTitle">다음글</li>
                     <li class="listContent">
                     	<c:if test="${not empty NextDto}">
-                    		<a href="${pageContext.request.contextPath}/notice/article?${query}&num=${NextDto.n_num}">${NextDto.title}</a>
+                    		<a href="${pageContext.request.contextPath}/notice/article?${query}&n_num=${NextDto.n_num}">${NextDto.title}</a>
                     	</c:if>
                     </li>
 		        </ul>
