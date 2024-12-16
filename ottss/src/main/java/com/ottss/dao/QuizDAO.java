@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.hs.util.DBConn;
+import com.ottss.util.DBConn;
 import com.ottss.domain.QuizPlayDTO;
 import com.ottss.util.DBUtil;
 
