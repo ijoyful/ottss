@@ -10,6 +10,7 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 </head>
 <body>
-
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+	<div>가위바위보 페이지다</div>
 </body>
 </html>
