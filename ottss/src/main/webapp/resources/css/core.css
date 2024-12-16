@@ -8,6 +8,8 @@ body {
 	font-family: "Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 }
 
+main {min-height: 775px;}
+
 a { text-decoration: none; color: #333333; }
 a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #F28011; }
 

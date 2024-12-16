@@ -53,7 +53,7 @@ $(function(){
 });
 </script>
 
-<nav class="vertical_nav">
+<nav class="vertical_nav" style="position: fixed;">
 	<ul id="js-menu" class="menu">
 	
 		<li class="menu--item">
@@ -90,7 +90,7 @@ $(function(){
 					<a href="${pageContext.request.contextPath}/admin/notice/list" class="sub_menu--link">공지사항</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">FAQ</a>
+					<a href="${pageContext.request.contextPath}/admin/qna/list" class="sub_menu--link">FAQ</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">자유게시판</a>

@@ -22,7 +22,7 @@
 	function changeList() {
 		const f = document.listForm;
 		f.page.value = '1';
-		f.action = '${pageContext.request.contextPath}/admin/notice/list';
+		f.action = '${pageContext.request.contextPath}/admin/qna/list';
 		f.submit();
 	}
 	
@@ -68,7 +68,7 @@
 		<div class="wrapper">
 			<div class="body-container">
 				<div class="body-title">
-					<h3><i class="bi bi-clipboard"></i> 공지사항 </h3>
+					<h3><i class="bi bi-clipboard"></i> FAQ </h3>
 				</div>
 			    <div class="body-main">
 				    <div class="mainInner">
@@ -95,46 +95,41 @@
 								</div>
 					        </div>
 					        <div class="listInner">
-					            <ul class="listTitle">
-					            	<li class="chk">
+								<ul class="listTitle">
+									<li class="chk">
 					            		<input type="checkbox" class="form-check-input" name="chkAll" id="chkAll">
 					            	</li>
-					                <li>No.</li>
-					                <li>제목</li>
-					                <li>작성자</li>
-					                <li>작성일</li>
-					                <li>조회수</li>
-					            </ul>
-					            <c:forEach var="listNotice" items="${listNotice}">
-						            <ul class="listContent">
-							            <li>
-							            	<input type="checkbox" class="form-check-input" name="nums" value="${listNotice.n_num}">
+									<li>No.</li>
+									<li>제목</li>
+									<li>작성자</li>
+									<li>작성일</li>
+									<li>조회수</li>
+								</ul>
+								<c:forEach var="dto" items="${listfaq}" varStatus="status">
+									<ul class="listContent">
+										<li>
+							            	<input type="checkbox" class="form-check-input" name="nums" value="${dto.faq_num}">
 							            </li>
-						                <li><span style="background-color: #edc239; padding: 5px; border-radius: 5px;">공지</span></li>
-						                <li>
-						                	<a href="${articleUrl}&n_num=${listNotice.n_num}">${listNotice.title}</a>
-					                	</li>
-						                <li>${listNotice.nickname}</li>
-						                <li>${listNotice.reg_date}</li>
-						                <li>${listNotice.hitCount}</li>
-						            </ul>
-					            </c:forEach>
-					            <c:forEach var="list" items="${list}" varStatus="status">
-						            <ul class="listContent">
-							            <li>
-							            	<input type="checkbox" class="form-check-input" name="nums" value="${list.n_num}">
+										<li>${dataCount - (page - 1) * size - status.index}</li>
+										<li><a href="${articleUrl}&num=${dto.faq_num}">${dto.q_title}</a></li>
+										<li>${dto.q_nickname}</li>
+										<li>${dto.question_date}</li>
+										<li>${dto.hitCount}</li>
+									</ul>
+								</c:forEach>
+								<c:forEach var="dto" items="${list}" varStatus="status">
+									<ul class="listContent">
+										<li>
+							            	<input type="checkbox" class="form-check-input" name="nums" value="${dto.faq_num}">
 							            </li>
-						                <li>${dataCount-(page-1)*size-status.index}</li>
-						                <li>
-						                	<c:if test="${dto.gap<1}"><img src="${pageContext.request.contextPath}/resources/images/new.gif"></c:if>
-						                	<a href="${articleUrl}&n_num=${list.n_num}">${list.title}</a>
-					                	</li>
-						                <li>${list.nickname}</li>
-						                <li>${list.reg_date}</li>
-						                <li>${list.hitCount}</li>
-						            </ul>
-					            </c:forEach>
-					        </div>
+										<li>${dataCount - (page - 1) * size - status.index}</li>
+										<li><a href="${articleUrl}&num=${dto.faq_num}">${dto.q_title}</a></li>
+										<li>${dto.q_nickname}</li>
+										<li>${dto.question_date}</li>
+										<li>${dto.hitCount}</li>
+									</ul>
+								</c:forEach>
+							</div>
 				        </form>
 				    </div> <!-- mainInner -->
 				    
