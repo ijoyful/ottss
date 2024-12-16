@@ -23,4 +23,3 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/util-jquery.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/menu.js"></script>

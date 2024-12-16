@@ -31,6 +31,9 @@ public class RouletteDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+			DBUtil.close(rs);
 		}
 
 		return result;

@@ -86,19 +86,11 @@ $(function(){
 	
 	
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="포인트확인">
+	        <a href="${pageContext.request.contextPath}/mypage/mypoint?mode=all" class="menu--link" title="포인트확인">
 				<i class="menu--icon bi bi-calendar"></i>
 				<span class="menu--label">포인트확인</span>
 			</a>
 		</li>
-		
-		<li class="menu--item">
-	        <a href="#" class="menu--link" title="사용내역">
-				<i class="menu--icon bi bi-geo"></i>
-				<span class="menu--label">사용내역</span>
-			</a>
-		</li>
-		
 		<li class="menu--item">
 	        <a href="${pageContext.request.contextPath}/login/pwd?mode=update" class="menu--link" title="회원정보수정">
 				<i class="menu--icon bi bi-geo"></i>
@@ -109,7 +101,7 @@ $(function(){
 		<li class="menu--item">
 	        <a href="${pageContext.request.contextPath}/login/pwd?mode=delete" class="menu--link" title="회원탈퇴">
 				<i class="menu--icon bi bi-geo"></i>
-				<span class="menu--label">"회원탈퇴"</span>
+				<span class="menu--label">회원탈퇴</span>
 			</a>
 		</li>
 	
