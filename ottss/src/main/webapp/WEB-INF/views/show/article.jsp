@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
-<!-- 에러 있어서 일단 주석  
+ 
 <c:if test="${sessionScope.member.id==dto.id || sessionScope.member.powerCode == 99}">
 	<script type="text/javascript">
 		function deleteOk() {
@@ -30,7 +30,7 @@
 		}
 	</script>
 </c:if>
--->
+
 
 </head>
 <body>
@@ -81,7 +81,11 @@
 								</c:forEach>
                             </td>
                         </tr>
-                        
+                        <tr>
+							<td colspan="2" class="text-center p-3">
+								<button type="button" class="btn btn-outline-primary btnSendBoardLike" title="좋아요"><i class="bi ${isUserLike ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up'}"></i>&nbsp;&nbsp;<span id="likeCount">${dto.likeCount}</span></button>
+							</td>
+						</tr>
                         <tr>
                             <td colspan="2">
                                 이전글 :
@@ -201,21 +205,6 @@ function ajaxFun(url, method, formData, dataType, fn, file=false){
 }
 
 
-//이거랑 listPage가 있어야 나온다. ajax
-$(function() {
-	listPage(1);
-});
-
-function listPage(page) {
-	let url = '${pageContext.request.contextPath}/show/listReply';
-	let query ='st_num=${dto.st_num}&pageNo=' + page;
-	let selector = '#listReply';
-	
-	const fn = function(data) {
-		$(selector).html(data);
-	};
-	ajaxFun(url, 'get', query, 'text', fn);
-}
 
 $(function() {
 	$('.btnSendReply').click(function() {
@@ -229,7 +218,7 @@ $(function() {
 		
 		let st_num = '${dto.st_num}';
 		let url = '${pageContext.request.contextPath}/show/insertReply';
-		let query = {st_num:st_num, content:content, parentNum:0};
+		let query = {st_num:st_num, content:content};
 					//formDate를 객체로 처리하면 content를 인코딩하면 안된다.
 					
 		const fn = function(data) {
@@ -251,6 +240,11 @@ $(function() {
 	
 });
 
+
+$(function() {
+	listPage(1);
+});
+
 function listPage(page) {
 	let url = '${pageContext.request.contextPath}/show/listReply';
 	let query ='st_num=${dto.st_num}&pageNo=' + page;
@@ -261,6 +255,70 @@ function listPage(page) {
 	};
 	ajaxFun(url, 'get', query, 'text', fn);
 }
+
+//댓글 삭제
+$(function() {
+	$('#listReply').on('click','.deleteReply', function(){
+		if(! confirm('댓글을 삭제 하시겠습니까 ?')){
+			return false;
+		}
+		
+		let stc_num = $(this).attr('data-stc_num');
+		let page = $(this).attr('data-pageNo');
+		
+		let url = '${pageContext.request.contextPath}/show/deleteReply';
+		let query = 'stc_num=' + stc_num;
+		
+		const fn = function(data){
+			listPage(page);
+		};
+		
+		ajaxFun(url, 'post', query, 'json', fn);		
+	});
+});
+
+$(function() {
+	$('.btnSendBoardLike').click(function() {
+		const $i = $(this).find('i');
+		let userLiked = $i.hasClass('bi-hand-thumbs-up-fill');
+		let msg = userLiked ? '게시글 공감을 취소하시겠습니까 ? ' : '게시글에 공감하십니까 ?';
+		
+		if(! confirm(msg)) {
+			return false;
+		}
+		
+		let url = '${pageContext.request.contextPath}/show/insertShowLike';
+		let query = 'st_num=${dto.st_num}&userLiked=' + userLiked;
+		
+		const fn = function(data) {
+			let state = data.state;
+			
+			if(state === 'true') {
+				if(userLiked){
+					$i.removeClass('bi-hand-thumbs-up-fill').addClass('bi-hand-thumbs-up');
+				} else {
+					$i.removeClass('bi-hand-thumbs-up').addClass('bi-hand-thumbs-up-fill');					
+				}
+				
+				let count = data.likeCount;
+				$('#likeCount').text(count);
+				
+			} else if (state === 'liked'){
+				alert('게시글 공감은 한번만 가능합니다.');
+			} else {
+				alert('게시글 공감 여부 처리가 실패했습니다.');
+			}
+			
+			
+		};
+		
+		ajaxFun(url,'post', query, 'json', fn);
+		
+		
+		
+	});
+});
+
 
 
 </script>

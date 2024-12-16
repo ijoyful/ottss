@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ottss.dao.STDAO;
+import com.ottss.dao.ShowDAO;
 import com.ottss.domain.STComDTO;
 import com.ottss.domain.STDTO;
 import com.ottss.domain.SessionInfo;
@@ -30,7 +30,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class STController {
+public class ShowController {
 	
 	@RequestMapping("/show/list") //GET,POST 둘다 처리
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServerException, SQLException{
@@ -38,7 +38,7 @@ public class STController {
 		
 		ModelAndView mav = new ModelAndView("show/list");
 		
-		STDAO dao = new STDAO();
+		ShowDAO dao = new ShowDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
 		try {
@@ -139,7 +139,7 @@ public class STController {
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글등록하기 : 넘어온 파라미터 - subject, content
 
-		STDAO dao = new STDAO();
+		ShowDAO dao = new ShowDAO();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -174,7 +174,7 @@ public class STController {
 	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//글보기
 		
-		STDAO dao = new STDAO();
+		ShowDAO dao = new ShowDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
 		String page = req.getParameter("page");
@@ -229,7 +229,7 @@ public class STController {
 	@RequestMapping(value="/show/update", method =RequestMethod.GET)
 	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//수정폼
-		STDAO dao = new STDAO();
+		ShowDAO dao = new ShowDAO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -267,7 +267,7 @@ public class STController {
 	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// 수정 완료
-		STDAO dao = new STDAO();
+		ShowDAO dao = new ShowDAO();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -294,7 +294,7 @@ public class STController {
 	@RequestMapping(value = "/show/delete", method = RequestMethod.GET)
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//삭제
-		STDAO dao = new STDAO();
+		ShowDAO dao = new ShowDAO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -333,7 +333,7 @@ public class STController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
 		String state = "false";
-		STDAO dao = new STDAO();
+		ShowDAO dao = new ShowDAO();
 		HttpSession session = req.getSession();
 		
 		try {
@@ -341,13 +341,14 @@ public class STController {
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			STComDTO dto = new STComDTO();
 			
-			dto.setStc_num(Long.parseLong(req.getParameter("stc_num")));
-			dto.setSt_num(Long.parseLong(req.getParameter("num")));
+			dto.setSt_num(Long.parseLong(req.getParameter("st_num")));
 			dto.setContent(req.getParameter("content"));
 			
 			dto.setId(info.getId());
 			
 			dao.insertReply(dto);
+			
+			state = "true";
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -364,7 +365,7 @@ public class STController {
 	public ModelAndView listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		//넘어오는 파라미터 : num, pageNo
 		
-		STDAO dao = new STDAO();
+		ShowDAO dao = new ShowDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
 		//HttpSession session = req.getSession(); 댓글 좋아요 구현하려면 필요함!! id
@@ -416,13 +417,72 @@ public class STController {
 		
 	}
 	
+	//댓글 삭제 - AJAX : JSON
+	@ResponseBody
+	@RequestMapping(value = "/show/deleteReply", method = RequestMethod.POST)
+	public Map<String, Object> deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
+		//넘어온 파라미터 : stc_num
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		ShowDAO dao = new ShowDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String state = "false";
+		
+		try {
+			long stc_num = Long.parseLong(req.getParameter("stc_num"));
+			dao.deleteReply(stc_num, info.getId(), info.getPowerCode());
+			state = "true";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);	
+		
+		return model;
 	
+	}
 	
-	
-	
-	
-	
-	
+	//게시글 공감 저장
+	@ResponseBody
+	@RequestMapping(value = "/show/insertShowLike", method = RequestMethod.POST)
+	public Map<String, Object> insertShowLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//넘어온 파라미터 : st_num, 공감/취소여부
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		ShowDAO dao = new ShowDAO();
+		
+		HttpSession session = req.getSession();
+		
+		String state = "false";
+		int likeCount = 0;
+		
+		try {
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			long st_num = Long.parseLong(req.getParameter("st_num"));
+			String userLiked = req.getParameter("userLiked");
+			String id = info.getId();
+			
+			if(userLiked.equals("true")) {
+				dao.deleteShowLike(st_num, id);
+			} else {
+				dao.insertShowLike(st_num, id);
+			}
+			likeCount = dao.countShowLike(st_num);
+			state = "true";
+		} catch (SQLException e) {
+			state = "liked";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);
+		model.put("likeCount", likeCount);
+		
+		return model;
+	}
 	
 	
 	

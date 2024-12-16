@@ -13,7 +13,7 @@ import com.ottss.util.DBConn;
 import com.ottss.util.DBUtil;
 import com.ottss.util.MyMultipartFile;
 
-public class STDAO {
+public class ShowDAO {
 	private Connection conn = DBConn.getConnection();
 
 	public void insertST(STDTO dto) throws SQLException {
@@ -81,7 +81,7 @@ public class STDAO {
 		String sql;
 
 		try {
-			sql = "SELECT COUNT(*) cnt FROM show_tip_board WHERE blind=0 ";
+			sql = "SELECT COUNT(*) cnt FROM show_tip_board WHERE blind=0 AND board_type = 'showing' ";
 
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -107,7 +107,7 @@ public class STDAO {
 
 		try {
 			sql = "SELECT COUNT(*) cnt " + " FROM show_tip_board s  " + " JOIN player p ON s.id = p.id "
-					+ " WHERE block = 0 ";
+					+ " WHERE block = 0 AND board_type = 'showing' ";
 			if (schType.equals("all")) { // title 또는 content
 				sql += " AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )";
 			} else if (schType.equals("reg_date")) { // reg_date
@@ -150,7 +150,7 @@ public class STDAO {
 			sb.append("     TO_CHAR(s.reg_date, 'YYYY-MM-DD') reg_date ");
 			sb.append(" FROM show_tip_board s ");
 			sb.append(" JOIN player p ON s.id = p.id ");
-			sb.append(" WHERE block = 0 ");
+			sb.append(" WHERE block = 0 AND board_type = 'showing'");
 			sb.append(" ORDER BY st_num DESC ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
@@ -193,7 +193,7 @@ public class STDAO {
 			sb.append("     TO_CHAR(s.reg_date, 'YYYY-MM-DD') reg_date ");
 			sb.append(" FROM show_tip_board s ");
 			sb.append(" JOIN player p ON s.id = p.id ");
-			sb.append(" WHERE block = 0 ");
+			sb.append(" WHERE block = 0 AND board_type = 'showing'");
 			if (schType.equals("all")) { // title 또는 content
 				sb.append(" AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )");
 			} else if (schType.equals("reg_date")) { // reg_date
@@ -247,7 +247,7 @@ public class STDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE show_tip_board SET hitCount=hitCount+1 WHERE st_num=?";
+			sql = "UPDATE show_tip_board SET hitCount=hitCount+1 WHERE st_num=? AND board_type = 'showing'";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setLong(1, num);
@@ -271,7 +271,7 @@ public class STDAO {
 		// ++게시글 좋아요 보류
 		try {
 			sql = " SELECT s.st_num, s.id, nickname, title, content, s.reg_date, hitCount, blind "
-					+ " FROM show_tip_board s" + " JOIN player p ON p.id=s.id" + " WHERE s.st_num = ? AND blind = 0";
+					+ " FROM show_tip_board s" + " JOIN player p ON p.id=s.id" + " WHERE s.st_num = ? AND blind = 0 AND board_type = 'showing'";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, num);
@@ -311,7 +311,7 @@ public class STDAO {
 				sb.append(" SELECT st_num, title");
 				sb.append(" FROM show_tip_board s ");
 				sb.append(" JOIN player p ON s.id = p.id ");
-				sb.append(" WHERE (block = 0 AND st_num > ?)");
+				sb.append(" WHERE (block = 0 AND st_num > ?) AND board_type = 'showing'");
 				if (schType.equals("all")) { // title 또는 content
 					sb.append(" AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )");
 				} else if (schType.equals("reg_date")) { // reg_date
@@ -372,7 +372,7 @@ public class STDAO {
 				sb.append(" SELECT st_num, title");
 				sb.append(" FROM show_tip_board s ");
 				sb.append(" JOIN player p ON s.id = p.id ");
-				sb.append(" WHERE block = 0 AND st_num < ?");
+				sb.append(" WHERE block = 0 AND st_num < ? AND board_type = 'showing'");
 				if (schType.equals("all")) { // title 또는 content
 					sb.append(" AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )");
 				} else if (schType.equals("reg_date")) { // reg_date
@@ -381,7 +381,7 @@ public class STDAO {
 				} else { // nickname, title, content
 					sb.append(" AND INSTR(" + schType + ", ?) >= 1");
 				}
-				sb.append(" ORDER BY st_num ASC ");
+				sb.append(" ORDER BY st_num DESC ");
 				sb.append(" FETCH FIRST 1 ROWS ONLY ");
 
 				pstmt = conn.prepareStatement(sb.toString());
@@ -427,7 +427,7 @@ public class STDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE show_tip_board SET title = ?, content =? WHERE st_num = ? AND id = ?";
+			sql = "UPDATE show_tip_board SET title = ?, content =? WHERE st_num = ? AND id = ? AND board_type = 'showing'";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -453,14 +453,14 @@ public class STDAO {
 
 		try {
 			if (powercode >= 99) {
-				sql = "DELETE FROM show_tip_board WHERE st_num=?";
+				sql = "DELETE FROM show_tip_board WHERE st_num=? AND board_type = 'showing'";
 				pstmt = conn.prepareStatement(sql);
 
 				pstmt.setLong(1, num);
 
 				pstmt.executeUpdate();
 			} else {
-				sql = "DELETE FROM show_tip_board WHERE st_num=? AND id=?";
+				sql = "DELETE FROM show_tip_board WHERE st_num=? AND id=? AND board_type = 'showing'";
 
 				pstmt = conn.prepareStatement(sql);
 
@@ -485,7 +485,7 @@ public class STDAO {
 		String sql;
 
 		try {
-			sql = "SELECT file_num, s_filename, c_filename, st_num FROM show_tip_file WHERE st_num = ? ";
+			sql = "SELECT file_num, s_filename, c_filename, st_num FROM show_tip_file WHERE st_num = ?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setLong(1, num);
@@ -519,13 +519,12 @@ public class STDAO {
 
 		try {
 			sql = "INSERT INTO SHOW_TIP_COMMENT (STC_NUM, CONTENT, REG_DATE, ID, ST_NUM) "
-					+ " VALUES (STC_SEQ.NEXTVAL, ?, ?, ?, ?)";
+					+ " VALUES (STC_SEQ.NEXTVAL, ?, SYSDATE, ?, ?)";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getContent());
-			pstmt.setString(2, dto.getReg_date());
-			pstmt.setString(3, dto.getReg_date());
-			pstmt.setLong(4, dto.getSt_num());
+			pstmt.setString(2, dto.getId());
+			pstmt.setLong(3, dto.getSt_num());
 
 			pstmt.executeUpdate();
 
@@ -595,6 +594,8 @@ public class STDAO {
 				dto.setNickname(rs.getString("nickname"));
 				dto.setId(rs.getString("id"));
 				dto.setSt_num(rs.getLong("st_num"));
+				
+				list.add(dto);
 			}
 			
 		} catch (Exception e) {
@@ -603,4 +604,171 @@ public class STDAO {
 	
 		return list;
 	}
+	
+	public STComDTO findByCommentId(long stc_num) {
+		STComDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			sql = "SELECT stc_num, nickname, content, s.reg_date, s.id, st_num"
+					+ " FROM show_tip_comment s"
+					+ " JOIN player p ON s.id = p.id"
+					+ " WHERE stc_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, stc_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new STComDTO();
+				dto.setSt_num(rs.getLong("stc_num"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setContent(rs.getString("content"));
+				dto.setReg_date(rs.getString("reg_date"));
+				dto.setId(rs.getString("id"));
+				dto.setSt_num(rs.getLong("st_num"));
+			}
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return dto;
+	}
+	
+	
+	//게시글 댓글 삭제
+	public void deleteReply (long stc_num, String id, int powercode) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		if(powercode != 99) {
+			STComDTO dto = findByCommentId(stc_num);
+			if(dto == null || (! id.equals(dto.getId()))) {
+				return;
+			}
+			
+		}
+		
+		
+		try {
+			sql = " DELETE FROM show_tip_comment"
+					+ " WHERE stc_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, stc_num);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;	
+		} finally {
+			DBUtil.close(pstmt);
+		}
+		
+	}
+	
+	
+	// 로그인 유저의 게시글 좋아요 유무
+	public boolean isUserShowLike(long st_num, String id) {
+		boolean result = false;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		
+		try {
+			sql = "SELECT st_num,id FROM show_tip_like WHERE st_num=? AND id=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, st_num);
+			pstmt.setString(2, id);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+			
+		return result;
+	
+	}
+	
+	// 게시글의 좋아요 추가
+	public void insertShowLike(long st_num, String id) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		try {
+			sql = "INSERT INTO show_tip_like (st_num, id) VALUES (?,?) ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, st_num);
+			pstmt.setString(2, id);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}	
+	
+	// 게시글의 좋아요 삭제
+	public void deleteShowLike(long st_num, String id) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		try {
+			sql = "DELETE FROM show_tip_like WHERE st_num =? AND id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, st_num);
+			pstmt.setString(2, id);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}	
+	
+	// 게시글의 좋아요 개수
+	public int countShowLike(long st_num) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			sql = "SELECT count(*) FROM show_tip_like WHERE st_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, st_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1); 
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+			DBUtil.close(rs);
+		}
+		return result;
+	}	
+	
+	
+	
+	
 }
