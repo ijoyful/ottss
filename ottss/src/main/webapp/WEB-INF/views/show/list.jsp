@@ -6,23 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" href="data:;base64;iVBORw0KGgo=">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/ottssCss/list.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/boot-board.css"
-	type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ottssCss/list.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 </head>
-<style type="text/css">
-#footer {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-}
-
-</style>
 
 <script type="text/javascript">
 function searchList() {
