@@ -207,6 +207,11 @@ public class ShowController {
 			//파일
 			List<STDTO> listFile = dao.listSTFile(num);
 			
+			//게시물공감여부
+			HttpSession session = req.getSession();
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			boolean isUserLike = dao.isUserShowLike(num, info.getId());
+			
 			ModelAndView mav = new ModelAndView("show/article");
 			
 			mav.addObject("dto", dto);
@@ -215,6 +220,7 @@ public class ShowController {
 			mav.addObject("prevDto", prevDto);
 			mav.addObject("nextDto", nextDto);
 			mav.addObject("listFile", listFile);
+			mav.addObject("isUserLike", isUserLike);
 			
 			return mav;
 		} catch (Exception e) {
