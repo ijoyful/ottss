@@ -8,6 +8,19 @@ public class PlayRecordDTO {
 	private String result; // 게임 결과 ex. 진출 라운드, 점수 등
 	private String id; // 게임을 플레이한 유저 아이디
 	private int game_num; // 플레이한 게임 번호
+	
+	//++가위바위보추가(라운드)
+	private String round;
+	
+	
+	
+
+	public String getRound() {
+		return round;
+	}
+	public void setRound(String round) {
+		this.round = round;
+	}
 	public long getPlay_num() {
 		return play_num;
 	}
