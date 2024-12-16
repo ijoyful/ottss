@@ -131,7 +131,7 @@ public class NoticeManageController {
 			mav.addObject("articleUrl", articleUrl);
 			mav.addObject("schType", schType);
 			mav.addObject("kwd", kwd);
-			mav.addObject("paing", paging);
+			mav.addObject("paging", paging);
 			mav.addObject("size", size);
 
 		} catch (Exception e) {

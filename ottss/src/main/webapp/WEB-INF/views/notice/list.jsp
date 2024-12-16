@@ -98,7 +98,7 @@
 				<div class="col">
 					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/list';"><i class="bi bi-arrow-clockwise"></i></button>
 				</div>
-				<div class="col-6 text-center">
+				<div class="col-6 text-center" style="display: flex; justify-content: flex-end;">
 					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/notice/list" method="post" style="justify-content: center;">
 						<div class="col-auto p-1">
 							<select name="schType" class="form-select">
@@ -117,9 +117,6 @@
 							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
 						</div>
 					</form>
-				</div>
-				<div class="col text-end">
-					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/write?size=${size}';">글올리기</button>
 				</div>
 			</div>
 		</div> <!-- mainInner -->
