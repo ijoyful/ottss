@@ -407,11 +407,12 @@ window.addEventListener('load', () => {
 	});
 });
 
+
 window.addEventListener('load', () => {
 	const btnSubmitEL = document.querySelector("button.btnSubmit");
 	const timerEL = document.querySelector("div.timer");
 	
-	let timeLimit = 120;  // 제한시간(2분)
+	let timeLimit = 86400;  // 제한시간(2분)
 	
 	// 타이머
 	const quizRemaining = () => {

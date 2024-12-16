@@ -9,6 +9,7 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 <style type="text/css">
+
 	#footer {
 		position: absolute;
 		left: 0;
@@ -21,7 +22,7 @@
 *, *::after, *::before { box-sizing: border-box; }
 
 body {
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;	/* 이거 글씨체 통일해야 해요~ */
 	font-size: 13px;
 	color: #222;
 }
@@ -122,13 +123,16 @@ body {
 	<div class="container">
 	<div class="container-header">
 		<h1> Q U I Z </h1>
+		<button type="button" onclick="quizstart()" class="btn btn-start btn-lg">S T A R T</button>
 	</div>
 	
-	<div class="container-body">
+	<div class="container-body" style="display: none;">
+
 		<div class="quiz-timer">
 			<div>남은 시간 : </div>
 			<div class="timer"></div>
 		</div>
+		
 		
 		<div class="slider-container">
 			<div class="slider-left">
@@ -145,13 +149,27 @@ body {
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	<div class="container-footer">
+	<div class="container-footer" >
 		<button type="button" class="btn btn-primary btnSubmit"> 제출하기 </button>
 	</div>
+	</div>
+	
 	
 </div>
+<script type="text/javascript">
+function quizstart() {
+	  // 퀴즈 영역 표시
+	  document.querySelector(".container-body").style.display = "block";
+	  document.querySelector(".btn-start").style.display = "none";
+
+	  // START 버튼 비활성화
+	  document.querySelector("button[onclick='quizstart()']").disabled = true;
+
+	  // 퀴즈 초기화 및 타이머 시작
+	  initializeQuiz(); // 퀴즈 데이터를 초기화하고 첫 문제 출력
+	  startQuizTimer(); // 타이머 시작 (이미 구현된 타이머 함수 호출)
+	}
+</script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/quiz_data.js"></script>
 </body>
 </html>
