@@ -3,6 +3,7 @@ package com.ottss.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -183,7 +184,7 @@ public class AdminReportDAO {
 		return list;
 	}
 
-	public void insertReport(ReportDTO dto) {
+	public void insertReport(ReportDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 
@@ -198,6 +199,9 @@ public class AdminReportDAO {
 			pstmt.setString(4, dto.getId());
 
 			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

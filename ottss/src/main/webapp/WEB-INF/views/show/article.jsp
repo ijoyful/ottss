@@ -391,10 +391,13 @@ function sendOk(id, num) {
 
     let url = '${pageContext.request.contextPath}/show/report';
     const fn = function(data) {
+    	console.log(data);
     	$('#reportModal .modal-body').empty();
     	$('#reportModal').modal('hide');
     	if (data.state === 'true') {
     		alert('신고가 정상적으로 완료되었습니다!');
+    	} else if (data.msg != null) {
+    		alert(msg);
     	}
     };
 

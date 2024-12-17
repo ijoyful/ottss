@@ -516,8 +516,14 @@ public class ShowController {
 			dao.insertReport(dto);
 
 			state = "true";
+		} catch (SQLException e) {
+			if (e.getErrorCode() == 1) {
+				String msg = "이미 신고한 게시물입니다.";
+				model.put("msg", msg);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			state = "false";
 		}
 		
 		model.put("state", state);
