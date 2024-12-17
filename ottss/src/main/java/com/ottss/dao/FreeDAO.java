@@ -763,7 +763,7 @@ public class FreeDAO {
 			}
 		}
 	// 게시글의 좋아요 개수
-	public int countFreeLike(long st_num) {
+	public int countFreeLike(long st_num) { 
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

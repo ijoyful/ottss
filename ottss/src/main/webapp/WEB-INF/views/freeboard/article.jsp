@@ -83,7 +83,7 @@
 						</tr>
 						<tr>
 							<td colspan="2" class="text-center p-3">
-								<button type="button" class="btn btn-outline-primary btnSendBoardLike" title="좋아요"><i class="bi ${isUserLike ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up'}"></i>&nbsp;&nbsp;<span id="likeCount">${dto.likeCount}</span></button>
+								<button type="button" class="btn btn-outline-primary btnSendBoardLike" title="좋아요"><i class="bi ${insereFreeLike ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up'}"></i>&nbsp;&nbsp;<span id="likeCount">${dto.likeCount}</span></button>
 							</td>
 						</tr>
 						<tr>

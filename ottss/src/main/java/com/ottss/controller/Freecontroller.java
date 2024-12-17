@@ -433,7 +433,7 @@ public class Freecontroller {
 	//게시글 공감 저장
 	@ResponseBody
 	@RequestMapping(value = "/freeboard/insertFreeLike", method = RequestMethod.POST)
-	public Map<String, Object> insertShowLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public Map<String, Object> insertFreeLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//넘어온 파라미터 : fb_num, 공감/취소여부
 		Map<String, Object> model = new HashMap<String, Object>();
 		
