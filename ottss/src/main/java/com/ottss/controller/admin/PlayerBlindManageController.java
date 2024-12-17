@@ -53,9 +53,9 @@ public class PlayerBlindManageController {
 			// 데이터 개수
 			int dataCount;
 			if(kwd.length() == 0) {
-				dataCount = dao.userCount();
+				dataCount = dao.userCount(true);
 			} else {
-				dataCount = dao.userCount(schType, kwd);
+				dataCount = dao.userCount(schType, kwd, true);
 			}
 			
 			// 전체 페이지

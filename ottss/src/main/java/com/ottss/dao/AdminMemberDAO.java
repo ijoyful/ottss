@@ -14,17 +14,18 @@ public class AdminMemberDAO {
 	
 	public Connection conn = DBConn.getConnection();
 	
-	public int userCount() {
+	public int userCount(boolean blind) {
 		
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql;
+		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sql = "SELECT COUNT(*) cnt FROM player";
+			sb.append("SELECT COUNT(*) cnt FROM player");
+			if(blind) sb.append(" WHERE block = 1");
 			
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sb.toString());
 			
 			rs = pstmt.executeQuery();
 			
@@ -44,7 +45,7 @@ public class AdminMemberDAO {
 		
 	}
 	
-	public int userCount(String schType, String kwd) {
+	public int userCount(String schType, String kwd, boolean blind) {
 		
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -53,10 +54,15 @@ public class AdminMemberDAO {
 		
 		try {
 			sql = "SELECT COUNT(*) cnt FROM player";
+			
 			if (schType.equals("all")) {
 				sql += " WHERE (INSTR(id, ?) >= 1 OR INSTR(name, ?) >= 1)";
 			} else {
 				sql += " AND INSTR(" + schType + ", ?) >= 1";
+			}
+			
+			if(blind) {
+				sql += " AND block=1";
 			}
 			
 			pstmt = conn.prepareStatement(sql);

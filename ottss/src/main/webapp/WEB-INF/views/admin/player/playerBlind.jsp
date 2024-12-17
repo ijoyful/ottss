@@ -24,12 +24,15 @@
 		<jsp:include page="/WEB-INF/views/admin/layout/left.jsp"/>
 		<div class="wrapper">
 			<div class="body-container">
+				<div class="body-title">
+					<h3><i class="bi bi-clipboard"></i>&nbsp;차단된 회원</h3>
+				</div>
 				<div class="row board-list-footer" style="margin-bottom: 20px">
 					<div class="col">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/player/list';"><i class="bi bi-arrow-clockwise"></i></button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/player/blind';"><i class="bi bi-arrow-clockwise"></i></button>
 					</div>
 					<div class="col-6 text-center">
-						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/admin/player/list" method="post" style="justify-content: flex-end; padding-right: calc(var(--bs-gutter-x)* .5);">
+						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/admin/player/blind" method="post" style="justify-content: flex-end; padding-right: calc(var(--bs-gutter-x)* .5);">
 							<div class="col-auto p-1">
 								<select name="schType" class="form-select">
 									<option value="all" ${schType=="all"?"selected":""}>아이디 + 이름</option>
@@ -78,9 +81,7 @@
 			            </ul>
 		            </c:forEach>
 				</div>
-	            <div class="page-navigation">
-					${dataCount==0?"등록된 게시물이 없습니다.":paging}
-				</div>
+	            <div class="page-navigation">${dataCount==0?"등록된 게시물이 없습니다.":paging}</div>
 			</div>		
 		</div>
 	</main>

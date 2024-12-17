@@ -52,9 +52,9 @@ public class AdminReportDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT COUNT(*) cnt FROM report";
+			sql = "SELECT COUNT(*) cnt FROM report r JOIN player p ON p.id = r.id ";
 			if (schType.equals("all")) {
-				sql += " WHERE (INSTR(id, ?) >= 1 OR INSTR(name, ?) >= 1)";
+				sql += " WHERE (INSTR(p.id, ?) >= 1 OR INSTR(p.nickname, ?) >= 1)";
 			} else {
 				sql += " AND INSTR(" + schType + ", ?) >= 1";
 			}
@@ -138,7 +138,7 @@ public class AdminReportDAO {
 			sb.append(" FROM REPORT r");
 			sb.append(" JOIN player p ON r.id = p.id");
 			if (schType.equals("all")) {
-				sb.append(" WHERE (INSTR(id, ?) >= 1 OR INSTR(nickname, ?) >= 1)");
+				sb.append(" WHERE (INSTR(p.id, ?) >= 1 OR INSTR(p.nickname, ?) >= 1)");
 			} else {
 				sb.append(" AND INSTR(" + schType + ", ?) >= 1");
 			}

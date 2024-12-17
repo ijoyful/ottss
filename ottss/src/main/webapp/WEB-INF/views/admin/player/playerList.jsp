@@ -24,6 +24,9 @@
 		<jsp:include page="/WEB-INF/views/admin/layout/left.jsp"/>
 		<div class="wrapper">
 			<div class="body-container">
+				<div class="body-title">
+					<h3><i class="bi bi-clipboard"></i>&nbsp;회원 리스트</h3>
+				</div>
 				<div class="row board-list-footer" style="margin-bottom: 20px">
 					<div class="col">
 						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/player/list';"><i class="bi bi-arrow-clockwise"></i></button>
