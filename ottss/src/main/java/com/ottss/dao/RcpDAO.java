@@ -90,19 +90,18 @@ public class RcpDAO {
 
 	}
 
-	// 포인트내역 insert (주의 포인트 차감하고 userPoint 불러야할듯)
-	public void insertStPoint(PlayRecordDTO dto) {
+	// 포인트내역 insert (주의 포인트 차감하고 userPoint 불러야할듯 + point 는 10 고정)
+	public void insertStPoint(String id) {
 		PreparedStatement pstmt = null;
 		String sql;
-		int left_pt = userPoint(dto.getId());
+		int left_pt = userPoint(id);
 
 		try {
 			sql = "INSERT INTO point_record (pt_num, categories, point, left_pt, pt_date, id)"
-					+ " VALUES (pt_seq.NEXTVAL, 10, ?, ?, SYSDATE, ?)";
+					+ " VALUES (pt_seq.NEXTVAL, 10, 10, ?, SYSDATE, ?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getUsed_point());
-			pstmt.setInt(2, left_pt);
-			pstmt.setString(3, dto.getId());
+			pstmt.setInt(1, left_pt);
+			pstmt.setString(2, id);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,7 +142,7 @@ public class RcpDAO {
 		String sql;
 
 		try {
-			// 사용포인트 10 고정 가위바오보 게임넘버 2
+			// 사용포인트 10 고정 가위바위보 게임넘버 2
 			sql = "INSERT INTO play_record (play_num, play_date, used_point, win_point, result, id, game_num)"
 					+ " VALUES (play_seq.NEXTVAL, SYSDATE, 10, ?, ?, ?, 2)";
 			pstmt = conn.prepareStatement(sql);
