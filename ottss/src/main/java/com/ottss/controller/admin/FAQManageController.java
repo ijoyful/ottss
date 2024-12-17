@@ -215,7 +215,7 @@ public class FAQManageController {
 		String root = session.getServletContext().getRealPath("/");
 		String pathname = root + "uploads" + File.separator + "qna";
 		
-		NoticeDAO dao = new NoticeDAO();
+		FAQDAO dao = new FAQDAO();
 		
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
@@ -238,17 +238,17 @@ public class FAQManageController {
 			}
 			
 			// 파일 삭제
-			List<NoticeDTO> listFile = dao.listNoticeFile(num);
-			for(NoticeDTO dto : listFile) {
-				fileManager.doFiledelete(pathname, dto.getS_fileName());
-			}
+			// List<NoticeDTO> listFile = dao.listNoticeFile(num);
+//			for(NoticeDTO dto : listFile) {
+//				fileManager.doFiledelete(pathname, dto.getS_fileName());
+//			}
 			
 			
 			// 파일 테이블 삭제
-			dao.deleteNoticeFile("all", num);
+			// dao.deleteNoticeFile("all", num);
 			
 			// 게시글 삭제
-			dao.deleteNotice(num);
+			// dao.deleteNotice(num);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

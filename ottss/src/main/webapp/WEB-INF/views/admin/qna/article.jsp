@@ -12,7 +12,7 @@
 	
 	function deleteBoard() {
 		if(confirm('게시글을 삭제하시겠습니까?')) {
-			let query = 'faq_num=${dto.faq_num}&${query}';
+			let query = 'num=${dto.faq_num}&${query}';
 			let url = '${pageContext.request.contextPath}/admin/qna/delete?' + query;
 			location.href = url;
 		}

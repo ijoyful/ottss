@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class PlayerListManageController {
 	@RequestMapping(value = "/admin/player/list")
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("admin/home/playerList");
+		ModelAndView mav = new ModelAndView("admin/player/playerList");
 
 		AdminMemberDAO dao = new AdminMemberDAO();
 		MyUtil util = new MyUtilBootstrap();
@@ -84,7 +84,7 @@ public class PlayerListManageController {
 			
 			// 페이징 처리
 			String cp = req.getContextPath();
-			String listUrl = cp + "/admin/home/playerList";
+			String listUrl = cp + "/admin/player/playerList";
 			
 			if(query.length() != 0) {
 				listUrl += "?" + query;
