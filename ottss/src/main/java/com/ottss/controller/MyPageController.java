@@ -35,6 +35,17 @@ public class MyPageController {
 	@RequestMapping(value = "/mypage/mypoint")
 	public ModelAndView mypoint(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ModelAndView mav = new ModelAndView("player/mypoint");
+		HttpSession session = req.getSession();
+		RouletteDAO dao = new RouletteDAO();
+
+		try {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			int left_pt = dao.leftPoint(info.getId());
+
+			mav.addObject("left_pt", left_pt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return mav;
 	}
 	
