@@ -123,7 +123,6 @@ body {
 	<div class="container-header">
 		<h1> 삼식이의 퀴즈 </h1>
 		<button type="button" onclick="quizstart()" class="btn btn-start btn-lg">S T A R T</button>
-		<p>남은 포${dto.left_point}</p>
 	</div>
 	
 	<div class="container-body" style="display: none;">

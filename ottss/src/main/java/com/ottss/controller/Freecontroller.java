@@ -486,7 +486,7 @@ public class Freecontroller {
 
 		try {
 			ReportDTO dto = new ReportDTO();
-			dto.setReport_num(Long.parseLong(req.getParameter("num")));
+			dto.setTarget_num(Long.parseLong(req.getParameter("num")));
 			dto.setId(req.getParameter("id"));
 			dto.setReport_reason(req.getParameter("reason"));
 			dto.setTarget_table("free_board");

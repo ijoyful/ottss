@@ -673,7 +673,7 @@ public class FreeDAO {
 		PreparedStatement pstmt = null;
 		String sql;
 		
-		if(powerCode < 98) {
+		if(powerCode != 99) {
 			FreeComDTO dto = findByComId(fbc_num);
 			if(dto == null || (! id.equals(dto.getId()))) {
 				return;

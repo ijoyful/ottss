@@ -54,7 +54,7 @@
 							<td align="right">
 							<c:choose>
 								<c:when test="${sessionScope.member.id==dto.id}">
-									<span id="delete" onclick="deletefreeboard();">삭제</span>
+									<span id="delete" style="cursor: pointer"onclick="deleteOk();">삭제</span>
 								</c:when>
 								<c:otherwise>
 									<span id="report" onclick="reportdialogshow();">신고</span>
@@ -284,6 +284,7 @@ $(function() {
 		let query = 'fbc_num=' + fbc_num;
 		
 		const fn = function(data){
+			console.log(fbc_num);
 			listPage(page);
 		};
 		
