@@ -19,7 +19,7 @@
 	<div class="mainInner">
 		<div class="row board-list-footer">
 			<div class="col">
-				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/faq/list';"><i class="bi bi-arrow-clockwise"></i></button>
+				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/list';"><i class="bi bi-arrow-clockwise"></i></button>
 			</div>
 			<div class="col-6 text-center">
 				<form class="row" name="searchForm" action="${pageContext.request.contextPath}/qna/list" method="post">
@@ -41,7 +41,7 @@
 				</form>
 			</div>
 			<div class="col text-end">
-				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/faq/write';">글올리기</button>
+				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/write';">글올리기</button>
 			</div>
 		</div>
 		<div class="listInner">

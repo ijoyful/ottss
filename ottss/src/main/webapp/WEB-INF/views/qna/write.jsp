@@ -24,7 +24,7 @@ function sendOk() {
 		return;
 	}
 
-	f.action = '${pageContext.request.contextPath}/faq/write';
+	f.action = '${pageContext.request.contextPath}/qna/write';
 	f.submit();
 }
 </script>
