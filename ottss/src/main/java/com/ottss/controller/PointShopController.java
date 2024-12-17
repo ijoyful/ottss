@@ -105,6 +105,7 @@ public class PointShopController {
 		return mav;
 	}
 	
+	
 	@RequestMapping(value = "/shop/inventory", method = RequestMethod.GET)
 	public ModelAndView haveList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 인벤토리 리스트
@@ -188,5 +189,36 @@ public class PointShopController {
 		}
 		return mav;
 	}
+	
+	
+		// 여기서부터 GPT
+	  private PointShopDAO dao = new PointShopDAO();
+	  
+    // 2. 아이템 구매
+    @RequestMapping(value = "/shop/buy", method = RequestMethod.POST)
+    public void buyItem(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            // 사용자 ID와 아이템 번호
+            int userId = Integer.parseInt(req.getParameter("userId"));
+            long itemNum = Long.parseLong(req.getParameter("itemNum"));
 
+            // 구매 처리
+            boolean success = dao.purchaseItem(userId, itemNum);
+
+            // 결과 반환
+            resp.setContentType("application/json");
+            if (success) {
+                resp.getWriter().write("{\"success\": true, \"message\": \"구매가 완료되었습니다.\"}");
+            } else {
+                resp.getWriter().write("{\"success\": false, \"message\": \"포인트가 부족하거나 오류가 발생했습니다.\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.getWriter().write("{\"success\": false, \"message\": \"구매 처리 중 오류가 발생했습니다.\"}");
+        }
+    }
+
+   
 }
+
+

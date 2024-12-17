@@ -46,7 +46,7 @@ padding : 0;
                         <li class = "name">상품이름</li>
                         <li class = "explain">상품설명</li>
                     </ul>
-                    <c:forEach var="dto" items="${itemList}">
+                    <c:forEach var="dto" items="${userInventory}">
                     <ul class="listContent">
                         <li class="categories">${dto.categories}</li>
                         <li class="name">${dto.item_name}</li>
