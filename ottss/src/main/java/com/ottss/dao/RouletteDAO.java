@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.ottss.domain.RouletteDTO;
+import com.ottss.domain.PlayRecordDTO;
 import com.ottss.util.DBConn;
 import com.ottss.util.DBUtil;
 
@@ -40,7 +40,7 @@ public class RouletteDAO {
 	}
 
 	// 게임 시작 시
-	public void startGame(RouletteDTO dto) {
+	public void startGame(PlayRecordDTO dto) {
 		PreparedStatement pstmt = null;
 		String sql;
 		int left_pt = 0;
@@ -81,7 +81,7 @@ public class RouletteDAO {
 	}
 
 	// 게임 끝난 후
-	public void endGame(RouletteDTO dto) {
+	public void endGame(PlayRecordDTO dto) {
 		PreparedStatement pstmt = null;
 		String sql;
 		int left_pt = 0;

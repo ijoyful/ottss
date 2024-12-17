@@ -33,6 +33,7 @@
 			<canvas width="380" height="380"></canvas>
 		</div>
 	</div>
+	<input type="hidden" name="state" value="${state}">
 </main>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/roulette.js"></script>
