@@ -258,7 +258,7 @@ public class FAQDAO {
 		String sql;
 
 		try {
-			sql = "SELECT faq_num, q_title, q_content, a_content, question_date, answer_date, hitCount,"
+			sql = "SELECT faq_num, q_title, q_content, a_content, question_date, answer_date, hitCount, u.id id,"
 					+ " u.nickname usernickname, admin.nickname adminnickname"
 					+ " FROM FAQ f JOIN player u ON f.user_id = u.id"
 					+ " LEFT OUTER JOIN player admin ON f.admin_id = admin.id"
@@ -279,6 +279,7 @@ public class FAQDAO {
 				dto.setHitCount(rs.getLong("hitCount"));
 				dto.setQ_nickname(rs.getString("usernickname"));
 				dto.setA_nickname(rs.getString("adminnickname"));
+				dto.setUser_id(rs.getString("id"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

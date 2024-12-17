@@ -150,6 +150,7 @@ public class FAQController {
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
 		String query = "page=" + page + "&size=" + size;
+		MyUtil util = new MyUtilBootstrap();
 		FAQDAO dao = new FAQDAO();
 
 		try {
@@ -172,13 +173,9 @@ public class FAQController {
 			if (dto == null) {
 				return new ModelAndView("redirect:/qna/list?" + query);
 			}
-			dto.setQ_content(dto.getQ_content().replaceAll("<", "&lt;"));
-			dto.setQ_content(dto.getQ_content().replaceAll(">", "&gt;"));
-			dto.setQ_content(dto.getQ_content().replaceAll("\n", "<br>"));
+			dto.setQ_content(util.htmlSymbols(dto.getQ_content()));
 			if (dto.getA_content() != null) {
-				dto.setA_content(dto.getA_content().replaceAll("<", "&lt;"));
-				dto.setA_content(dto.getA_content().replaceAll(">", "&gt;"));
-				dto.setA_content(dto.getA_content().replaceAll("\n", "<br>"));
+				dto.setA_content(util.htmlSymbols(dto.getA_content()));
 			}
 
 			FAQDTO prevDTO = dao.findByPrev(dto.getFaq_num(), schType, kwd);

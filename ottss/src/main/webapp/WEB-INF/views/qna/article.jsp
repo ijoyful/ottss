@@ -36,8 +36,13 @@
 				<table class="table board-article">
 					<thead>
 						<tr>
-							<td colspan="2" align="left">
+							<td align="left">
 								${dto.q_title}
+							</td>
+							<td align="left">
+								<c:if test="${sessionScope.member.id != dto.user_id}">
+								<span id="report">신고</span>
+								</c:if>
 							</td>
 						</tr>
 					</thead>
@@ -144,10 +149,36 @@
 	</div>
 </main>
 
+<div class="modal fade" id="reportModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reportModalLable" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="myDialogModalLabel">신고사유</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body pt-1">
+			</div>
+		</div>
+	</div>
+</div>
 <footer>
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 </footer>
+<script type="text/javascript">
+$(function(){
+	// 카테고리 대화상자 객체
+	const myModalEl = document.getElementById('reportModal');
+	
+	myModalEl.addEventListener('show.bs.modal', function(){
+		// 모달 대화상자가 보일때
+	});
 
+	myModalEl.addEventListener('hidden.bs.modal', function(){
+		// 모달 대화상자가 닫할때
+		location.href = '${pageContext.request.contextPath}/qna/article/';
+	});
+});
+</script>
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 </body>
 </html>
