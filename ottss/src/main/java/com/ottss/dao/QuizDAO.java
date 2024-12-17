@@ -6,12 +6,40 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.ottss.util.DBConn;
+import com.ottss.domain.PlayRecordDTO;
 import com.ottss.domain.QuizPlayDTO;
 import com.ottss.util.DBUtil;
 
 public class QuizDAO {
 	private Connection conn = DBConn.getConnection();
 	
+	public boolean checkPoint(String id) {
+		boolean start = false;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		int entryPoint = 10;
+
+		try {
+			sql = "SELECT point FROM player WHERE id = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				int point = rs.getInt("point");
+				start = point >= entryPoint;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+
+		return start;
+	}
+	
+	// 남은 포인트
 	public int leftPoint(String id) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -37,7 +65,7 @@ public class QuizDAO {
 		return result;
 	}
 	
-	public void startGame(QuizPlayDTO dto) {
+	public void startGame(PlayRecordDTO dto) {
 		PreparedStatement pstmt = null;
 		String sql;
 		int left_pt = 0;

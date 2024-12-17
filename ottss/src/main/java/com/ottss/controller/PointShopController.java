@@ -107,7 +107,7 @@ public class PointShopController {
 	
 	@RequestMapping(value = "/shop/inventory", method = RequestMethod.GET)
 	public ModelAndView haveList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 상점 아이템 리스트
+		// 인벤토리 리스트
 		// 넘어온 파라미터 : [페이지 번호, size]
 		ModelAndView mav = new ModelAndView("shop/inventory");
 		
@@ -133,7 +133,7 @@ public class PointShopController {
 				kwd = URLDecoder.decode(kwd,"utf-8");
 			}
 			
-			// 한페이지 상품 수
+			// 한페이지 아이템 수
 			String pageSize = req.getParameter("size");
 			int size = pageSize == null ? 30 : Integer.parseInt(pageSize);
 			

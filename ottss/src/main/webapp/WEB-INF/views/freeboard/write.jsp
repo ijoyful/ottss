@@ -70,9 +70,9 @@ function sendOk() {
 	                	<li class ="submitBtn">
 	                		<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
 							<button type="reset" class="btn btn-light">다시입력</button>
-							<button type="button" class="btn btn-light"onclick="location.href='${pageContext.request.contextPath}/show/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button> 
+							<button type="button" class="btn btn-light"onclick="location.href='${pageContext.request.contextPath}/freeboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button> 
 							<c:if test="${mode=='update'}">
-								<input type="hidden" name="st_num" value="${dto.st_num}">
+								<input type="hidden" name="fb_num" value="${dto.fb_num}">
 								<input type="hidden" name="page" value="${page}">
 							</c:if>
 	                	</li>

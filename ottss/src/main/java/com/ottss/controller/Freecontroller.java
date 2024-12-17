@@ -213,7 +213,7 @@ public class Freecontroller {
 		return new ModelAndView("redirect:/freeboard/list?" + query);
 	}
 	
-	@RequestMapping(value="/freeboard/update", method =RequestMethod.GET)
+	@RequestMapping(value="/freeboard/update", method = RequestMethod.GET)
 	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//수정폼
 		FreeDAO dao = new FreeDAO();
@@ -375,11 +375,10 @@ public class Freecontroller {
 				current_page = total_page;
 			}
 			
-			int offset = (current_page -1)* size;
+			int offset = (current_page - 1)* size;
 			if(offset < 0) offset = 0;			
 			
 			List<FreeComDTO> list = dao.listComment(num, offset, size);
-			
 			for(FreeComDTO dto : list) {
 				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 			}
@@ -406,7 +405,7 @@ public class Freecontroller {
 	@ResponseBody
 	@RequestMapping(value = "/Freeboard/deleteComment", method = RequestMethod.POST)
 	public Map<String, Object> deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
-		//넘어온 파라미터 : stc_num
+		//넘어온 파라미터 : fbc_num
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		FreeDAO dao = new FreeDAO();
@@ -416,8 +415,8 @@ public class Freecontroller {
 		String state = "false";
 		
 		try {
-			long stc_num = Long.parseLong(req.getParameter("fbc_num"));
-			dao.deleteComment(stc_num, info.getId(), info.getPowerCode());
+			long fbc_num = Long.parseLong(req.getParameter("fbc_num"));
+			dao.deleteComment(fbc_num, info.getId(), info.getPowerCode());
 			state = "true";
 			
 		} catch (Exception e) {

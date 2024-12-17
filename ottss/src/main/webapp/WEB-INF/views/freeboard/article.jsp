@@ -72,18 +72,18 @@
 						</tr>
 						
 						<tr>
+							<td colspan="2" class="text-center p-3">
+								<button type="button" class="btn btn-outline-primary btnSendBoardLike" title="좋아요"><i class="bi ${insereFreeLike ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up'}"></i>&nbsp;&nbsp;<span id="likeCount">${dto.likeCount}</span></button>
+							</td>
+						</tr>
+						<tr>
 							<td colspan="2">
-								<c:forEach var="vo" items="${listFreeFile}" varStatus="status">
+								<c:forEach var="vo" items="${listFile}" varStatus="status">
 									<p class="border text-secondary mb-1 p-2">
 										<i class="bi bi-folder2-open"></i>
 										<a href="${pageContext.request.contextPath}/freeboard/download?fileNum=${vo.fileNum}">${vo.c_fileName}</a>
 									</p>
 								</c:forEach>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2" class="text-center p-3">
-								<button type="button" class="btn btn-outline-primary btnSendBoardLike" title="좋아요"><i class="bi ${insereFreeLike ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up'}"></i>&nbsp;&nbsp;<span id="likeCount">${dto.likeCount}</span></button>
 							</td>
 						</tr>
 						<tr>
@@ -109,7 +109,7 @@
 						<td width="50%">
 							 <c:choose>
                             	<c:when test="${sessionScope.member.id==dto.id}">                                                                    
-                            		<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/update?st_num=${dto.fb_num}&page=${page}';">수정</button>
+                            		<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/update?fb_num=${dto.fb_num}&page=${page}';">수정</button>
                            		</c:when>
                            		<c:otherwise>
 									<button type="button" class="btn btn-light" disabled>수정</button>
@@ -151,8 +151,8 @@
                         </table>
                     </form>
                     
-                    <div id="listReply">
-         
+                    <div id="listReply"> 
+                    	
                     </div>
                 </div>
                 
@@ -244,6 +244,7 @@ function listPage(page) {
 	let selector = '#listReply';
 	
 	const fn = function(data) {
+		console.log(data);
 		$(selector).html(data);
 	};
 	ajaxFun(url, 'get', query, 'text', fn);
@@ -256,10 +257,10 @@ $(function() {
 			return false;
 		}
 		
-		let stc_num = $(this).attr('data-stc_num');
+		let stc_num = $(this).attr('data-fbc_num');
 		let page = $(this).attr('data-pageNo');
 		
-		let url = '${pageContext.request.contextPath}/freeboard/deleteReply';
+		let url = '${pageContext.request.contextPath}/freeboard/deleteComment';
 		let query = 'fbc_num=' + fbc_num;
 		
 		const fn = function(data){

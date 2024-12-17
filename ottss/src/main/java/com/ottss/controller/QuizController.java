@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ottss.dao.QuizDAO;
+import com.ottss.domain.PlayRecordDTO;
 import com.ottss.domain.QuizPlayDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
@@ -35,21 +36,29 @@ public class QuizController {
 		
 		try {
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
-			String id = info.getId();
-			int point = Integer.parseInt(req.getParameter("bet"));
-			int left_point = dao.leftPoint(id);
+			if(info == null) {
+				model.put("state", state);
+				model.put("message", "로그인이 필요합니다.");
+				return model;
+				
+			}
 			
-			if(left_point < point) {
-				model.put("state", "false");
+			String id = info.getId();
+			
+			// 포인트 체크
+			boolean canStart = dao.checkPoint(id);
+			if(!canStart) {
+				model.put("state", state);
 				model.put("message", "돈도 없으면서 퀴즈는 푸시고 싶으세요?");
 				return model;
-			} else {
-				QuizPlayDTO dto = new QuizPlayDTO();
-				dto.setId(id);
-				dto.setUsed_point(point);
-				dao.startGame(dto);
-				state = "true";
 			}
+			
+			// 게임 시작
+			QuizPlayDTO dto = new QuizPlayDTO();
+			dto.setId(id);
+			dto.setUsed_point(10);
+				
+			
 			model.put("state", state);
 			return model;
 		} catch (Exception e) {
