@@ -5,7 +5,7 @@ public class ReportDTO {
 	private String report_reason; // 신고 사유
 	private String report_date; // 신고 날짜
 	private String target_table; // 신고 게시글/댓글 소속 테이블
-	private String target_num; // 신고 게시글/댓글 번호
+	private long target_num; // 신고 게시글/댓글 번호
 	private String id; // 신고한 아이디
 	public long getReport_num() {
 		return report_num;
@@ -31,16 +31,17 @@ public class ReportDTO {
 	public void setTarget_table(String target_table) {
 		this.target_table = target_table;
 	}
-	public String getTarget_num() {
-		return target_num;
-	}
-	public void setTarget_num(String target_num) {
-		this.target_num = target_num;
-	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
+	public long getTarget_num() {
+		return target_num;
+	}
+	public void setTarget_num(long target_num) {
+		this.target_num = target_num;
+	}
+	
 }
