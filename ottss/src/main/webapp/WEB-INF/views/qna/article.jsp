@@ -68,7 +68,7 @@
 								<c:forEach var="vo" items="${listFile}" varStatus="status">
 									<p class="border text-secondary mb-1 p-2">
 										<i class="bi bi-folder2-open"></i>
-										<a href="${pageContext.request.contextPath}/faq/download?fileNum=${vo.fileNum}">${vo.c_fileName}</a>
+										<a href="${pageContext.request.contextPath}/qna/download?fileNum=${vo.fileNum}">${vo.c_fileName}</a>
 									</p>
 								</c:forEach>
 							</td>
