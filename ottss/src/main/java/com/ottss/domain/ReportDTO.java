@@ -7,6 +7,14 @@ public class ReportDTO {
 	private String target_table; // 신고 게시글/댓글 소속 테이블
 	private long target_num; // 신고 게시글/댓글 번호
 	private String id; // 신고한 아이디
+	private String nickname;
+	
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public long getReport_num() {
 		return report_num;
 	}

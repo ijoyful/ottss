@@ -92,7 +92,7 @@ public class AdminReportDAO {
 		
 		try {
 			
-			sb.append("SELECT REPORT_NUM, TARGET_NUM, TARGET_TABLE, REPORT_REASON, REPORT_DATE, p.id");
+			sb.append("SELECT REPORT_NUM, TARGET_NUM, TARGET_TABLE, REPORT_REASON, REPORT_DATE, p.id, p.nickname");
 			sb.append(" FROM REPORT r");
 			sb.append(" JOIN player p ON r.id = p.id");
 			
@@ -109,7 +109,9 @@ public class AdminReportDAO {
 				dto.setTarget_table(rs.getString("target_table"));
 				dto.setReport_reason(rs.getString("report_reason"));
 				dto.setReport_date(rs.getString("report_date"));
-				
+				dto.setNickname(rs.getString("nickname"));
+
+				list.add(dto);
 			}
 			
 		} catch (Exception e) {
@@ -131,11 +133,11 @@ public class AdminReportDAO {
 		
 		try {
 			
-			sb.append("SELECT REPORT_NUM, TARGET_NUM, TARGET_TABLE, REPORT_REASON, REPORT_DATE, p.id");
+			sb.append("SELECT REPORT_NUM, TARGET_NUM, TARGET_TABLE, REPORT_REASON, REPORT_DATE, p.id, p.nickname");
 			sb.append(" FROM REPORT r");
 			sb.append(" JOIN player p ON r.id = p.id");
 			if (schType.equals("all")) {
-				sb.append(" WHERE (INSTR(id, ?) >= 1 OR INSTR(name, ?) >= 1)");
+				sb.append(" WHERE (INSTR(id, ?) >= 1 OR INSTR(nickname, ?) >= 1)");
 			} else {
 				sb.append(" AND INSTR(" + schType + ", ?) >= 1");
 			}
@@ -166,7 +168,9 @@ public class AdminReportDAO {
 				dto.setTarget_table(rs.getString("target_table"));
 				dto.setReport_reason(rs.getString("report_reason"));
 				dto.setReport_date(rs.getString("report_date"));
-				
+				dto.setNickname(rs.getString("nickname"));
+
+				list.add(dto);
 			}
 			
 		} catch (Exception e) {
@@ -177,6 +181,28 @@ public class AdminReportDAO {
 		}
 		
 		return list;
+	}
+
+	public void insertReport(ReportDTO dto) {
+		PreparedStatement pstmt = null;
+		String sql;
+
+		try {
+			sql = "INSERT INTO report (report_num, target_num, target_table, report_reason, report_date, id)"
+					+ " VALUES (report_seq.NEXTVAL, ?, ?, ?, SYSDATE, ?)";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, dto.getTarget_num());
+			pstmt.setString(2, dto.getTarget_table());
+			pstmt.setString(3, dto.getReport_reason());
+			pstmt.setString(4, dto.getId());
+
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
 	}
 	
 }

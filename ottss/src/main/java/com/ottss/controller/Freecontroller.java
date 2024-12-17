@@ -9,9 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ottss.dao.AdminReportDAO;
 import com.ottss.dao.FreeDAO;
 import com.ottss.domain.FreeComDTO;
 import com.ottss.domain.FreeDTO;
+import com.ottss.domain.ReportDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
@@ -468,4 +470,36 @@ public class Freecontroller {
 		return model;
 	}
 
+	@RequestMapping(value = "/freeboard/report", method = RequestMethod.GET)
+	public ModelAndView reportForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("freeboard/report");
+		mav.addObject("num", req.getParameter("num"));
+		return mav;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/freeboard/report", method = RequestMethod.POST)
+	public Map<String, Object> reportSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		AdminReportDAO dao = new AdminReportDAO();
+		String state = "false";
+
+		try {
+			ReportDTO dto = new ReportDTO();
+			dto.setReport_num(Long.parseLong(req.getParameter("num")));
+			dto.setId(req.getParameter("id"));
+			dto.setReport_reason(req.getParameter("reason"));
+			dto.setTarget_table("free_board");
+
+			dao.insertReport(dto);
+
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);
+		
+		return model;
+	}
 }
