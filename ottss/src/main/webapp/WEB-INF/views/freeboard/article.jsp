@@ -277,7 +277,7 @@ $(function() {
 			return false;
 		}
 		
-		let stc_num = $(this).attr('data-fbc_num');
+		let fbc_num = $(this).attr('data-fbc_num');
 		let page = $(this).attr('data-pageNo');
 		
 		let url = '${pageContext.request.contextPath}/freeboard/deleteComment';

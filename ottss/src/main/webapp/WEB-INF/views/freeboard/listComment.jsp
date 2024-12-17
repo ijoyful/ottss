@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 
 <div class="reply-info">
-    <span class="reply-count">댓글  ${commentCount}개</span>
+    <span class="reply-count">댓글  ${replyCount}개</span>
     <span>[목록, ${pageNo}/${total_page} 페이지]</span>
 </div>
 
@@ -19,7 +19,7 @@
 	        </td>
 	        <td width="50%" align="right" class="align-middle">
 	            <span>${vo.reg_date}</span> | 
-	            <span class="deleteReply" data-stc_num="${vo.fbc_num}" data-pageNo="${pageNo}">삭제</span> 
+	            <span class="deleteReply" data-fbc_num="${vo.fbc_num}" data-pageNo="${pageNo}">삭제</span> 
 	        </td>
 	    </tr>
 	    <tr>

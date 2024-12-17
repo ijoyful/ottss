@@ -405,7 +405,7 @@ public class Freecontroller {
 	
 	//댓글 삭제 - AJAX : JSON
 	@ResponseBody
-	@RequestMapping(value = "/Freeboard/deleteComment", method = RequestMethod.POST)
+	@RequestMapping(value = "/freeboard/deleteComment", method = RequestMethod.POST)
 	public Map<String, Object> deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
 		//넘어온 파라미터 : fbc_num
 		
