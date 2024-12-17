@@ -204,36 +204,4 @@ public class FAQController {
 		return new ModelAndView("redirect:/qna/list?" + query);
 	}
 
-	@RequestMapping(value = "/qna/report", method = RequestMethod.GET)
-	public ModelAndView reportForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("qna/report");
-		mav.addObject("num", req.getParameter("num"));
-		return mav;
-	}
-
-	@ResponseBody
-	@RequestMapping(value = "/qna/report", method = RequestMethod.POST)
-	public Map<String, Object> reportSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Map<String, Object> model = new HashMap<String, Object>();
-		AdminReportDAO dao = new AdminReportDAO();
-		String state = "false";
-
-		try {
-			ReportDTO dto = new ReportDTO();
-			dto.setReport_num(Long.parseLong(req.getParameter("num")));
-			dto.setId(req.getParameter("id"));
-			dto.setReport_reason(req.getParameter("reason"));
-			dto.setTarget_table("FAQ");
-
-			dao.insertReport(dto);
-
-			state = "true";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		model.put("state", state);
-		
-		return model;
-	}
 }

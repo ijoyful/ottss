@@ -52,9 +52,14 @@
                 <table class="table board-article">
                     <thead>
                         <tr>
-                            <td colspan="2" align="center">
+                            <td align="left">
                                 ${dto.title}
                             </td>
+							<td align="right">
+							<c:if test="${sessionScope.member.id != dto.id}">
+								<span id="report" onclick="reportdialogshow();">신고</span>
+							</c:if>
+							</td>
                         </tr>
                     </thead>
                     
@@ -161,6 +166,23 @@
         </div>
     </div>
 </main>
+
+<footer>
+    <!-- Static Footer Include -->
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+</footer>
+<!-- 모달창 -->
+<div class="modal fade" id="reportModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reportModalLable" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="myDialogModalLabel">신고</h5>
+			</div>
+			<div class="modal-body pt-1">
+			</div>
+		</div>
+	</div>
+</div>
 
 
 <script type="text/javascript">
@@ -319,16 +341,69 @@ $(function() {
 	});
 });
 
+$(function(){
+	const st_num = ${dto.st_num};
+	// 카테고리 대화상자 객체
+	const myModalEl = document.getElementById('reportModal');
+	
+	myModalEl.addEventListener('show.bs.modal', function(){
+		// 모달 대화상자가 보일때
+	});
 
+	myModalEl.addEventListener('hidden.bs.modal', function(){
+		// 모달 대화상자가 닫힐때
+		location.href = '${pageContext.request.contextPath}/show/article?${query}&st_num=' + st_num;
+	});
+});
+
+function reportdialogshow() {
+	let url = '${pageContext.request.contextPath}/show/report';
+	let num = ${dto.st_num};
+	const fn = function(data) {
+		$('#reportModal .modal-body').html(data);
+		$('#reportModal').modal("show");
+	};
+	ajaxFun(url, 'get', {num: num}, 'text', fn);
+}
+
+function sendCancel() {
+	$('#reportModal .modal-body').empty();
+	$('#reportModal').modal("hide");
+}
+
+function sendOk(id, num) {
+	const f = document.reportForm;
+
+	if (!f.report.value) { // 신고사유가 선택되지 않았으면
+		alert('신고 사유를 선택하세요.');
+		return;
+	}
+	if (f.report.value === 'etc' && f.etc.value) {
+		alert('기타 사유 선택 시, 사유를 작성하세요.');
+		return;
+	}
+
+	let $reason = document.querySelector('input[name="report"]:checked');
+	let reason = $reason.value;
+	if (reason === 'etc') {
+		reason = f.etc.value;
+	}
+
+    let url = '${pageContext.request.contextPath}/show/report';
+    const fn = function(data) {
+    	$('#reportModal .modal-body').empty();
+    	$('#reportModal').modal('hide');
+    	if (data.state === 'true') {
+    		alert('신고가 정상적으로 완료되었습니다!');
+    	}
+    };
+
+    ajaxFun(url, 'post', {id: id, num: num, reason: reason}, 'json', fn);
+}
 
 </script>
 
 
-
-<footer>
-    <!-- Static Footer Include -->
-    <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
-</footer>
 
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 

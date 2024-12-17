@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ottss.dao.AdminReportDAO;
 import com.ottss.dao.ShowDAO;
+import com.ottss.domain.ReportDTO;
 import com.ottss.domain.STComDTO;
 import com.ottss.domain.STDTO;
 import com.ottss.domain.SessionInfo;
@@ -489,9 +491,38 @@ public class ShowController {
 		
 		return model;
 	}
-	
-	
-	
-	
+
+	@RequestMapping(value = "/show/report", method = RequestMethod.GET)
+	public ModelAndView reportForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("show/report");
+		mav.addObject("num", req.getParameter("num"));
+		return mav;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/show/report", method = RequestMethod.POST)
+	public Map<String, Object> reportSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		AdminReportDAO dao = new AdminReportDAO();
+		String state = "false";
+
+		try {
+			ReportDTO dto = new ReportDTO();
+			dto.setTarget_num(Long.parseLong(req.getParameter("num")));
+			dto.setId(req.getParameter("id"));
+			dto.setReport_reason(req.getParameter("reason"));
+			dto.setTarget_table("SHOW_TIP_BOARD");
+
+			dao.insertReport(dto);
+
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);
+		
+		return model;
+	}
 	
 }
