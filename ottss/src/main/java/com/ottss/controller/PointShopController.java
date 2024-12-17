@@ -174,6 +174,28 @@ public class PointShopController {
 
 			String paging = util.paging(current_page, total_page, listUrl);
 			
+			 // 사용자 ID와 아이템 번호
+            String id = req.getParameter("id");
+            long itemNum = Long.parseLong(req.getParameter("itemNum"));
+
+            // 구매 처리
+            boolean success = dao.purchaseItem(id, itemNum);
+
+            // 결과 반환
+            List<PointShopDTO> inventory = dao.getPlayerInventory(id);
+            if (success) {
+	            mav.addObject("success", true);
+	            mav.addObject("message", "구매가 완료되었습니다 : )");
+	            mav.addObject("inventory", inventory);
+            } else {
+               mav.addObject("success", false);
+               mav.addObject("message", "포인트가 부족하거나 오류가 발생했습니다.");
+            }
+            
+            System.out.println("사용자 ID: " + id);
+            System.out.println("아이템 번호: " + itemNum);
+            System.out.println("인벤토리 데이터: " + inventory);
+			
 			// 포워딩 jsp에 전달할 데이터
 			mav.addObject("itemList", list);
 			mav.addObject("articleUrl", articleUrl);
@@ -186,37 +208,56 @@ public class PointShopController {
 			mav.addObject("kwd", kwd);
 		} catch (Exception e) {
 			e.printStackTrace();
+			mav.addObject("success", false);
+            mav.addObject("message", "구매처리 중 오류가 발생했습니다.");
 		}
 		return mav;
 	}
 	
-	
-		// 여기서부터 GPT
-	  private PointShopDAO dao = new PointShopDAO();
-	  
-    // 2. 아이템 구매
+
+	 /*
+    // 1. 아이템 구매
     @RequestMapping(value = "/shop/buy", method = RequestMethod.POST)
-    public void buyItem(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public ModelAndView buyItem(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    	ModelAndView mav = new ModelAndView("shop/buy");
+    	
         try {
             // 사용자 ID와 아이템 번호
-            int userId = Integer.parseInt(req.getParameter("userId"));
+            String id = req.getParameter("id");
             long itemNum = Long.parseLong(req.getParameter("itemNum"));
 
             // 구매 처리
-            boolean success = dao.purchaseItem(userId, itemNum);
+            PointShopDAO dao = new PointShopDAO();
+            boolean success = dao.purchaseItem(id, itemNum);
 
             // 결과 반환
-            resp.setContentType("application/json");
+            List<PointShopDTO> inventory = dao.getPlayerInventory(id);
             if (success) {
-                resp.getWriter().write("{\"success\": true, \"message\": \"구매가 완료되었습니다.\"}");
+	            mav.addObject("success", true);
+	            mav.addObject("message", "구매가 완료되었습니다 : )");
+	            mav.addObject("inventory", inventory);
             } else {
-                resp.getWriter().write("{\"success\": false, \"message\": \"포인트가 부족하거나 오류가 발생했습니다.\"}");
+               mav.addObject("success", false);
+               mav.addObject("message", "포인트가 부족하거나 오류가 발생했습니다.");
             }
+            
+            System.out.println("사용자 ID: " + id);
+            System.out.println("아이템 번호: " + itemNum);
+            System.out.println("인벤토리 데이터: " + inventory);
         } catch (Exception e) {
             e.printStackTrace();
-            resp.getWriter().write("{\"success\": false, \"message\": \"구매 처리 중 오류가 발생했습니다.\"}");
+            mav.addObject("success", false);
+            mav.addObject("message", "구매처리 중 오류가 발생했습니다.");
         }
+        return mav;
     }
+    */
+    
+    // 2. 구매한 아이템 인벤토리에서 표시
+    
+    // 3. 아이템 장착
+    
+    // 
 
    
 }

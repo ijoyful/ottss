@@ -29,9 +29,6 @@ padding : 0;
 
 </head>
 <body>
-<c:if test="${empty inventory}">
-    <p>인벤토리가 비어 있습니다.</p>
-</c:if>
 	<h3>${message}</h3>
 	<c:if test="${success}">
 	<!-- div.wrap 꼭 써야됩니다. 없으면 폼 망가져요~~ --> 

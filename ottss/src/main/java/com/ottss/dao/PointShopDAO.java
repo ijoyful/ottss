@@ -13,6 +13,7 @@ import com.ottss.util.DBUtil;
 public class PointShopDAO {
 	private Connection conn = DBConn.getConnection();
 	
+	// 포인트 샵 상품 리스트
 	public List<PointShopDTO> itemList(int offset, int size) {
 	List<PointShopDTO> list = new ArrayList<PointShopDTO>();
 	PreparedStatement pstmt = null;
@@ -156,6 +157,7 @@ public class PointShopDAO {
 		return list;
 	}
 	
+	// 솔직히 얘는 왜 있는지 모르겠음 
 	public PointShopDTO getItem(long itemNum) {
         PointShopDTO item = null;
         ResultSet rs = null;
@@ -191,16 +193,16 @@ public class PointShopDAO {
     }
 
     // 3. 아이템 구매 처리
-    public boolean purchaseItem(int userId, long itemNum) {
-        Connection conn = null;
+    public boolean purchaseItem(String id, long itemNum) {
         PreparedStatement pstmt1 = null;
         PreparedStatement pstmt2 = null;
         ResultSet rs = null;
 
-        String getUserPointsSql = "SELECT points FROM users WHERE user_id = ?";
-        String getItemPriceSql = "SELECT amount FROM point_shop_items WHERE item_num = ?";
-        String updateUserPointsSql = "UPDATE users SET points = points - ? WHERE user_id = ?";
-        String insertInventorySql = "INSERT INTO user_inventory (user_id, item_num) VALUES (?, ?)";
+        String getUserPointsSql = "SELECT point FROM player WHERE id = ?";
+        String getItemPriceSql = "SELECT amount FROM point_shop WHERE item_num = ?";
+        String updateUserPointsSql = "UPDATE player SET point = points - ? WHERE id = ?";
+        String insertInventorySql = "INSERT INTO buy_record (buy_num, buy_date, equip, id, item_num) "
+        								+ "VALUES (buy_seq.NEXTVAL,SYSDATE,0 , ?, ?)";
 
         try {
             conn.setAutoCommit(false);
@@ -208,10 +210,10 @@ public class PointShopDAO {
             // 1. 사용자 포인트 조회
             int userPoints = 0;
             pstmt1 = conn.prepareStatement(getUserPointsSql);
-            pstmt1.setInt(1, userId);
+            pstmt1.setString(1, id);
             rs = pstmt1.executeQuery();
             if (rs.next()) {
-                userPoints = rs.getInt("points");
+                userPoints = rs.getInt("point");
             }
 
             // 2. 아이템 가격 조회
@@ -231,12 +233,12 @@ public class PointShopDAO {
             // 4. 사용자 포인트 차감
             pstmt1 = conn.prepareStatement(updateUserPointsSql);
             pstmt1.setInt(1, itemPrice);
-            pstmt1.setInt(2, userId);
+            pstmt1.setString(2, id);
             pstmt1.executeUpdate();
 
             // 5. 인벤토리에 아이템 추가
             pstmt2 = conn.prepareStatement(insertInventorySql);
-            pstmt2.setInt(1, userId);
+            pstmt2.setString(1, id);
             pstmt2.setLong(2, itemNum);
             pstmt2.executeUpdate();
 
@@ -260,21 +262,21 @@ public class PointShopDAO {
     }
 
     // 4. 사용자 인벤토리 조회
-    public List<PointShopDTO> getUserInventory(int userId) {
+    public List<PointShopDTO> getPlayerInventory(String id) {
         List<PointShopDTO> list = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         String sql;
         
         try {
-        	sql = "SELECT i.item_num, i.item_name, i.categories, i.amount, i.item_explain "
-        			+ " FROM point_shop_items i "
-        			+ " JOIN user_inventory u ON i.item_num = u.item_num "
-        			+ " WHERE u.user_id = ? "; 
+        	sql = "SELECT ps.item_num, ps.item_name, ps.categories, ps.amount, ps.item_explain "
+        			+ " FROM point_shop ps "
+        			+ " JOIN buy_record br ON ps.item_num = br.item_num "
+        			+ " WHERE br.id = ? "; 
                    
         	pstmt = conn.prepareStatement(sql);
         	
-        	pstmt.setInt(1, userId);
+        	pstmt.setString(1, id);
         	
         	rs = pstmt.executeQuery();
         	while(rs.next()) {
