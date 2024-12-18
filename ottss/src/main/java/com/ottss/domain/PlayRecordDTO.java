@@ -12,9 +12,16 @@ public class PlayRecordDTO {
 	//++가위바위보추가(라운드)
 	private String round;
 	
+	//++랭킹 닉네임추가
+	private String nickname;
 	
 	
-
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public String getRound() {
 		return round;
 	}

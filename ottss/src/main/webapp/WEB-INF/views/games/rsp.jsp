@@ -48,12 +48,12 @@
 		    <div id="game-controls">
 		        <button class="game-btn" onclick="startGame()">게임 시작</button>
 		    </div>
-
-		    <div id="next-round-controls">
+		    <div id="next-round-controls" style="display: none;">
 		        <button class="game-btn" onclick="nextRound()">다음 라운드</button>
-		        <button class="game-btn" onclick="endGame()">게임 종료</button>
 		    </div>
-
+		    <div id="end-cotrols" style="display: none;">
+		    	<button class="game-btn" onclick="endGame()">게임 종료</button>
+		    </div>
 			<div id="restart-controls" style="display: none;">
 			    <button class="game-btn" onclick="resetGame()">다시 시작</button>
 			</div>
@@ -140,7 +140,7 @@
 	        }
 	
 	        const url = '${pageContext.request.contextPath}/games/rsp/start'; // 요청 URL
-	        const formData = {}; 
+	        const formData = {currentRound: currentRound}; //현재라운드 서버로 보내기 
 	
 	        const fn = function (data) {
 	            if (data.state === "true") {
@@ -160,7 +160,8 @@
 	
 	        ajaxFun(url, 'post', formData, 'json', fn);
 	    }
-	
+	    
+	    
 	    
 	    // 게임 종료 함수
 	    function endGame() {
@@ -177,6 +178,7 @@
 	                $('#result').text("게임 종료! 다시시작을 원하시면 다시시작 버튼을 누르라냥!");
 	                $('#game-controls').hide(); 
 	                $('#next-round-controls').hide(); 
+	                $('#end-cotrols').hide(); 
 	                $('#restart-controls').show();
 	            } else {
 	                alert(data.message || '게임 종료에 실패했습니다. 다시 시도해주세요.');
@@ -215,7 +217,7 @@
 	            showNextRoundButtons(); 
 	        } else {
 	            userPoint = 0;
-	            resultText = `😭 예측 실패! 포인트가 0이 되었습니다.<br>다시시작을 원하시면 다시시작 버튼을 누르라용!`;
+	            resultText = `😭 예측 실패! 포인트가 0이 되었습니다.<br>게임종료 버튼을 누르라용!`;
 	            showEndButtons();
 	        }
 	
@@ -238,12 +240,14 @@
 	    function showNextRoundButtons() {
 	        $('#game-controls').hide();
 	        $('#next-round-controls').show();
+	        $('#end-cotrols').show();
 	    }
 	    
-	    // 다시시작 버튼 표시
+	    // 게임종료 버튼 표시
 	    function showEndButtons() {
 	    	$('#game-controls').hide(); 
-	    	$('#restart-controls').show();
+	    	$('#restart-controls').hide();
+	    	$('#end-cotrols').show();
 		}
 	
 	    // 다음 라운드 함수
@@ -265,10 +269,12 @@
 	        $('.prediction-btn').removeClass('highlight');
 	        $('#result').text('');
 	        $('#next-round-controls').hide(); 
+	        $('#end-cotrols').hide();
 	        $('#restart-controls').hide(); 
 	        $('#game-controls').show(); 
 	        $('#current-round').text(currentRound); 
 	        $('#user-point').text(userPoint); 
+	        
 	    }
 	    
 	    // 다음 라운드 준비 함수
@@ -277,6 +283,7 @@
 	        $('.prediction-btn').removeClass('highlight');
 	        $('#result').text(''); 
 	        $('#next-round-controls').hide(); 
+	        $('#end-cotrols').hide();
 	        $('#game-controls').show(); 
 	    }
 	    

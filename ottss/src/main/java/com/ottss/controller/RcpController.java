@@ -47,29 +47,36 @@ public class RcpController {
             }
 
             String id = info.getId();
-
+            int currentRound = Integer.parseInt(req.getParameter("currentRound"));
             // 사용자 포인트 확인
             boolean canStart = dao.checkPoint(id);
-            if (!canStart) {
-                model.put("state", state);
-                model.put("message", "게임을 시작하기 위한 포인트가 부족합니다.");
-                return model;
-            }
-
-            // 게임 시작 처리 (포인트 내역 insert, 사용자 보유포인트 update)
             
-            dao.startGamePoint(id); // 사용자 포인트 차감
-            dao.insertStPoint(id); // 포인트 내역 기록
+            if(currentRound == 1) {
+            	 if (!canStart) {
+                     model.put("state", state);
+                     model.put("message", "게임을 시작하기 위한 포인트가 부족합니다.");
+                     return model;
+                 }
 
-            // 결과 설정
-            state = "true";
-            model.put("state", state);
-            model.put("message", "게임이 시작되었습니다!");
+                 // 게임 시작 처리 (포인트 내역 insert, 사용자 보유포인트 update)
+                 
+                 dao.startGamePoint(id); // 사용자 포인트 차감
+                 dao.insertStPoint(id); // 포인트 내역 기록
+
+                 // 결과 설정
+                 state = "true";
+                 model.put("state", state);
+                 model.put("message", "게임이 시작되었습니다!");
+            } else { // 라운드가 1라운드가 아닌경우
+            	state = "true";
+            	model.put("state",state);	
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
+        
         return model;
     }
 
