@@ -93,13 +93,13 @@ $(function(){
 					<a href="${pageContext.request.contextPath}/admin/qna/list" class="sub_menu--link">FAQ</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">자유게시판</a>
+					<a href="${pageContext.request.contextPath}/admin/freeboard/list" class="sub_menu--link">자유게시판</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">분석게시판</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="${pageContext.request.contextPath}/admin" class="sub_menu--link">자랑게시판</a>
+					<a href="${pageContext.request.contextPath}/admin/show/list" class="sub_menu--link">자랑게시판</a>
 				</li>
 			</ul>
 		</li>
@@ -117,13 +117,6 @@ $(function(){
 			</ul>
 		</li>
 	
-		<li class="menu--item">
-	        <a href="${pageContext.request.contextPath}/admin" class="menu--link" title="소개글 관리">
-		        <i class="menu--icon bi bi-info-square"></i>
-				<span class="menu--label">소개글 관리</span>
-			</a>
-		</li>
-		
 		<li class="menu--item">
 	        <a href="${pageContext.request.contextPath}/admin" class="menu--link" title="메인화면 설정">
 				<i class="menu--icon bi bi-gear-fill"></i>

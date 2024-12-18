@@ -237,17 +237,6 @@ public class FAQManageController {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
 			}
 			
-			// 파일 삭제
-			// List<NoticeDTO> listFile = dao.listNoticeFile(num);
-//			for(NoticeDTO dto : listFile) {
-//				fileManager.doFiledelete(pathname, dto.getS_fileName());
-//			}
-			
-			
-			// 파일 테이블 삭제
-			// dao.deleteNoticeFile("all", num);
-			
-			// 게시글 삭제
 			// dao.deleteNotice(num);
 			
 		} catch (Exception e) {

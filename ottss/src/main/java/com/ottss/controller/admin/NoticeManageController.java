@@ -520,6 +520,8 @@ public class NoticeManageController {
 			
 			String [] nn = req.getParameterValues("nums");
 			long []nums = new long[nn.length];
+			
+			
 			for(int i=0; i<nn.length; i++) {
 				nums[i] = Long.parseLong(nn[i]);
 			}

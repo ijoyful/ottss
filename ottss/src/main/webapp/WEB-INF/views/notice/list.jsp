@@ -38,7 +38,7 @@
 				</h3>
 			</div>
 			<form name="listForm" method="post">
-				<div class="row board-list-header" style="margin-bottom: 20px;">
+				<div class="row board-list-header" style="margin-bottom: 20px; justify-content: flex-end;">
 					<div class="col-auto">
 						<c:if test="${dataCount != 0}">
 							<select name="size" class="form-select" onchange="changeList();">

@@ -768,7 +768,30 @@ public class ShowDAO {
 		return result;
 	}	
 	
-	
+	public void deleteShow(long[] nums) throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			
+			sql = "DELETE FROM show_tip_board WHERE st_num=? AND board_type = 'showing'";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			for(long num : nums) {
+				pstmt.setLong(1, num);
+				pstmt.executeQuery();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+		
+	}
 	
 	
 }

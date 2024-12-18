@@ -787,6 +787,29 @@ public class FreeDAO {
 			return result;
 	}	
 		
-	
+	public void deleteFree(long[] nums) throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			
+			sql = "DELETE FROM free_board WHERE fb_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			for(long num : nums) {
+				pstmt.setLong(1, num);
+				pstmt.executeQuery();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+		
+	}
 	
 }
