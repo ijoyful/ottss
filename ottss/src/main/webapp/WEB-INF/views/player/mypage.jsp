@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -6,9 +7,33 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/calendar.css" type="text/css">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+
+</head>
+
+<body>
+<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+<main>
+<jsp:include page="/WEB-INF/views/player/layout/left.jsp"/>
+<div class="container">
+	<div class="body-container">
+		<div class="body-title">
+			<h3><i class="bi bi-pencil-square"></i>출석 확인</h3>
+		</div>
+		<div class="body-main">
+			<div class="row">
+				<div class="col" id="line-charts" style="min-height: 350px;"></div>
+				<div class="col" id="calendarLayout" style="min-height: 350px;">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</main>
 <script type="text/javascript">
 $(function() {
 	let url = '${pageContext.request.contextPath}/mypage/attend';
@@ -20,79 +45,57 @@ $(function() {
 
 		Highcharts.chart('line-charts', {
 		    chart: {
-		        type: 'bar'
+		        type: 'column'
 		    },
 		    title: {
-		        text: 'Historic World Population by Region'
+		        text: 'Corn vs wheat estimated production for 2023'
 		    },
 		    subtitle: {
-		        text: 'Source: <a ' +
-		            'href="https://en.wikipedia.org/wiki/List_of_continents_and_continental_subregions_by_population"' +
-		            'target="_blank">Wikipedia.org</a>'
+		        text:
+		            'Source: <a target="_blank" ' +
+		            'href="https://www.indexmundi.com/agriculture/?commodity=corn">indexmundi</a>'
 		    },
 		    xAxis: {
-		        categories: ['Africa', 'America', 'Asia', 'Europe'],
-		        title: {
-		            text: null
-		        },
-		        gridLineWidth: 1,
-		        lineWidth: 0
+		        categories: ['USA', 'China', 'Brazil', 'EU', 'Argentina', 'India'],
+		        crosshair: true,
+		        accessibility: {
+		            description: 'Countries'
+		        }
 		    },
 		    yAxis: {
 		        min: 0,
 		        title: {
-		            text: 'Population (millions)',
-		            align: 'high'
-		        },
-		        labels: {
-		            overflow: 'justify'
-		        },
-		        gridLineWidth: 0
-		    },
-		    tooltip: {
-		        valueSuffix: ' millions'
-		    },
-		    plotOptions: {
-		        bar: {
-		            borderRadius: '50%',
-		            dataLabels: {
-		                enabled: true
-		            },
-		            groupPadding: 0.1
+		            text: '1000 metric tons (MT)'
 		        }
 		    },
-		    legend: {
-		        layout: 'vertical',
-		        align: 'right',
-		        verticalAlign: 'top',
-		        x: -40,
-		        y: 80,
-		        floating: true,
-		        borderWidth: 1,
-		        backgroundColor:
-		            Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-		        shadow: true
+		    tooltip: {
+		        valueSuffix: ' (1000 MT)'
 		    },
-		    credits: {
-		        enabled: false
+		    plotOptions: {
+		        column: {
+		            pointPadding: 0.2,
+		            borderWidth: 0
+		        }
 		    },
-		    series: [{
-		        name: 'Year 1990',
-		        data: [632, 727, 3202, 721]
-		    }, {
-		        name: 'Year 2000',
-		        data: [814, 841, 3714, 726]
-		    }, {
-		        name: 'Year 2021',
-		        data: [1393, 1031, 4695, 745]
-		    }]
+		    series: [
+		        {
+		            name: 'Corn',
+		            data: [387749, 280000, 129000, 64300, 54000, 34300]
+		        },
+		        {
+		            name: 'Wheat',
+		            data: [45321, 140000, 10000, 140500, 19500, 113500]
+		        }
+		    ]
 		});
+
 
 	}
 
 });
 
 function calendar(y, m) {
+
 	let week = ['일', '월', '화', '수', '목', '금', '토'];
 	let date = new Date(y, m - 1, 1); // y년도 m월 1일
 	y = date.getFullYear();
@@ -111,7 +114,7 @@ function calendar(y, m) {
 	out += `&nbsp;&nbsp;<span onclick="calendar(${y}, ${m + 1})">&gt;</span>`;
 	out += '</div>';
 	
-	out += '<table class="table td-border">';
+	out += '<table class="table td-border" style="width: 350px; height: 350px;">';
 	out += '<tr>';
 	for (let i = 0; i < week.length; i++) {
 		out += `<td>${week[i]}</td>`;
@@ -141,13 +144,14 @@ function calendar(y, m) {
 	
 	// 마지막 날짜 뒷부분
 	let j = 1;
-	for (; w < 6; w++) {
+	for (let w = date.getDay(); w < 6; w++) {
 		out += `<td class="gray">${j}</td>`;
 		j++;
 	}
-	out += '</tr>';
-	out += '</table>'
+	out += `</tr>`;
+	out += `</table>`;
 	out += `<div class="footer"><span onclick="calendar(${ny}, ${nm})">오늘날짜로</span></div>`;
+
 	
 	document.querySelector('#calendarLayout').innerHTML = out;
 }
@@ -159,28 +163,6 @@ window.addEventListener('load', () => {
 	calendar(y, m);
 });
 </script>
-</head>
-
-<body>
-<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-<main>
-<jsp:include page="/WEB-INF/views/player/layout/left.jsp"/>
-<div class="container">
-	<div class="body-container">
-		<div class="body-title">
-			<h3><i class="bi bi-pencil-square"></i>출석 확인</h3>
-		</div>
-		<div class="body-main">
-			<div class="row">
-				<div class="col" id="line-charts" style="min-height: 350px;"></div>
-				<div class="col" id="calendarLayout" style="min-height: 350px;"></div>
-			</div>
-		</div>
-	</div>
-</div>
-
-</main>
-
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
