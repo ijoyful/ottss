@@ -158,7 +158,7 @@ public class PointShopDAO {
 	}
 	
 	// 솔직히 얘는 왜 있는지 모르겠음 
-	public PointShopDTO getItem(long itemNum) {
+	public PointShopDTO getItem(long item_num) {
         PointShopDTO item = null;
         ResultSet rs = null;
         PreparedStatement pstmt = null;
@@ -171,7 +171,7 @@ public class PointShopDAO {
         	 
         	 pstmt = conn.prepareStatement(sql);
         	 
-        	 pstmt.setLong(1, itemNum);
+        	 pstmt.setLong(1, item_num);
         	 
         	 rs = pstmt.executeQuery();
  
@@ -193,14 +193,14 @@ public class PointShopDAO {
     }
 
     // 3. 아이템 구매 처리
-    public boolean purchaseItem(String id, long itemNum) {
+    public boolean purchaseItem(String id, long item_num) {
         PreparedStatement pstmt1 = null;
         PreparedStatement pstmt2 = null;
         ResultSet rs = null;
 
         String getUserPointsSql = "SELECT point FROM player WHERE id = ?";
         String getItemPriceSql = "SELECT amount FROM point_shop WHERE item_num = ?";
-        String updateUserPointsSql = "UPDATE player SET point = points - ? WHERE id = ?";
+        String updateUserPointsSql = "UPDATE player SET point = point - ? WHERE id = ?";
         String insertInventorySql = "INSERT INTO buy_record (buy_num, buy_date, equip, id, item_num) "
         								+ "VALUES (buy_seq.NEXTVAL,SYSDATE,0 , ?, ?)";
 
@@ -219,7 +219,7 @@ public class PointShopDAO {
             // 2. 아이템 가격 조회
             int itemPrice = 0;
             pstmt2 = conn.prepareStatement(getItemPriceSql);
-            pstmt2.setLong(1, itemNum);
+            pstmt2.setLong(1, item_num);
             rs = pstmt2.executeQuery();
             if (rs.next()) {
                 itemPrice = rs.getInt("amount");
@@ -239,7 +239,7 @@ public class PointShopDAO {
             // 5. 인벤토리에 아이템 추가
             pstmt2 = conn.prepareStatement(insertInventorySql);
             pstmt2.setString(1, id);
-            pstmt2.setLong(2, itemNum);
+            pstmt2.setLong(2, item_num);
             pstmt2.executeUpdate();
 
             // 트랜잭션 커밋

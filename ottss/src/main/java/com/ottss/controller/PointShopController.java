@@ -176,10 +176,10 @@ public class PointShopController {
 			
 			 // 사용자 ID와 아이템 번호
             String id = req.getParameter("id");
-            long itemNum = Long.parseLong(req.getParameter("itemNum"));
+            long item_num = Long.parseLong(req.getParameter("item_num"));
 
             // 구매 처리
-            boolean success = dao.purchaseItem(id, itemNum);
+            boolean success = dao.purchaseItem(id, item_num);
 
             // 결과 반환
             List<PointShopDTO> inventory = dao.getPlayerInventory(id);
@@ -193,7 +193,7 @@ public class PointShopController {
             }
             
             System.out.println("사용자 ID: " + id);
-            System.out.println("아이템 번호: " + itemNum);
+            System.out.println("아이템 번호: " + item_num);
             System.out.println("인벤토리 데이터: " + inventory);
 			
 			// 포워딩 jsp에 전달할 데이터
