@@ -253,7 +253,7 @@ public class ShowController {
 			}
 			
 			if (!dto.getId().equals(info.getId())) {
-				return new ModelAndView("redirect:/bbs/list?page=" + page);
+				return new ModelAndView("redirect:/show/list?page=" + page);
 			}
 			
 			ModelAndView mav = new ModelAndView("show/write");
