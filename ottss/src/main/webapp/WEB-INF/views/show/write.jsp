@@ -10,27 +10,27 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 
 <script type="text/javascript">
-function sendOk() {
-    const f = document.boardForm;
-	let str;
+	function sendOk() {
+	    const f = document.boardForm;
+		let str;
+		
+	    str = f.title.value.trim();
+	    if(!str) {
+	        alert('제목을 입력하세요. ');
+	        f.title.focus();
+	        return;
+	    }
 	
-    str = f.title.value.trim();
-    if(!str) {
-        alert('제목을 입력하세요. ');
-        f.title.focus();
-        return;
-    }
-
-    str = f.content.value.trim();
-    if(!str) {
-        alert('내용을 입력하세요. ');
-        f.content.focus();
-        return;
-    }
-
-    f.action = '${pageContext.request.contextPath}/show/${mode}';
-    f.submit();
-}
+	    str = f.content.value.trim();
+	    if(!str) {
+	        alert('내용을 입력하세요. ');
+	        f.content.focus();
+	        return;
+	    }
+	
+	    f.action = '${pageContext.request.contextPath}/show/${mode}';
+	    f.submit();
+	}
 </script>
 
 
@@ -58,8 +58,6 @@ function sendOk() {
 						<li class="listTitle">첨부파일</li>
 						<li class="listContent"><input type="file" name="selectFile"></li>
 					</ul>
-
-
 
 					<ul>
 						<li>

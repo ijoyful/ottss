@@ -9,24 +9,24 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ottssCss/write.css" type="text/css">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 <script type="text/javascript">
-function sendOk() {
-	const f = document.faqForm;
-	let str;
-
-	str = f.title.value.trim();
-	if (!str) {
-		f.title.focus();
-		return;
+	function sendOk() {
+		const f = document.faqForm;
+		let str;
+	
+		str = f.title.value.trim();
+		if (!str) {
+			f.title.focus();
+			return;
+		}
+		str = f.content.value.trim();
+		if (!str) {
+			f.content.focus();
+			return;
+		}
+	
+		f.action = '${pageContext.request.contextPath}/qna/write';
+		f.submit();
 	}
-	str = f.content.value.trim();
-	if (!str) {
-		f.content.focus();
-		return;
-	}
-
-	f.action = '${pageContext.request.contextPath}/qna/write';
-	f.submit();
-}
 </script>
 </head>
 <body>
@@ -45,12 +45,6 @@ function sendOk() {
 	                    <li class="listTitle">작성자</li>
 	                    <li class="listContent"><input type="text" value="${sessionScope.member.nickName}" readonly></li>
 	                </ul>
-	                <!-- 
-	                <ul>
-	                    <li class="listTitle">날짜</li>
-	                    <li class="listContent"><input type="date" value="2024-11-12" readonly></li>
-	                </ul>
-	                 -->
 	                <ul class="content">
 	                    <li class="listTitle">내용</li>
 	                    <li class="listContent"><textarea name="content"></textarea></li>
@@ -63,14 +57,14 @@ function sendOk() {
 	        </div>
 	    </div> <!-- mainInner -->
 	    <table class="table table-borderless">
-	 					<tr>
-							<td class="text-center">
-								<button type="button" class="btn btn-dark" onclick="sendOk();">등록하기&nbsp;<i class="bi bi-check2"></i></button>
-								<button type="reset" class="btn btn-light">다시입력</button>
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/list';">등록취소&nbsp;<i class="bi bi-x"></i></button>
-							</td>
-						</tr>
-					</table>
+			<tr>
+				<td class="text-center">
+					<button type="button" class="btn btn-dark" onclick="sendOk();">등록하기&nbsp;<i class="bi bi-check2"></i></button>
+					<button type="reset" class="btn btn-light">다시입력</button>
+					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/list';">등록취소&nbsp;<i class="bi bi-x"></i></button>
+				</td>
+			</tr>
+		</table>
 	</main>
 	
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

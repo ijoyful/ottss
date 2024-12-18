@@ -12,22 +12,22 @@
 </head>
 
 <script type="text/javascript">
-function searchList() {
-	const f = document.searchForm;
-	f.submit();
-}
+	function searchList() {
+		const f = document.searchForm;
+		f.submit();
+	}
 </script>
 
 
 <body>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 	<div class="wrap">
-		<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 
 		<main id="main">
 			<div class="mainInner">
 				
 				<div class="body-title">
-                <h3><i class="bi bi-app"></i> 자랑게시판 </h3>
+                	<h3><i class="bi bi-app"></i> 자랑게시판 </h3>
             	</div>
             	
 				<div class="listInner">
@@ -80,9 +80,6 @@ function searchList() {
 					</div>
 				</div>				
 				
-				
-				
-				
 			</div>
 			<!-- mainInner -->
 		</main>
@@ -90,8 +87,5 @@ function searchList() {
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 		<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp" />
 	</div>
-	
-	
-	
 </body>
 </html>

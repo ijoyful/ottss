@@ -11,15 +11,15 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
-.body-container {
-	max-width: 800px;
-}
-#main .listInner ul li:nth-child(1) {width: 5%;} /* no */
-#main .listInner ul li:nth-child(2) {width: 5%;} /* 구분 */
-#main .listInner ul li:nth-child(3) {width: 55%;} /* 제목 */
-#main .listInner ul li:nth-child(4) {width: 10%;} /* 작성자 */
-#main .listInner ul li:nth-child(5) {width: 20%;} /* 작성일 */
-#main .listInner ul li:nth-child(6) {width: 5%;} /* 조회수 */
+	.body-container {
+		max-width: 800px;
+	}
+	#main .listInner ul li:nth-child(1) {width: 5%;} /* no */
+	#main .listInner ul li:nth-child(2) {width: 5%;} /* 구분 */
+	#main .listInner ul li:nth-child(3) {width: 55%;} /* 제목 */
+	#main .listInner ul li:nth-child(4) {width: 10%;} /* 작성자 */
+	#main .listInner ul li:nth-child(5) {width: 20%;} /* 작성일 */
+	#main .listInner ul li:nth-child(6) {width: 5%;} /* 조회수 */
 </style>
 
 </head>
