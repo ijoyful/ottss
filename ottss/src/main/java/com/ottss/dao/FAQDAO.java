@@ -447,28 +447,53 @@ public class FAQDAO {
 		return list;
 	}
 	
+	public void deleteFAQ(long num) throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			
+			sql = "DELETE FROM FAQ WHERE faq_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			pstmt.executeQuery();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+		
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void deleteFAQ(long[] nums) throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			
+			sql = "DELETE FROM FAQ WHERE faq_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			for(long num : nums) {
+				pstmt.setLong(1, num);
+				pstmt.executeQuery();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+		
+	}
 	
 }

@@ -7,9 +7,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import com.ottss.dao.FAQDAO;
-import com.ottss.dao.NoticeDAO;
 import com.ottss.domain.FAQDTO;
-import com.ottss.domain.NoticeDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
@@ -209,12 +207,6 @@ public class FAQManageController {
 		
 		// 게시글 삭제
 		
-		HttpSession session = req.getSession();
-		FileManager fileManager = new FileManager();
-		
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "qna";
-		
 		FAQDAO dao = new FAQDAO();
 		
 		String page = req.getParameter("page");
@@ -237,7 +229,7 @@ public class FAQManageController {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
 			}
 			
-			// dao.deleteNotice(num);
+			dao.deleteFAQ(num);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -251,13 +243,7 @@ public class FAQManageController {
 
 		// checkBox 리스트 삭제
 		
-		HttpSession session = req.getSession();
-		FileManager fileManager = new FileManager();
-		
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "qna";
-		
-		NoticeDAO dao = new NoticeDAO();
+		FAQDAO dao = new FAQDAO();
 		
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
@@ -285,20 +271,8 @@ public class FAQManageController {
 				nums[i] = Long.parseLong(nn[i]);
 			}
 			
-			// 파일 삭제 및 파일 테이블 삭제
-			for(int i=0; i<nums.length; i++) {
-				
-				List<NoticeDTO> listFile = dao.listNoticeFile(nums[i]);
-				
-				for(NoticeDTO dto : listFile) {
-					fileManager.doFiledelete(pathname, dto.getS_fileName());
-				}
-				
-				dao.deleteNoticeFile("all", nums[i]);
-			}
-			
 			// 게시글 삭제
-			dao.deleteNotice(nums);
+			dao.deleteFAQ(nums);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
