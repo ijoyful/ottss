@@ -3,13 +3,17 @@ package com.ottss.controller;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ottss.dao.PointShopDAO;
 import com.ottss.domain.PointShopDTO;
+import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
 import com.ottss.mvc.annotation.RequestMethod;
+import com.ottss.mvc.annotation.ResponseBody;
 import com.ottss.mvc.view.ModelAndView;
 import com.ottss.util.MyUtil;
 import com.ottss.util.MyUtilBootstrap;
@@ -17,6 +21,7 @@ import com.ottss.util.MyUtilBootstrap;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class PointShopController {
@@ -79,19 +84,17 @@ public class PointShopController {
 			String cp = req.getContextPath();
 			String query = "size=" + size;
 			String listUrl;
-			String articleUrl;
 			
 			if (kwd.length() != 0) {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
 			}
 			listUrl = cp + "/shop/shop?" + query;
-			articleUrl = cp + "/shop/shop?page=" + current_page + "&" + query;
 
+			
 			String paging = util.paging(current_page, total_page, listUrl);
 			
 			// 포워딩 jsp에 전달할 데이터
 			mav.addObject("itemList", list);
-			mav.addObject("articleUrl", articleUrl);
 			mav.addObject("dataCount", dataCount);
 			mav.addObject("size", size);
 			mav.addObject("page", current_page);
@@ -114,6 +117,9 @@ public class PointShopController {
 		
 		PointShopDAO dao = new PointShopDAO();
 		MyUtil util = new MyUtilBootstrap();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		try {
 			String page = req.getParameter("page");
@@ -154,51 +160,29 @@ public class PointShopController {
 			int offset = (current_page - 1) * size;
 			if(offset < 0) offset = 0;
 			
+			String id = info.getId();
+			
 			List<PointShopDTO> list;
+			List<PointShopDTO> inventory = dao.getPlayerInventory(id);
 			if(kwd.length() != 0) {
-				list = dao.itemList(offset, size, schType, kwd);
+				list = dao.getPlayerInventory(id);
 			} else {
-				list = dao.itemList(offset, size);
+				list = dao.getPlayerInventory(id);
 			}
 			
 			String cp = req.getContextPath();
 			String query = "size=" + size;
 			String listUrl;
-			String articleUrl;
 			
 			if (kwd.length() != 0) {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
 			}
 			listUrl = cp + "/shop/inventory?" + query;
-			articleUrl = cp + "/shop/inventory?page=" + current_page + "&" + query;
-
-			String paging = util.paging(current_page, total_page, listUrl);
 			
-			 // 사용자 ID와 아이템 번호
-            String id = req.getParameter("id");
-            long item_num = Long.parseLong(req.getParameter("item_num"));
-
-            // 구매 처리
-            boolean success = dao.purchaseItem(id, item_num);
-
-            // 결과 반환
-            List<PointShopDTO> inventory = dao.getPlayerInventory(id);
-            if (success) {
-	            mav.addObject("success", true);
-	            mav.addObject("message", "구매가 완료되었습니다 : )");
-	            mav.addObject("inventory", inventory);
-            } else {
-               mav.addObject("success", false);
-               mav.addObject("message", "포인트가 부족하거나 오류가 발생했습니다.");
-            }
-            
-            System.out.println("사용자 ID: " + id);
-            System.out.println("아이템 번호: " + item_num);
-            System.out.println("인벤토리 데이터: " + inventory);
+			String paging = util.paging(current_page, total_page, listUrl);
 			
 			// 포워딩 jsp에 전달할 데이터
 			mav.addObject("itemList", list);
-			mav.addObject("articleUrl", articleUrl);
 			mav.addObject("dataCount", dataCount);
 			mav.addObject("size", size);
 			mav.addObject("page", current_page);
@@ -206,21 +190,23 @@ public class PointShopController {
 			mav.addObject("paging", paging);
 			mav.addObject("schType", schType);
 			mav.addObject("kwd", kwd);
+			mav.addObject("inventory", inventory);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mav.addObject("success", false);
-            mav.addObject("message", "구매처리 중 오류가 발생했습니다.");
+			
 		}
 		return mav;
 	}
 	
 
-	 /*
     // 1. 아이템 구매
+
+	@ResponseBody
     @RequestMapping(value = "/shop/buy", method = RequestMethod.POST)
-    public ModelAndView buyItem(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    	ModelAndView mav = new ModelAndView("shop/buy");
-    	
+    public Map<String, Object> buyItem(HttpServletRequest req, HttpServletResponse resp) throws IOException { // 반환 타입을 Map으로 변경
+        Map<String, Object> result = new HashMap<>(); // 결과를 담을 Map
+        System.out.println("buyItem 메서드 호출됨");
+        
         try {
             // 사용자 ID와 아이템 번호
             String id = req.getParameter("id");
@@ -232,34 +218,25 @@ public class PointShopController {
 
             // 결과 반환
             List<PointShopDTO> inventory = dao.getPlayerInventory(id);
+            
+            
             if (success) {
-	            mav.addObject("success", true);
-	            mav.addObject("message", "구매가 완료되었습니다 : )");
-	            mav.addObject("inventory", inventory);
+	            result.put("success", true);
+	            result.put("message", "구매가 완료되었습니다 : )");
+	            result.put("itemNum", itemNum);
+	            result.put("inventory", inventory);
             } else {
-               mav.addObject("success", false);
-               mav.addObject("message", "포인트가 부족하거나 오류가 발생했습니다.");
+            	result.put("message", "포인트가 부족하거나 오류가 발생했습니다.");
             }
             
-            System.out.println("사용자 ID: " + id);
-            System.out.println("아이템 번호: " + itemNum);
-            System.out.println("인벤토리 데이터: " + inventory);
         } catch (Exception e) {
             e.printStackTrace();
-            mav.addObject("success", false);
-            mav.addObject("message", "구매처리 중 오류가 발생했습니다.");
+            result.put("success", false);
+            result.put("message", "구매처리 중 오류가 발생했습니다.");
         }
-        return mav;
+        return result;
     }
-    */
     
-    // 2. 구매한 아이템 인벤토리에서 표시
-    
-    // 3. 아이템 장착
-    
-    // 
-
-   
 }
 
 

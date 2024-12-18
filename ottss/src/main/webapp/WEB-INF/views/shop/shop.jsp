@@ -40,6 +40,7 @@ padding : 0;
 		<main id="main">
 			<!-- div.mainInner까지 있어야 폼 안망가집니다. 안에다가 코딩 해주세용 -->
 			<div class="mainInner">
+				<h1 style="text-align: center; margin-bottom: 5px; font-size: 25px;">크리스마스 기념 1+1 이벤트 </h1>
 				<!-- div.listInner 테이블 처럼 쓸 수 있는 ul-li 입니당 foreach 돌리실때 ul로 돌리면 끗! -->
 				<div class="listInner">
                     <ul class="listTitle">
@@ -55,7 +56,11 @@ padding : 0;
                         <li class="name">${dto.item_name}</li>
                         <li class = "explain">${dto.item_explain }</li>                       
                         <li class="amount">${dto.amount}</li>
-	                    <li><button type="button" class = "btn btn-sm" style="color: white; background: #1b1f3b;">Buy</button></li>
+	                    <li>
+	                    	<button type="button" class = "btn btn-sm" style="color: white; background: #1b1f3b;" data-item-num = "${dto.item_num}">
+	                    		Buy									
+	                    	</button>
+	                    </li>
                     </ul>
                     </c:forEach>
                 </div>
@@ -69,14 +74,66 @@ padding : 0;
 		<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 		<!-- footer End -->
 	</div>
-	<script type="text/javascript">
-	$(function() {
-		$('.btn').click(function() {
-			if(! confirm('구매하시겠습니까?')) {
-				return false;
-			}	
-		});
-	});
-	</script>
+<script type="text/javascript">
+const currentUserId = '${sessionScope.member.id}';
+
+function buyItem(itemNum) { // buyItem 함수 정의!
+    console.log("buyItem 함수에 전달된 itemNum:", itemNum);
+    console.log("사용할 userId:", currentUserId);
+
+    if (!currentUserId) {
+        console.error("userId가 유효하지 않습니다.");
+        alert("로그인이 필요합니다.");
+        return;
+    }
+
+    fetch('${pageContext.request.contextPath}/shop/buy', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            id: currentUserId,
+            itemNum: itemNum
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(`HTTP error ${response.status}: ${text}`) });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert('구매가 완료되었습니다!');
+        } else {
+            alert(data.message || '구매 실패!');
+        }
+    })
+    .catch(error => {
+        console.error('오류 발생:', error);
+        alert('오류 발생!');
+    });
+}
+
+$(function() {
+    $('.btn').click(function(event) {
+        event.preventDefault();
+        if (!confirm('구매하시겠습니까?')) {
+            return false;
+        }
+
+        const itemNum = $(this).data('itemNum');
+        console.log("클릭된 버튼의 itemNum:", itemNum);
+
+        if (itemNum === undefined || itemNum === null || itemNum === "") {
+            console.error("itemNum이 유효하지 않습니다:", itemNum);
+            alert("상품 정보를 가져오는 중 오류가 발생했습니다.");
+            return;
+        }
+        buyItem(itemNum); // buyItem 함수 호출
+    });
+});
+</script>
 </body>
 </html>

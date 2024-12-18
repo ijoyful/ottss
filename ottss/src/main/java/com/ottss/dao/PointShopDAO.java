@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ottss.domain.PlayRecordDTO;
+import com.ottss.domain.PointRecordDTO;
 import com.ottss.domain.PointShopDTO;
 import com.ottss.util.DBConn;
 import com.ottss.util.DBUtil;
@@ -156,54 +158,20 @@ public class PointShopDAO {
 		
 		return list;
 	}
-	
-	// 솔직히 얘는 왜 있는지 모르겠음 
-	public PointShopDTO getItem(long item_num) {
-        PointShopDTO item = null;
-        ResultSet rs = null;
-        PreparedStatement pstmt = null;
-        String sql;
-        
-        try {
-        	 sql = "SELECT item_num, item_name, categories, amount, item_explain "
-        	 		+ " FROM point_shop_items "
-        	 		+ " WHERE item_num = ?"; 
-        	 
-        	 pstmt = conn.prepareStatement(sql);
-        	 
-        	 pstmt.setLong(1, item_num);
-        	 
-        	 rs = pstmt.executeQuery();
- 
-        	 if(rs.next()) {
-        		item = new PointShopDTO();
-                item.setItem_num(rs.getLong("item_num"));
-                item.setItem_name(rs.getString("item_name"));
-                item.setCategories(rs.getString("categories"));
-                item.setAmount(rs.getInt("amount"));
-                item.setItem_explain(rs.getString("item_explain"));	 
-        	 }
-		} catch (Exception e) {
-			 e.printStackTrace();
-		} finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
-		}
-        return item;
-    }
 
     // 3. 아이템 구매 처리
     public boolean purchaseItem(String id, long item_num) {
         PreparedStatement pstmt1 = null;
         PreparedStatement pstmt2 = null;
         ResultSet rs = null;
+        boolean result = false;
 
         String getUserPointsSql = "SELECT point FROM player WHERE id = ?";
         String getItemPriceSql = "SELECT amount FROM point_shop WHERE item_num = ?";
         String updateUserPointsSql = "UPDATE player SET point = point - ? WHERE id = ?";
         String insertInventorySql = "INSERT INTO buy_record (buy_num, buy_date, equip, id, item_num) "
-        								+ "VALUES (buy_seq.NEXTVAL,SYSDATE,0 , ?, ?)";
-
+        								+ "VALUES (buy_seq.NEXTVAL,SYSDATE, 0 , ?, ?)";
+     
         try {
             conn.setAutoCommit(false);
 
@@ -242,23 +210,28 @@ public class PointShopDAO {
             pstmt2.setLong(2, item_num);
             pstmt2.executeUpdate();
 
-            // 트랜잭션 커밋
-            conn.commit();
-            return true;
+            result = true;
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("SQL 오류: " + e.getMessage());
             try {
                 if (conn != null) conn.rollback();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            return false;
+            result = false;
         } finally {
+        	try {
+				conn.setAutoCommit(true);
+			} catch (Exception e2) {
+			}
             DBUtil.close(rs);
             DBUtil.close(pstmt1);
             DBUtil.close(pstmt2);
         }
+
+        return result;
     }
 
     // 4. 사용자 인벤토리 조회
@@ -272,7 +245,8 @@ public class PointShopDAO {
         	sql = "SELECT ps.item_num, ps.item_name, ps.categories, ps.amount, ps.item_explain "
         			+ " FROM point_shop ps "
         			+ " JOIN buy_record br ON ps.item_num = br.item_num "
-        			+ " WHERE br.id = ? "; 
+        			+ " WHERE br.id = ? "
+        			+ " ORDER BY categories, item_num "; 
                    
         	pstmt = conn.prepareStatement(sql);
         	
@@ -296,6 +270,30 @@ public class PointShopDAO {
 			DBUtil.close(pstmt);
 		}
         return list;
+    }
+    
+    // 5. 포인트 레코드 테이블에 기록 추가.
+    public void insertPointRecord(PointRecordDTO dto) {
+    	PreparedStatement pstmt = null;
+    	String sql;
+    	
+    	try {
+    		sql = " INSERT INTO point_record (pt_num, categories, point, left_pt, pt_date, id) "
+					+ " VALUES (pt_seq.NEXTVAL, 11, ?, ?, SYSDATE, ?)";
+    		
+    		pstmt = conn.prepareStatement(sql);
+    		
+    		pstmt.setInt(1,dto.getPoint());
+    		pstmt.setInt(2,dto.getLeft_point());
+    		pstmt.setString(3, dto.getId());
+    		
+    		pstmt.executeUpdate();
+    		
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
     }
 		
 }

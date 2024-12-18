@@ -18,8 +18,8 @@
 /* #main .listInner ul li:nth-child(1) {width: 10%;} /* 상품번호 */ 
 #main .listInner ul li:nth-child(1) {width: 10%;} /* 카테고리 */
 #main .listInner ul li:nth-child(2) {width: 22%;} /*  상품  */
-#main .listInner ul li:nth-child(3) {width: 37%;} /* 상품 설명 */
-#main .listInner ul li:nth-child(4) {width: 37%;} /* 구매 일자 */
+#main .listInner ul li:nth-child(3) {width: 58%;} /* 상품 설명 */
+#main .listInner ul li:nth-child(4) {width: 10%;} /* 장착버튼 */
 .btn {
 font-size:16px;
 padding : 0;
@@ -29,11 +29,8 @@ padding : 0;
 
 </head>
 <body>
-<c:if test="${empty inventory}">
-    <p>인벤토리가 비어 있습니다.</p>
-</c:if>
-	<h3>${message}</h3>
-	<c:if test="${success}">
+	<h3></h3>
+
 	<!-- div.wrap 꼭 써야됩니다. 없으면 폼 망가져요~~ --> 
 	<div class="wrap">
 		<!-- header -->
@@ -51,13 +48,25 @@ padding : 0;
                         <li class = "name">상품이름</li>
                         <li class = "explain">상품설명</li>
                     </ul>
-                    <c:forEach var="dto" items="${inventory}">
-                    <ul class="listContent">
-                        <li class="categories">${dto.categories}</li>
-                        <li class="name">${dto.item_name}</li>
-                        <li class = "explain">${dto.item_explain }</li>                       
-                    </ul>
-                    </c:forEach>
+                    <c:choose> <%-- inventory가 비어있는 경우 메시지 출력 --%>
+                        <c:when test="${empty inventory}">
+                            <p>인벤토리가 비어 있습니다.</p>
+                        </c:when>
+                        <c:otherwise>
+                    		<c:forEach var="dto" items="${inventory}">
+			                   	<ul class="listContent">
+			                       	<li class="categories">${dto.categories}</li>
+			                       	<li class="name">${dto.item_name}</li>
+			                       	<li class = "explain">${dto.item_explain}</li>  
+			                       	<li>
+	                    				<button type="button" class = "btn btn-sm" style="color: white; background: #1b1f3b;" >
+	                    					장착									
+	                    				</button>
+	                    			</li>                     
+			                   	</ul>
+                    		</c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
 			</div>
 			
@@ -69,7 +78,7 @@ padding : 0;
 		<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 		<!-- footer End -->
 	</div>
-	</c:if>
+
 
 </body>
 </html>
