@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ottssCss/list.css" type="text/css">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
@@ -41,6 +41,7 @@ padding : 0;
 		<main id="main">
 			<!-- div.mainInner까지 있어야 폼 안망가집니다. 안에다가 코딩 해주세용 -->
 			<div class="mainInner">
+				<div id ="nickname" style="text-align: center; margin-bottom: 5px; font-size: 20px">닉네임</div>
 				<!-- div.listInner 테이블 처럼 쓸 수 있는 ul-li 입니당 foreach 돌리실때 ul로 돌리면 끗! -->
 				<div class="listInner">
                     <ul class="listTitle">
@@ -59,7 +60,7 @@ padding : 0;
 			                       	<li class="name">${dto.item_name}</li>
 			                       	<li class = "explain">${dto.item_explain}</li>  
 			                       	<li>
-	                    				<button type="button" class = "btn btn-sm" style="color: white; background: #1b1f3b;" >
+	                    				<button type="button" class = "btn btn-sm btn-equip" style="color: white; background: #1b1f3b;" >
 	                    					장착									
 	                    				</button>
 	                    			</li>                     
@@ -78,7 +79,30 @@ padding : 0;
 		<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 		<!-- footer End -->
 	</div>
+<script type="text/javascript">
 
+$(document).ready(function() {
+const equipment = {
+	title : "잘생긴",
+	icon : "★",
+	color : "red",
+	nickname : "nickname"
+};
 
+$(".btn-equip").on("click",function() {
+	if(!confirm('장착하시겠습니까?')){
+		return false;
+	}
+	const $nickname = $("#nickname");
+	
+	$nickname.css("color", equipment.color);
+	$nickname.html(`${equipment.icon} ${equipment.title} ${equipment.nickname}`);
+	console.log(equipment.icon);
+	console.log(equipment.title);
+	console.log(equipment.nickname);
+	
+	});
+});
+</script>
 </body>
 </html>

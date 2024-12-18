@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ottss.dao.PointShopDAO;
+import com.ottss.domain.PointRecordDTO;
 import com.ottss.domain.PointShopDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
@@ -211,9 +212,13 @@ public class PointShopController {
             // 사용자 ID와 아이템 번호
             String id = req.getParameter("id");
             long itemNum = Long.parseLong(req.getParameter("itemNum"));
+            
+            PointShopDAO dao = new PointShopDAO();
+            
+            int itemPrice = dao.getItemPrice(itemNum);
+            int left_point = dao.left_point(id);
 
             // 구매 처리
-            PointShopDAO dao = new PointShopDAO();
             boolean success = dao.purchaseItem(id, itemNum);
 
             // 결과 반환
@@ -221,6 +226,14 @@ public class PointShopController {
             
             
             if (success) {
+            	PointRecordDTO dto = new PointRecordDTO();
+            	dto.setPoint(itemPrice);
+            	dto.setLeft_point(left_point - itemPrice);
+            	dto.setId(id);
+            	
+            	dao.insertPointRecord(dto);
+            	
+            	
 	            result.put("success", true);
 	            result.put("message", "구매가 완료되었습니다 : )");
 	            result.put("itemNum", itemNum);
@@ -236,6 +249,8 @@ public class PointShopController {
         }
         return result;
     }
+	
+	// 아이템 장착... 쿼리는 알겠는데 이거 어떻게 적용 시킴?
     
 }
 
