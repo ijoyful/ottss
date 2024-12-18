@@ -35,10 +35,8 @@
 </head>
 <body>
 
-<header>
     <!-- Static Header Include -->
     <jsp:include page="/WEB-INF/views/layout/header.jsp" />
-</header>
 
 <main>
     <div class="container">
@@ -167,10 +165,9 @@
     </div>
 </main>
 
-<footer>
     <!-- Static Footer Include -->
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
-</footer>
+    <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 <!-- 모달창 -->
 <div class="modal fade" id="reportModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reportModalLable" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
@@ -408,7 +405,7 @@ function sendOk(id, num) {
 
 
 
-<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
+
 
 </body>
 </html>

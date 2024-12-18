@@ -10,9 +10,7 @@
         h1 {font-size: 3em; text-align: center; margin-bottom: 20px; color: #FF7F00; font-weight: bold;}
         h2 {font-size: 1.5em; text-align: center;  font-weight: bold;}
         .game-btn {margin: 10px; padding: 15px 30px; font-size: 18px; cursor: pointer; border: none; border-radius: 10px; background-color: #f0f0f0; color: #333; transition: all 0.3s ease;}
-		/* 버튼 호버 효과 */
 		.game-btn:hover {background-color: #ffcc00;color: #fff; transform: scale(1.1);}
-    	/* 버튼 클릭 효과 */
 		.game-btn:active {transform: scale(1);}
         #result { margin-top: 20px; font-size: 20px; color: green; }
         #rsp-area { margin: 20px 0; font-size: 220px; display: flex; justify-content: center; align-items: center; }
@@ -34,15 +32,12 @@
 		    <div>
 		        <h2>현재 라운드: <span id="current-round">1</span></h2>
 		    </div>
-		
-		    <!-- 가위바위보 영역 -->
 		    <div id="rsp-area">
-		        <div id="player1">👊</div> <!-- 예측하는 쪽 -->
+		        <div id="player1">👊</div> 
 		        <div class="vs">🆚</div>
 		        <div id="player2">✌️</div>
 		    </div>
 		
-		    <!-- 승/무/패 예측 버튼 -->
 			<div>
 			    <h2>왼쪽 결과를 예측하세요</h2>
 			    <button class="prediction-btn game-btn" onclick="makePrediction('승', this)">승</button>
@@ -50,24 +45,22 @@
 			    <button class="prediction-btn game-btn" onclick="makePrediction('패', this)">패</button>
 			</div>
 		
-		    <!-- 게임 시작 버튼 -->
 		    <div id="game-controls">
 		        <button class="game-btn" onclick="startGame()">게임 시작</button>
 		    </div>
-		
-		    <!-- 다음 라운드/게임 종료 버튼 -->
+
 		    <div id="next-round-controls">
 		        <button class="game-btn" onclick="nextRound()">다음 라운드</button>
 		        <button class="game-btn" onclick="endGame()">게임 종료</button>
 		    </div>
-		    <!-- 다시 시작 버튼 -->
+
 			<div id="restart-controls" style="display: none;">
 			    <button class="game-btn" onclick="resetGame()">다시 시작</button>
 			</div>
 			<div>
 		        <h2>현재 획득 포인트: <span id="user-point">0</span></h2>
 		    </div>
-   			 <!-- 결과 출력 -->
+		    
     		<div id="result"></div>
     		
 		
@@ -101,9 +94,7 @@
 	    // 사용자의 예측을 저장하는 함수
 	    function makePrediction(prediction, btn) {
 	        userPrediction = prediction;
-	        // 모든 예측 버튼에서 'highlight' 클래스 제거
 	        $('.prediction-btn').removeClass('highlight');
-	        // 클릭한 버튼에만 'highlight' 클래스 추가
 	        $(btn).addClass('highlight');
 	    }
 		
@@ -143,20 +134,17 @@
 	    
 	    // 게임 시작 함수
 	    function startGame() {
-	        // 예측이 없는 경우 경고 메시지 표시
 	        if (!userPrediction) {
 	            alert("먼저 승/무/패를 예측해주세요.");
 	            return;
 	        }
 	
-	        // 서버로 게임 시작 요청 (Ajax)
 	        const url = '${pageContext.request.contextPath}/games/rsp/start'; // 요청 URL
-	        const formData = {}; // 전송할 데이터 (필요시 추가)
+	        const formData = {}; 
 	
 	        const fn = function (data) {
 	            if (data.state === "true") {
-	                // 서버에서 게임 시작 성공 응답이 오면
-	                $('#result').text("게임 진행 중..."); // 상태 표시
+	                $('#result').text("게임 진행 중..."); 
 	                animateRSP(); // 애니메이션 시작
 	
 	                // 2초 후 결과 처리
@@ -166,12 +154,10 @@
 	                }, 2000);
 
 	            } else {
-	                // 게임 시작 실패 시
 	                alert(data.message || '게임 시작에 실패했습니다. 다시 시도해주세요.');
 	            }
 	        };
 	
-	        // Ajax 호출
 	        ajaxFun(url, 'post', formData, 'json', fn);
 	    }
 	
@@ -184,23 +170,19 @@
 	            userPoint: userPoint         // 얻은 포인트
 	        };
 	        
-	        // 서버로 게임 종료 요청 (Ajax)
 	        const url = '${pageContext.request.contextPath}/games/rsp/end';
 
 	        const fn = function (data) {
 	            if (data.state === "true") {
-	                // 서버에서 게임 종료 성공 응답이 오면
-	                $('#result').text("게임 종료! 다시시작을 원하시면 다시시작 버튼을 누르라용!"); // 상태 표시
-	                $('#game-controls').hide(); // 게임 시작 버튼 숨기기
+	                $('#result').text("게임 종료! 다시시작을 원하시면 다시시작 버튼을 누르라냥!");
+	                $('#game-controls').hide(); 
 	                $('#next-round-controls').hide(); 
-	                $('#restart-controls').show(); // 다시 시작 버튼 표시
+	                $('#restart-controls').show();
 	            } else {
-	                // 게임 종료 실패 시
 	                alert(data.message || '게임 종료에 실패했습니다. 다시 시도해주세요.');
 	            }
 	        };
 
-	        // Ajax 호출
 	        ajaxFun(url, 'POST', formData, 'json', fn);
 	    }
 
@@ -224,17 +206,17 @@
 	        const finalPlayer1 = $("#player1").text();
 	        const finalPlayer2 = $("#player2").text();
 	
-	        const winner = determineWinner(finalPlayer1, finalPlayer2); // 승부 판정
+	        const winner = determineWinner(finalPlayer1, finalPlayer2);
 	        let resultText;
 	
 	        if (userPrediction === winner) {
-	            userPoint *= 2; // 승리 시 포인트 2배
+	            userPoint *= 2;
 	            resultText = `🎉 예측 성공! 획득포인트가 2배 증가했습니다.`;
-	            showNextRoundButtons(); // 예측 성공 시 다음 라운드 버튼 표시
+	            showNextRoundButtons(); 
 	        } else {
-	            userPoint = 0; // 실패 시 포인트 0
+	            userPoint = 0;
 	            resultText = `😭 예측 실패! 포인트가 0이 되었습니다.<br>다시시작을 원하시면 다시시작 버튼을 누르라용!`;
-	            showEndButtons(); //다시시작 버튼 표시
+	            showEndButtons();
 	        }
 	
 	        $('#result').html(resultText);
@@ -243,19 +225,19 @@
 	
 	    // 승부 판정 함수
 	    function determineWinner(p1, p2) {
-	        if (p1 === p2) return '무'; // 비김
+	        if (p1 === p2) return '무'; 
 	        if (
 	            (p1 === "👊" && p2 === "✌️") ||
 	            (p1 === "✌️" && p2 === "✋") ||
 	            (p1 === "✋" && p2 === "👊")
-	        ) return '승'; // 왼쪽 승리
-	        return '패'; // 오른쪽 승리
+	        ) return '승'; 
+	        return '패'; 
 	    }
 	
 	    // 다음 라운드 버튼 표시
 	    function showNextRoundButtons() {
-	        $('#game-controls').hide();  // 게임 시작 버튼 숨기기
-	        $('#next-round-controls').show();  // 다음 라운드 버튼/게임종료 버튼 표시
+	        $('#game-controls').hide();
+	        $('#next-round-controls').show();
 	    }
 	    
 	    // 다시시작 버튼 표시
@@ -269,35 +251,36 @@
 	        if (currentRound < totalRounds) {
 	            currentRound++;
 	            $('#current-round').text(currentRound);
-	            prepareNextRound(); //다음 라운드 준비
+	            prepareNextRound();
 	        } else {
-	            endGame(); // 라운드가 다 끝났으면 게임 종료
+	            endGame();
 	        }
 	    }
 			    
 	    // 전체 게임 초기화 함수
 	    function resetGame() {
-	    	currentRound = 1; // 라운드 초기화
-	        userPoint = 10;   // 포인트 초기화
-	        userPrediction = ''; // 예측 초기화
+	    	currentRound = 1; 
+	        userPoint = 10;  
+	        userPrediction = ''; 
 	        $('.prediction-btn').removeClass('highlight');
-	        $('#result').text(''); // 결과 초기화
-	        $('#next-round-controls').hide(); // 다음 라운드 버튼 숨기기
-	        $('#restart-controls').hide(); // 다시 시작 버튼 숨기기
-	        $('#game-controls').show(); // 게임 시작 버튼 다시 표시
-	        $('#current-round').text(currentRound); // 현재 라운드 표시 업데이트
-	        $('#user-point').text(userPoint); // 사용자 포인트 표시 업데이트
+	        $('#result').text('');
+	        $('#next-round-controls').hide(); 
+	        $('#restart-controls').hide(); 
+	        $('#game-controls').show(); 
+	        $('#current-round').text(currentRound); 
+	        $('#user-point').text(userPoint); 
 	    }
 	    
 	    // 다음 라운드 준비 함수
 	    function prepareNextRound() {
-	        userPrediction = ''; // 예측 초기화
+	        userPrediction = ''; 
 	        $('.prediction-btn').removeClass('highlight');
-	        $('#result').text(''); // 결과 초기화
-	        $('#next-round-controls').hide(); // 다음 라운드 버튼 숨기기
-	        $('#game-controls').show(); // 게임 시작 버튼 다시 표시
+	        $('#result').text(''); 
+	        $('#next-round-controls').hide(); 
+	        $('#game-controls').show(); 
 	    }
 	    
+	    //게임설명
 	    function toggleDescription() {
 	        const descriptionBox = document.getElementById('game-description');
 	        const isVisible = descriptionBox.classList.contains('show');
