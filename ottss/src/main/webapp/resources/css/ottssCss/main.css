@@ -49,5 +49,5 @@
     flex-wrap: wrap;
 }
 
-#main .mainInner .listWrap > div {width: 49%;}
+#main .mainInner .listWrap > div {width: 32%;}
 #main .mainInner .listWrap > div:nth-child(-n+2) {margin-bottom: 20px;}

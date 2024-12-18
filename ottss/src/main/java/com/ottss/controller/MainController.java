@@ -24,11 +24,11 @@ public class MainController {
 		ModelAndView mav = new ModelAndView("main/main");
 		
 		NoticeDAO noticeDAO = new NoticeDAO();
-		List<NoticeDTO> listNotice = noticeDAO.listNotice(0, 3);
+		List<NoticeDTO> listNotice = noticeDAO.listNotice(0, 5);
 		FreeDAO freeDAO = new FreeDAO();
-		List<FreeDTO> listFree = freeDAO.freeList(0, 3);
+		List<FreeDTO> listFree = freeDAO.freeList(0, 5);
 		FAQDAO qnaDAO = new FAQDAO();
-		List<FAQDTO> listQnA = qnaDAO.listFAQ(0, 3);
+		List<FAQDTO> listQnA = qnaDAO.listFAQ(0, 5);
 
 		mav.addObject("listNotice", listNotice);
 		mav.addObject("listFree", listFree);

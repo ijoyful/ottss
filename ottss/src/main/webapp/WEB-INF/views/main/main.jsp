@@ -53,12 +53,30 @@
 	                    <li>제목</li>
 	                </ul>
 	                <c:forEach var="listNotice" items="${listNotice}">
-	                <ul class="listContent">
-	                    <li><a href="${pageContext.request.contextPath}/notice/article?page=1&size=10&n_num=${listNotice.n_num}">${listNotice.title}</a></li>
-	                </ul>
+		                <ul class="listContent">
+		                    <li><a href="${pageContext.request.contextPath}/notice/article?page=1&size=10&n_num=${listNotice.n_num}">${listNotice.title}</a></li>
+		                </ul>
 	                </c:forEach>
 	            </div>
 	            <!-- 공지사항 끝 -->
+	            
+	            <!-- QnA -->
+	            <div class="listInner">
+	            	<div class="listBigTitle">
+                		<span>[ QnA ]</span>
+                		<a href="${pageContext.request.contextPath}/">더보기</a>
+               		</div>
+                	<ul class="listTitle">
+	                    <li>제목</li>
+	                </ul>
+	                <c:forEach var="listQnA" items="${listQnA}">
+		                <ul class="listContent">
+		                    <li><a href="${pageContext.request.contextPath}/qna/article?page=1&size=10&num=${listQnA.faq_num}">${listQnA.q_title}</a></li>
+		                </ul>
+	                </c:forEach>
+	            </div>
+	            <!-- QnA 끝 -->
+	            
 	            <!-- 자유게시판 -->
                 <div class="listInner">
                 	<div class="listBigTitle">
@@ -69,49 +87,18 @@
 	                    <li>제목</li>
 	                </ul>
 	                <c:forEach var="listFree" items="${listFree}">
-	                <ul class="listContent">
-	                    <li><a href="${pageContext.request.contextPath}/freeboard/article?page=1&size=10&num=${listFree.fb_num}">${listFree.title}</a></li>
-	                </ul>
+		                <ul class="listContent">
+		                    <li><a href="${pageContext.request.contextPath}/freeboard/article?page=1&size=10&num=${listFree.fb_num}">${listFree.title}</a></li>
+		                </ul>
 	                </c:forEach>
 	            </div>
-	            <div class="listInner">
-	            	<div class="listBigTitle">
-                		<span>[ 0000 ]</span>
-                		<a href="${pageContext.request.contextPath}/">더보기</a>
-               		</div>
-                	<ul class="listTitle">
-	                    <li>제목</li>
-	                </ul>
-	                <ul class="listContent">
-	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                </ul>
-	                <ul class="listContent">
-	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                </ul>
-	                <ul class="listContent">
-	                    <li><a href="#">[공지] 삼식이네 놀이터 주의 사항</a></li>
-	                </ul>
-	            </div>
-	            <div class="listInner">
-	            	<div class="listBigTitle">
-                		<span>[ QnA ]</span>
-                		<a href="${pageContext.request.contextPath}/">더보기</a>
-               		</div>
-                	<ul class="listTitle">
-	                    <li>제목</li>
-	                </ul>
-	                <c:forEach var="listQnA" items="${listQnA}">
-	                <ul class="listContent">
-	                    <li><a href="${pageContext.request.contextPath}/qna/article?page=1&size=10&num=${listQnA.faq_num}">${listQnA.q_title}</a></li>
-	                </ul>
-	                </c:forEach>
-	            </div>
+	            <!-- 자유게시판 끝 -->
             </div> <!-- tableListWrap -->
         </div> <!-- mainInner -->
     </main>
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-	<script text="text/javascript">
+	<script type="text/javascript">
 	
 	    var product_slide = new Swiper(".latest_slide", {
 	        loop: true, // 루프 기능
@@ -152,7 +139,7 @@
 	    });
 	    
 	    <c:if test="${param.message == 'success'}">
-        alert('회원 탈퇴가 성공적으로 이루어졌습니다.');
+        	alert('회원 탈퇴가 성공적으로 이루어졌습니다.');
    		</c:if>
 	
 	</script>
