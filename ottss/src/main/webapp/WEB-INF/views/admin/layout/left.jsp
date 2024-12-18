@@ -125,7 +125,7 @@ $(function(){
 		</li>
 	
 		<li class="menu--item">
-	        <a href="${pageContext.request.contextPath}/member/logout" class="menu--link" title="Logout">
+			<a href="${pageContext.request.contextPath}/login/logout" class="menu--link" title="Logout" title="로그아웃">
 				<i class="menu--icon bi bi-unlock"></i>
 				<span class="menu--label">Logout</span>
 			</a>
