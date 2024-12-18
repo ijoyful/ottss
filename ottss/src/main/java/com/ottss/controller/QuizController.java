@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ottss.dao.QuizDAO;
-import com.ottss.domain.PlayRecordDTO;
 import com.ottss.domain.QuizPlayDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
