@@ -8,7 +8,7 @@
 
 #main .listInner ul li {display: flex; height: 40px; align-items: center; justify-content: center; width: 100%;}
 
-#main .listInner .listTitle {background-color: #FF007F; color: #fff;}
+#main .listInner .listTitle {background-color: #1B1F3B; color: #fff;}
 
 #main .listInner .listContent {background-color: #eee;}
 #main .listInner .listContent a:hover {text-decoration: underline; color: #000;}

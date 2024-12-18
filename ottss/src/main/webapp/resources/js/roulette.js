@@ -4,8 +4,8 @@ const ctx = $c.getContext(`2d`);
 
 const product = [0, 2, 3, 5, 10, 100];
 const prob = [255, 90, 255, 63, 256, 45, 27, 9];
-
-const colors = ["#63d8ff", "#1e90ff", "#6ad8fc", "#00bfff", "#36cdff","#4f78c9 ", "#bad1ff", "#fac000"];
+// 0 2 0 3 0 5 10 100
+const colors = ["#ccd2d8", "#BCCCDC", "#ccd2d8", "#D9EAFD", "#ccd2d8", "#F8FAFC", "#E5E1DA", "#F72C5B"];
 function login() {
 	location.href = '${pageContext.request.contextPath}/member/login';
 }

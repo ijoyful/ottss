@@ -9,34 +9,52 @@
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 <style type="text/css">
-.body-container {
-	max-width: 800px;
-}
+	.body-container {max-width: 800px;}
+	
+	.mainInner {
+    	display: flex;
+    	flex-direction: column;
+    	align-items: center;
+	}
+	
+	.title {margin-bottom: 20px;}
+	
+	.title p:nth-child(1) {
+		font-size: 25px;
+		margin-bottom: 20px;
+		font-weight: bold;
+		text-align: center;
+	}
+	
+	.title p:nth-child(2) {font-size: 18px;}
+	
+	.btnWrap {margin-bottom: 50px;}
+	
+	
+	
 </style>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/roulette.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 </head>
 <body>
-<header>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-</header>
-<main id="main">
-	<div class="mainInner">
-		<div class="title">
-			<p>삼식이의 룰렛</p>
-			<p>배팅할 포인트: <input type="text" name="bet"></p>
+	<main id="main">
+		<div class="mainInner">
+			<div class="title">
+				<p>삼식이의 룰렛</p>
+				<p>배팅할 포인트: <input type="text" name="bet"></p>
+			</div>
+			<div class="btnWrap">
+				<button onclick="start();">룰렛 시작</button>
+			</div>
+			<div class="game-board">
+				<canvas width="380" height="380"></canvas>
+			</div>
 		</div>
-		<div class="btnWrap">
-			<button onclick="start();">룰렛 시작</button>
-		</div>
-		<div class="game-board">
-			<canvas width="380" height="380"></canvas>
-		</div>
-	</div>
-	<input type="hidden" name="state" value="${state}">
-</main>
+		<input type="hidden" name="state" value="${state}">
+	</main>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/roulette.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/roulette.js"></script>
 
 </body>
 </html>
