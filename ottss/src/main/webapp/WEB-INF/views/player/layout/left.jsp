@@ -56,14 +56,14 @@ $(function(){
 <nav class="vertical_nav" style="top: 120px;">
 	<ul id="js-menu" class="menu">
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="출석확인">
+	        <a href="${pageContext.request.contextPath}/player/mypage" class="menu--link" title="출석확인">
 				<i class="menu--icon bi bi-person-square"></i>
 				<span class="menu--label">출석확인</span>
 			</a>
 		</li>
 	
-		<li class="menu--item menu--item__has_sub_menu">
-	        <a href="#" class="menu--link" title="최고기록확인">
+		<li class="menu--item">
+	        <a href="${pageContext.request.contextPath}/mypage/bestrecord" class="menu--link" title="최고기록확인">
 				<i class="menu--icon bi bi-question-square"></i>
 				<span class="menu--label">최고기록확인</span>
 			</a>

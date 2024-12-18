@@ -22,7 +22,7 @@
 		<div class="body-main">
 			<p>잔여 포인트: ${left_pt}</p>
 			<select class="mode">
-				<option value="all">전체</option>
+				<option value="all" selected>전체</option>
 				<option value="game">게임</option>
 				<option value="shop">상점</option>
 				<option value="used">포인트 소비</option>
@@ -35,8 +35,8 @@
 					<div class="col ps-0 fw-bold text-primary item-count">목록 0개</div>
 				</div>
 
-				<table>
-					<thead>
+				<table class="table">
+					<thead class="thead">
 						<tr>
 							<td>유형</td>
 							<td>종류</td>
@@ -114,8 +114,6 @@ function addNewContent(data) {
 	let pageNo = parseInt(data.pageNo);
 	let total_page = parseInt(data.total_page);
 
-	
-	console.log(data);
 	const itemCount = document.querySelector('.item-count');
 
 	listNode.setAttribute('data-pageNo', pageNo);
@@ -132,10 +130,10 @@ function addNewContent(data) {
 	let htmlText;
 	for (let item of data.list) {
 		let num = item.pt_num;
-		let categories = item.categories === 1 ? '소비' : '획득';
+		let categories = item.categories === 10 ? '소비' : '획득';
 		let category = item.category;
 		let used_pt = item.point;
-		let left_pt = item.left_pt;
+		let left_pt = item.left_point;
 		let pt_date = item.pt_date;
 
 		htmlText = '<tr class="item-content">';
@@ -177,13 +175,11 @@ const ioCallback = (entries, io) => {
 
 			let pageNo = parseInt(listNode.getAttribute('data-pageNo'));
 			let total_page = parseInt(listNode.getAttribute('data-totalPage'));
-			let mode;
-			/*
+			let mode = $('.mode option:selected').val();
+
 			$('.mode').change(function() {
 				mode = $(this).val(); // 선택된 option의 값 가져오기
-				// console.log(mode); // 정상 출력
 			});
-			*/
 
 			if (pageNo === 0 || pageNo < total_page) {
 				pageNo++;
@@ -198,9 +194,11 @@ io.observe(sentinelNode); // 관찰대상(요소) 등록
 
 $(function() { // select onchange 이벤트 등록
 	$('.mode').change(function() {
+		$('.list-content').empty();
 		let url = '${pageContext.request.contextPath}/mypage/pointhistory';
 		let query = 'pageNo=1&mode=' + $(this).val();
 		const fn = function(data) {
+			$('.list-content').empty();
 			addNewContent(data);
 		}
 		ajaxFunc(url, 'get', query, 'json', fn);

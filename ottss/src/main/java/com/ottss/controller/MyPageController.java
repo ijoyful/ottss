@@ -1,13 +1,13 @@
 package com.ottss.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ottss.dao.MyPageDAO;
 import com.ottss.dao.RouletteDAO;
+import com.ottss.domain.PlayRecordDTO;
 import com.ottss.domain.PointRecordDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
@@ -25,10 +25,43 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MyPageController {
+
+	@ResponseBody
+	@RequestMapping(value = "/mypage/attend", method = RequestMethod.GET)
+	public Map<String, Object> listAgeSection(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		try {
+
+			model.put("state", "true");
+		} catch (Exception e) {
+			model.put("state", "false");
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
 	@RequestMapping(value = "/mypage/bestrecord", method = RequestMethod.GET)
 	public ModelAndView bestrecord(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 최고기록 확인
 		ModelAndView mav = new ModelAndView("player/bestrecord");
+		HttpSession session = req.getSession();
+		MyPageDAO dao = new MyPageDAO();
+
+		try {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			String id = info.getId();
+			List<PlayRecordDTO> bestRecord = dao.bestrecord(id);
+			if (bestRecord.size() == 0) {
+				resp.sendError(406); // best record 사이즈가 0
+			}
+
+			mav.addObject("bestRecord", bestRecord);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return mav;
 	}
 
@@ -78,7 +111,7 @@ public class MyPageController {
 			if (page != null) {
 				current_page = Integer.parseInt(page);
 			}
-			int dataCount = dao.dataCount(id, mode);
+			int dataCount = dao.pointdataCount(id, mode);
 
 			// 전체 페이지 수
 			int size = 20;
@@ -92,40 +125,11 @@ public class MyPageController {
 			if (offset < 0) offset = 0;
 
 			int left_pt = roudao.leftPoint(id); // 남은 포인트
-			List<PointRecordDTO> ptrecordlist = dao.pointrecord(id, offset, size); // 로그인한 유저의 포인트 사용 내역
-			List<PointRecordDTO> xlist = new ArrayList<PointRecordDTO>();
+			List<PointRecordDTO> ptrecordlist = dao.pointrecord(id, offset, size, mode); // 로그인한 유저의 포인트 사용 내역
 
 			model.put("left_pt", left_pt);
-			if (mode.equals("all")) {
-				for (PointRecordDTO dto : ptrecordlist) {
-					xlist.add(dto);
-				}
-			} else if (mode.equals("game")) { // 보고자 하는 선택사항이 게임이면
-				for (PointRecordDTO dto : ptrecordlist) {
-					if (dto.getCategory().equals("게임")) {
-						xlist.add(dto);
-					}
-				}
-			} else if (mode.equals("shop")) { // 보고자 하는 선택사항이 상점쇼핑 목록이라면
-				for (PointRecordDTO dto : ptrecordlist) {
-					if (dto.getCategory().equals("상점")) {
-						xlist.add(dto);
-					}
-				}
-			} else if (mode.equals("used")) { // 보고자 하는 선택사항이 소비목록이라면
-				for (PointRecordDTO dto : ptrecordlist) {
-					if (dto.getCategories() == 1) {
-						xlist.add(dto);
-					}
-				}
-			} else if (mode.equals("win")) {
-				for (PointRecordDTO dto : ptrecordlist) {
-					if (dto.getCategories() == 9) {
-						xlist.add(dto);
-					}
-				}
-			}
-			model.put("list", xlist);
+
+			model.put("list", ptrecordlist);
 			model.put("pageNo", current_page);
 			model.put("total_page", total_page);
 			model.put("dataCount", dataCount);

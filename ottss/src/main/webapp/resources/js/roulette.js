@@ -5,7 +5,7 @@ const ctx = $c.getContext(`2d`);
 const product = [0, 2, 3, 5, 10, 100];
 const prob = [255, 90, 255, 63, 256, 45, 27, 9];
 
-const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e", "#87207b", "#be107f", "#e7167b"];
+const colors = ["#63d8ff", "#1e90ff", "#6ad8fc", "#00bfff", "#36cdff","#4f78c9 ", "#bad1ff", "#fac000"];
 function login() {
 	location.href = '${pageContext.request.contextPath}/member/login';
 }
@@ -16,7 +16,7 @@ const newMake = () => {
 
     for (let i = 0; i < prob.length; i++) {
 		ctx.beginPath();
-		ctx.fillStyle = colors[i % (colors.length -1)];
+		ctx.fillStyle = colors[i];
 		ctx.moveTo(cw, ch);
 		let temp = prob[i] * Math.PI / 500;
 		ctx.arc(cw, ch, cw, arcSum, arcSum + temp);
