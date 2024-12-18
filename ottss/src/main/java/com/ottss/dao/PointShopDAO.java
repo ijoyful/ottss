@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ottss.domain.PlayRecordDTO;
 import com.ottss.domain.PointRecordDTO;
 import com.ottss.domain.PointShopDTO;
 import com.ottss.util.DBConn;
