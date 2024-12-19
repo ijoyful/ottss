@@ -67,7 +67,7 @@ function calendar(data) { // data 에 들어있는 값. 출석한 날짜들이 �
 	}
 	out += `</tr>`;
 	out += `</table>`;
-	out += `<div class="footer"><span onclick="interCalendar(${ny}, ${nm})">오늘날짜로</span></div>`;
+	out += `<div class="footer"><p class="todayBtn" onclick="interCalendar(${ny}, ${nm})">오늘날짜로</p></div>`;
 
 	
 	document.querySelector('#calendarLayout').innerHTML = out;
