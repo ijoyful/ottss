@@ -178,7 +178,7 @@ public class FreeDAO {
 			sb.append(" FROM free_board fb ");
 			sb.append(" JOIN player p ON fb.id = p.id ");
 			sb.append(" WHERE blind = 0 ");
-			sb.append(" ORDER BY fb.fb_num DESC ");
+			sb.append(" ORDER BY reg_date DESC ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 			
 			pstmt = conn.prepareStatement(sb.toString());

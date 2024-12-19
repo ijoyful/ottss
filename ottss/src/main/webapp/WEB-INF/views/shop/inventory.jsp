@@ -29,7 +29,6 @@ padding : 0;
 
 </head>
 <body>
-	<h3></h3>
 
 	<!-- div.wrap 꼭 써야됩니다. 없으면 폼 망가져요~~ --> 
 	<div class="wrap">
@@ -41,7 +40,7 @@ padding : 0;
 		<main id="main">
 			<!-- div.mainInner까지 있어야 폼 안망가집니다. 안에다가 코딩 해주세용 -->
 			<div class="mainInner">
-				<div id ="nickname" style="text-align: center; margin-bottom: 5px; font-size: 20px">닉네임</div>
+				<div id ="nickname" style="text-align: center; margin-bottom: 5px; font-size: 20px">${dto.nickname}</div>
 				<!-- div.listInner 테이블 처럼 쓸 수 있는 ul-li 입니당 foreach 돌리실때 ul로 돌리면 끗! -->
 				<div class="listInner">
                     <ul class="listTitle">
@@ -83,7 +82,7 @@ padding : 0;
 
 $(document).ready(function() {
 const equipment = {
-	title : "잘생긴",
+	title : "강한",
 	icon : "★",
 	color : "red",
 	nickname : "nickname"
@@ -97,6 +96,7 @@ $(".btn-equip").on("click",function() {
 	
 	$nickname.css("color", equipment.color);
 	$nickname.html(`${equipment.icon} ${equipment.title} ${equipment.nickname}`);
+	
 	console.log(equipment.icon);
 	console.log(equipment.title);
 	console.log(equipment.nickname);

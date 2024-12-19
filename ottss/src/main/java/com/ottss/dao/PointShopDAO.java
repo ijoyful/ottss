@@ -298,7 +298,7 @@ public class PointShopDAO {
         			+ " FROM point_shop ps "
         			+ " JOIN buy_record br ON ps.item_num = br.item_num "
         			+ " WHERE br.id = ? "
-        			+ " ORDER BY categories, item_num "; 
+        			+ " ORDER BY categories DESC, item_num "; 
                    
         	pstmt = conn.prepareStatement(sql);
         	
