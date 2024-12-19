@@ -64,8 +64,8 @@ public class LoginFilter implements Filter {
 			return;
 
 		} else if (info != null && uri.indexOf("admin") != -1) {
-			// 관리자 메뉴를 userLevel이 51 미만인 유저가 접속한 경우
-			if (info.getPowerCode() < 51) {
+			// 관리자 메뉴를 userLevel이 99 미만인 유저가 접속한 경우
+			if (info.getPowerCode() < 99) {
 				resp.sendRedirect(cp + "/member/noAuthorized");
 				return;
 			}
@@ -95,6 +95,7 @@ public class LoginFilter implements Filter {
 		String[] uris = {
 			"/index.jsp", "/main",
 			"/login/member",
+			"/login/userIdCheck",
 			"/login/login", "/login/logout",
 			"/introduce/sogae",
 			"/notice/list", "/notice/article",
