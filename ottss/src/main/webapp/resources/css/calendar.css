@@ -64,10 +64,11 @@ input[type=checkbox], input[type=radio] { vertical-align: middle; }
 #calendarLayout table td:nth-child(7n+1) { color: red; }
 #calendarLayout table td:nth-child(7n) { color: blue; }
 #calendarLayout table td.gray { color: #ccc; }
-#calendarLayout table td.today { font-weight:700; background: #E6FFFF; }
+#calendarLayout table td.today { font-weight:1000; color: #3f00b5; background-color: #E6FFFF; }
+#calendarLayout table td.attend { background-color: #c5e8e8; }
 
 #calendarLayout .footer { height: 25px; line-height: 25px;
 	text-align: right; font-size: 10px; }
 
 .subject>span, .footer>span { cursor: pointer; }
-.subject>span:hover, .footer>span:hover { color: tomato; }
+.subject>span:hover, .footer>span:hover { color: #dbc7ff; }

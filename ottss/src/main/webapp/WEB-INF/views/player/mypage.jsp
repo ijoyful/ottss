@@ -35,28 +35,62 @@
 
 </main>
 <script type="text/javascript">
+function ajaxFun(url, method, formData, dataType, fn, file=false) {
+	const settings = {
+			type: method,
+			data: formData,
+			dataType: dataType,
+			success: function(data) {
+				fn(data);
+			},
+			beforeSend: function(jqXHR) {
+				jqXHR.setRequestHeader('AJAX', true);				
+			},
+			complete:function() {
+			},
+			error: function(jqXHR) {
+				if(jqXHR.status === 403) {
+					login();
+					return false;
+				} else if(jqXHR.status === 406) {
+					alert('요청 처리가 실패했습니다.');
+					return false;
+				}
+				
+				console.log(jqXHR.responseText);
+			}
+	};
+	
+	if(file) {
+		settings.processData = false; // 파일 전송시 필수. 서버로 보낼 데이터를 쿼리문자열로 변환 여부
+		settings.contentType = false; // 파일 전송시 필수. contentType. 기본은 application/x-www-urlencoded
+	}
+	
+	$.ajax(url, settings);
+}
 $(function() {
 	let url = '${pageContext.request.contextPath}/mypage/attend';
-	$.getJSON(url, function(data) { // GET 방식
-		chartsLine(data);
-	});
+	ajaxFun(url, 'get', {year: 2024}, 'json', chartsLine);
 	function chartsLine(data) {
 		let chartData = [];
+		let att_date = [];
+		let attendCount = [];
+		for (let item of data.list) {
+			let obj = [item.att_date, item.attendCount];
+			chartData.push(obj);
+			att_date.push(item.att_date);
+			attendCount.push(item.attendCount);
+		}
 
 		Highcharts.chart('line-charts', {
 		    chart: {
 		        type: 'column'
 		    },
 		    title: {
-		        text: 'Corn vs wheat estimated production for 2023'
-		    },
-		    subtitle: {
-		        text:
-		            'Source: <a target="_blank" ' +
-		            'href="https://www.indexmundi.com/agriculture/?commodity=corn">indexmundi</a>'
+		        text: data.nickname + '님의 ' + data.year + ' 년 월별 출석 횟수'
 		    },
 		    xAxis: {
-		        categories: ['USA', 'China', 'Brazil', 'EU', 'Argentina', 'India'],
+		        categories: att_date,
 		        crosshair: true,
 		        accessibility: {
 		            description: 'Countries'
@@ -65,11 +99,8 @@ $(function() {
 		    yAxis: {
 		        min: 0,
 		        title: {
-		            text: '1000 metric tons (MT)'
+		            text: '출석 횟수'
 		        }
-		    },
-		    tooltip: {
-		        valueSuffix: ' (1000 MT)'
 		    },
 		    plotOptions: {
 		        column: {
@@ -79,12 +110,8 @@ $(function() {
 		    },
 		    series: [
 		        {
-		            name: 'Corn',
-		            data: [387749, 280000, 129000, 64300, 54000, 34300]
-		        },
-		        {
-		            name: 'Wheat',
-		            data: [45321, 140000, 10000, 140500, 19500, 113500]
+		            name: '출석 횟수',
+		            data: attendCount
 		        }
 		    ]
 		});
@@ -93,78 +120,10 @@ $(function() {
 	}
 
 });
-
-function calendar(y, m) {
-
-	let week = ['일', '월', '화', '수', '목', '금', '토'];
-	let date = new Date(y, m - 1, 1); // y년도 m월 1일
-	y = date.getFullYear();
-	m = date.getMonth() + 1;
-	w = date.getDay();
-	
-	// 시스템 오늘 날짜
-	let now = new Date();
-	let ny = now.getFullYear();
-	let nm = now.getMonth() + 1;
-	let nd = now.getDate();
-	
-	out = '<div class="subject">';
-	out += `<span onclick="calendar(${y}, ${m - 1})">&lt;</span>&nbsp;&nbsp;`;
-	out += `<label>${y}년 ${m}월</label>`;
-	out += `&nbsp;&nbsp;<span onclick="calendar(${y}, ${m + 1})">&gt;</span>`;
-	out += '</div>';
-	
-	out += '<table class="table td-border" style="width: 350px; height: 350px;">';
-	out += '<tr>';
-	for (let i = 0; i < week.length; i++) {
-		out += `<td>${week[i]}</td>`;
-	}
-	out += '</tr>';
-	
-	// 1일 앞 부분 날짜 처리
-	let preDate = new Date(y, m - 1, 0); // 이전 달의 마지막 날짜
-	// let preYear = preDate.getFullYear();
-	// let preMonth = preDate.getMonth() + 1;
-	let preLastDay = preDate.getDate();
-	let preDay = preLastDay - w;
-	out += '<tr>';
-	for (let i = w - 1; i >= 0; i--) {
-		out += `<td class="gray">${preLastDay - i}</td>`;
-	}
-	let cls;
-	let lastDay = (new Date(y, m, 0)).getDate();
-	for (let i = 1; i <= lastDay; i++) {
-		cls = y === ny && m === nm && i === nd ? 'today': '';
-		out += `<td class="${cls}">${i}</td>`;
-		if (i !== lastDay && ++w % 7 == 0) {
-			w = 0;
-			out += '</tr><tr>';
-		}
-	}
-	
-	// 마지막 날짜 뒷부분
-	let j = 1;
-	for (let w = date.getDay(); w < 6; w++) {
-		out += `<td class="gray">${j}</td>`;
-		j++;
-	}
-	out += `</tr>`;
-	out += `</table>`;
-	out += `<div class="footer"><span onclick="calendar(${ny}, ${nm})">오늘날짜로</span></div>`;
-
-	
-	document.querySelector('#calendarLayout').innerHTML = out;
-}
-
-window.addEventListener('load', () => {
-	let now = new Date();
-	let y = now.getFullYear();
-	let m = now.getMonth() + 1;
-	calendar(y, m);
-});
 </script>
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
+<script src="${pageContext.request.contextPath}/resources/js/calendar2.js"></script>
 </body>
 </html>
