@@ -59,6 +59,9 @@
 							</div>
 						</form>
 					</div>
+					<div class="col text-end">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/write';">글올리기</button>
+					</div>
 				</div>
 				<!-- div.listInner 테이블 처럼 쓸 수 있는 ul-li 입니당 foreach 돌리실때 ul로 돌리면 끗! -->
 				<div class="listInner">
