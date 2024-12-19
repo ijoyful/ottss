@@ -266,7 +266,6 @@ public class PointShopDAO {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("SQL 오류: " + e.getMessage());
             try {
                 if (conn != null) conn.rollback();
             } catch (Exception ex) {
@@ -347,5 +346,26 @@ public class PointShopDAO {
 			DBUtil.close(pstmt);
 		}
     }
-		
+
+    // 6. 장착 
+    public void equipment(String id, String nickname){
+    	PreparedStatement pstmt = null;
+    	String sql;
+    	
+    	try {
+			sql = " UPDATE player SET nickname = ? WHERE id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, nickname);
+			pstmt.setString(2, id);
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
+    }	
 }

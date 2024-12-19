@@ -206,7 +206,6 @@ public class PointShopController {
     @RequestMapping(value = "/shop/buy", method = RequestMethod.POST)
     public Map<String, Object> buyItem(HttpServletRequest req, HttpServletResponse resp) throws IOException { // 반환 타입을 Map으로 변경
         Map<String, Object> result = new HashMap<>(); // 결과를 담을 Map
-        System.out.println("buyItem 메서드 호출됨");
         
         try {
             // 사용자 ID와 아이템 번호

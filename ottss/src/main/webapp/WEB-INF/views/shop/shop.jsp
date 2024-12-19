@@ -14,12 +14,11 @@
 .body-container {
 	max-width: 600px;
 	}
-#main .mainInner {width: 800px;}
 /* #main .listInner ul li:nth-child(1) {width: 10%;} /* 상품번호 */ 
 #main .listInner ul li:nth-child(1) {width: 12%;} /* 카테고리 */
 #main .listInner ul li:nth-child(2) {width: 22%;} /*  상품  */
-#main .listInner ul li:nth-child(3) {width: 37%;} /* 상품 설명*/
-#main .listInner ul li:nth-child(4) {width: 22%;} /* 가격 */
+#main .listInner ul li:nth-child(3) {width: 41%;} /* 상품 설명*/
+#main .listInner ul li:nth-child(4) {width: 18%;} /* 가격 */
 #main .listInner ul li:nth-child(5) {width: 4%;} /* 버튼 */
 .btn {
 font-size:16px;
@@ -55,7 +54,10 @@ padding : 0;
                     <c:forEach var="dto" items="${itemList}">
                     <ul class="listContent">
                         <li class="categories">${dto.categories}</li>
-                        <li class="name">${dto.item_name}</li>
+                        <li class="name" 
+            				style="<c:if test='${dto.item_num >= 3000}'>color: ${dto.item_name};</c:if>">
+            				${dto.item_name}
+        				</li>
                         <li class = "explain">${dto.item_explain }</li>                       
                         <li class="amount">${dto.amount}</li>
 	                    <li>
@@ -80,8 +82,6 @@ padding : 0;
 const currentUserId = '${sessionScope.member.id}';
 
 function buyItem(itemNum) { // buyItem 함수 정의!
-    console.log("buyItem 함수에 전달된 itemNum:", itemNum);
-    console.log("사용할 userId:", currentUserId);
 
     if (!currentUserId) {
         console.error("userId가 유효하지 않습니다.");
@@ -113,7 +113,6 @@ function buyItem(itemNum) { // buyItem 함수 정의!
         }
     })
     .catch(error => {
-        console.error('오류 발생:', error);
         alert('오류 발생!');
     });
 }
@@ -126,16 +125,17 @@ $(function() {
         }
 
         const itemNum = $(this).data('itemNum');
-        console.log("클릭된 버튼의 itemNum:", itemNum);
 
         if (itemNum === undefined || itemNum === null || itemNum === "") {
             console.error("itemNum이 유효하지 않습니다:", itemNum);
             alert("상품 정보를 가져오는 중 오류가 발생했습니다.");
             return;
         }
+        
         buyItem(itemNum); // buyItem 함수 호출
     });
 });
 </script>
+
 </body>
 </html>
