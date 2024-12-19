@@ -56,7 +56,10 @@ padding : 0;
                     		<c:forEach var="dto" items="${inventory}">
 			                   	<ul class="listContent">
 			                       	<li class="categories">${dto.categories}</li>
-			                       	<li class="name">${dto.item_name}</li>
+			                       	<li class="name" 
+            							style="<c:if test='${dto.item_num >= 3000}'>color: ${dto.item_name};</c:if>">
+            							${dto.item_name}
+        							</li>
 			                       	<li class = "explain">${dto.item_explain}</li>  
 			                       	<li>
 	                    				<button type="button" class = "btn btn-sm btn-equip" style="color: white; background: #1b1f3b;" >
