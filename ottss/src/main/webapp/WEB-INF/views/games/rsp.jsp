@@ -6,8 +6,6 @@
     <title>가위바위보 게임</title>
     <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
     <style>
-    	main {background-color: #484b62;}
-		.mainInner {text-align: center; background-color: #fff; position: relative;}
 		
         h1 {font-size: 2.5em; text-align: center; margin-bottom: 20px; color: #FF7F00; font-weight: bold;}
         h2 {font-size: 1.5em; text-align: center;  font-weight: bold;}

@@ -8,8 +8,6 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 <style type="text/css">
-	main {background-color: #484b62;}
-	.mainInner {background-color: #fff;}
 
 	.container {width: 600px; margin: 30px auto;}
 

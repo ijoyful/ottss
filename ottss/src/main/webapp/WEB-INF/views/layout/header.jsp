@@ -35,7 +35,7 @@
 			<div><a href="${pageContext.request.contextPath}/">홈</a></div>
 			<div><a href="${pageContext.request.contextPath}/introduce/sogae">놀이터 소개</a></div>
 			<div class="drop-down">
-				<span class="title">게임</span>
+				<span class="m-title">게임</span>
 				<ul class="dropdownMenu">
 					<li><a href="${pageContext.request.contextPath}/games/rsp">가위바위보</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/games/mole">두더지</a></li>
@@ -44,7 +44,7 @@
 				</ul>
 			</div>
 	        <div class="drop-down">
-	        	<span class="title">커뮤니티</span>
+	        	<span class="m-title">커뮤니티</span>
 	        	<ul class="dropdownMenu">
 	        		<li><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/freeboard/list">자유게시판</a></li>
