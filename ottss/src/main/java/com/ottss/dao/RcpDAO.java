@@ -113,7 +113,7 @@ public class RcpDAO {
 	
 	
 	
-	// 게임종료시 포인트내역 insert, 게임플레이기록 insert, 사용자 보유포인트 update / 인자 (최종라운드, 얻은포인트)
+	// 게임종료시 포인트내역 insert, 게임플레이기록 insert, 사용자 보유포인트 update / 
 
 	// 포인트내역 insert
 	public void insertEndPoint(PlayRecordDTO dto) {
