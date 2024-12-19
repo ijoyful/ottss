@@ -153,8 +153,6 @@ public class MoleGameDAO {
                     + "VALUES (pt_seq.NEXTVAL, 1, ?, ?, SYSDATE, ?)";
             pstmt2 = conn.prepareStatement(sql2);
             
-            System.out.println(pstmt2);
-
             int pointDifference = dto.getWinPoint() - dto.getUsedPoint();
 
             pstmt2.setInt(1, pointDifference);  // 기록할 포인트 차이

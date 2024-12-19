@@ -9,30 +9,25 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
    <style type="text/css">
-     
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            margin: 20px 0;
-        }
+     	
+     	main {background-color: #484b62;}
+     	
+		.mainInner {text-align: center; background-color: #fff;}
+		
+        h1 {font-size: 2.5em; text-align: center; margin-bottom: 20px; color: #FF7F00; font-weight: bold;}
+        h2 {font-size: 1.5em; text-align: center;  font-weight: bold;}
 
         .game-board {
             display: grid;
-            grid-template-columns: repeat(3, 120px);
+            grid-template-columns: repeat(3, 150px);
             grid-gap: 10px;
             justify-content: center;
             margin: 20px auto;
         }
 
         .hole {
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
             background: url('${pageContext.request.contextPath}/resources/images/moletest/ddang.png') no-repeat bottom center;
             background-size: contain;
             position: relative;
@@ -41,8 +36,8 @@
         }
 
         .mole {
-            width: 100px;
-            height: 100px;
+            width: 95%;
+            height: 95%;
             background-size: cover;
             position: absolute;
             top: 100%; /* 두더지가 기본적으로 보이지 않도록 위치 설정 */
@@ -83,6 +78,7 @@
         }
 
         .gameOver, .warning {
+        	z-index: 999;
             display: none;
             position: fixed;
             top: 0;
@@ -96,11 +92,19 @@
         }
 
         .gameOverInner, .warningInner {
-            background-color: #333;
-            padding: 30px;
-            border-radius: 10px;
-            display: inline-block;
+            position: absolute;
+		    top: 50%;
+		    left: 40%;
+		    transform: translateY(-50%);
+		    background-color: #333;
+		    padding: 30px;
+		    width: 20%;
+		    border-radius: 10px;
+		    display: inline-block;
         }
+        
+        .gameOverInner table {width: 100%; margin: 20px 0;}
+        .gameOverInner table tr {height: 30px; line-height: 30px;}
 
         .okBtn button {
             padding: 10px 20px;
@@ -123,8 +127,8 @@
     <main id="main">
         <div class="mainInner">
             <div class="title">
-                <p>두더지 게임</p>
-                <p>획득 포인트 <span id="score">0p</span></p>
+            	<h1>두더지 게임</h1>
+                <h2>획득 포인트 <span id="score">0p</span></h2>
             </div>
             <div class="game-board">
                 <div class="hole"><div class="mole"></div></div>

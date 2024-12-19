@@ -6,8 +6,10 @@
     <title>가위바위보 게임</title>
     <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 20px; }
-        h1 {font-size: 3em; text-align: center; margin-bottom: 20px; color: #FF7F00; font-weight: bold;}
+    	main {background-color: #484b62;}
+		.mainInner {text-align: center; background-color: #fff; position: relative;}
+		
+        h1 {font-size: 2.5em; text-align: center; margin-bottom: 20px; color: #FF7F00; font-weight: bold;}
         h2 {font-size: 1.5em; text-align: center;  font-weight: bold;}
         .game-btn {margin: 10px; padding: 15px 30px; font-size: 18px; cursor: pointer; border: none; border-radius: 10px; background-color: #f0f0f0; color: #333; transition: all 0.3s ease;}
 		.game-btn:hover {background-color: #ffcc00;color: #fff; transform: scale(1.1);}
@@ -20,7 +22,18 @@
         #game-controls { margin: 20px 0; }
         #next-round-controls { margin: 20px 0; display: none; }
 		.description-box {margin: 20px auto; padding: 20px; border: 2px solid #000; background-color: #fff8dc; color: #333; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); max-width: 600px; font-size: 16px; transition: max-height 0.5s ease-out, opacity 0.5s ease-out; overflow: hidden; max-height: 0; opacity: 0;}
-		.description-box.show {max-height: 500px; opacity: 1; }    
+		.description-box.show {max-height: 500px; opacity: 1; line-height: 160%;}
+		
+		#game-description-controls {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+		#game-description {
+			position: absolute;
+			top: 10%;
+			right: 0;
+		}
     </style>
 </head>
 <body>
@@ -65,11 +78,11 @@
     		
 		
 			<div id="game-description-controls">
-			    <button class="game-btn" onclick="toggleDescription()">게임 설명 보기</button>
+			    <button class="game-btn" onclick="toggleDescription()">게임 설명</button>
 			</div>
 		
 			<div id="game-description" class="description-box">
-			    <h2>게임 규칙</h2>
+			    <h2 style="margin-bottom: 10px;">게임 규칙</h2>
 			    <p style="margin-bottom: 5px;">1.게임 참가비는 10p 이다냥</p>
 			    <p style="margin-bottom: 5px;">2.총 라운드는 10라운드 이다냥</p>
 			    <p style="margin-bottom: 5px;">3.승무패 예측 성공시 다음 라운드 진출 가능하다냥.</p>

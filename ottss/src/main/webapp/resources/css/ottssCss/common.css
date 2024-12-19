@@ -79,12 +79,13 @@ body {
 
 #header .headerInner nav .title:hover {cursor: pointer;}
 
-#main {width: 100%; min-height: 775px;}
+#main {width: 100%;}
 
 #main .mainInner {
     width: 1200px;
+    min-height: 775px;
     margin: auto;
-    padding: 100px 0;
+    padding: 80px 0;
     box-sizing: border-box;
 }
 

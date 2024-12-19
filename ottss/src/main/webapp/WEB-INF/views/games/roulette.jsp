@@ -11,7 +11,9 @@
 <style type="text/css">
 	.body-container {max-width: 800px;}
 	
+	main {background-color: #484b62;}
 	.mainInner {
+		background-color: #fff;
     	display: flex;
     	flex-direction: column;
     	align-items: center;

@@ -341,6 +341,8 @@ const quiz_data = [
 	  }
 	];
 
+	let cp = "/ottss";
+	
 // 문제
 window.addEventListener('load', () => {
 	const sliderWrapEl = document.querySelector('div.slider-wrap');
@@ -468,6 +470,7 @@ window.addEventListener('load', () => {
 		}
 		htmlText += `<p class="scoring-result"> 정답 : ${count}/30개</p>`;
 		htmlText += `<p class="scoring-result"> 획득 포인트 : ${count*2}점</p>`;
+		htmlText += `<div class="returnBtnWarp"><a href="${cp+'/games/quiz'}" class='returnBtn'>처음으로</a></div>`;
 		
 		containerEl.innerHTML = htmlText;
 	};
