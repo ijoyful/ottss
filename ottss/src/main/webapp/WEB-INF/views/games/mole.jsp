@@ -149,11 +149,11 @@
             <table>
                 <tr>
                     <th>참여 포인트</th>
-                    <td>-10p</td>
+                    <td>10p</td>
                 </tr>
                 <tr>
                     <th>획득 포인트</th>
-                    <td id="final-score">${winPoint}</td>
+                    <td id="final-score">${win_point}</td>
                 </tr>
                 <tr>
                     <th>현재 보유 포인트</th>
@@ -293,17 +293,19 @@ function showMole() {
     });
     // 게임 종료 후 서버에 포인트 업데이트 요청
     function endGame() {
-        const usedPoint = 10;  //사용된 포인트
-        const winPoint = score;  // 게임에서 얻은 포인트
-        const gameNum = 1;  // 게임 번호
-        const result = "win";  // 결과
+        const entry = 10;  //사용된 포인트
+        const win_point = score;  // 게임에서 얻은 포인트
+        const game_num = 1;  // 게임 번호
+        const result = score;  // 결과
+      
         
         let url = '${pageContext.request.contextPath}/games/mole/end';
         let formData = {
-            usedPoint: usedPoint,
-            winPoint: winPoint,
-           	gameNum: gameNum,
+        	entry: entry,
+        	win_point: win_point,
+        	game_num: game_num,
            	result: result
+           	
         };
         
         $.ajax({
@@ -313,21 +315,17 @@ function showMole() {
             data: formData,
             success: function(response) { 
             	gameOverPopup.style.display = 'block';
-//             	console.log('일단 들어옴');    	
-//             	console.log(response)
+
                 if (response.state === "true") {
                     // 게임 종료 성공 시 포인트와 메시지 출력
-                     $('#final-score').text(response.winPoint + "p");
-                    $('#current-point').text(response.newPoint + "p");
-//                     alert(usedPoint);
-//                      alert(winPoint);
-//                      alert("게임이 종료되었습니다! 사용 포인트: " + usedPoint + "p, 얻은 포인트: " + winPoint + "p");
+                    $('#final-score').text(response.win_point + "p");
+                    $('#current-point').text(response.userPoint + "p");
+
                  } else {
                      alert("게임 종료에 실패했습니다: " + response.message);
                  }
             },
             error: function(e) {
-                console.log(e.responseText);
             }
         });
         
@@ -336,7 +334,7 @@ function showMole() {
     // 게임 종료 후 버튼 클릭 시 처리
     $(document).ready(function() {
         $('.okBtn button').on('click', function() {
-            endGame();  // 게임 종료 요청
+//             endGame();  // 게임 종료 요청
         });
     });
 

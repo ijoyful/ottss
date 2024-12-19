@@ -8,6 +8,7 @@ public class PlayRecordDTO {
 	private String result; // 게임 결과 ex. 진출 라운드, 점수 등
 	private String id; // 게임을 플레이한 유저 아이디
 	private int game_num; // 플레이한 게임 번호
+	 private int userPoint;       // 보유 포인트
 	
 	//++가위바위보추가(라운드)
 	private String round;
@@ -69,5 +70,12 @@ public class PlayRecordDTO {
 	}
 	public void setGame_num(int game_num) {
 		this.game_num = game_num;
+	}
+	
+	 public int getUserPoint() {
+		return userPoint;
+	}
+	public void setUserPoint(int userPoint) {
+		this.userPoint = userPoint;
 	}
 }
