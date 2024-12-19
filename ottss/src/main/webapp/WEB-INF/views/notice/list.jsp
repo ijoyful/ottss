@@ -37,25 +37,34 @@
 					<i class="bi bi-clipboard"></i> 공지사항
 				</h3>
 			</div>
-			<form name="listForm" method="post">
-				<div class="row board-list-header" style="margin-bottom: 20px; justify-content: flex-end;">
-					<div class="col-auto">
-						<c:if test="${dataCount != 0}">
-							<select name="size" class="form-select" onchange="changeList();">
-								<option value="5" ${size==5 ? "selected ":""}>5개씩 출력</option>
-								<option value="10" ${size==10 ? "selected ":""}>10개씩 출력</option>
-								<option value="20" ${size==20 ? "selected ":""}>20개씩 출력</option>
-								<option value="30" ${size==30 ? "selected ":""}>30개씩 출력</option>
-								<option value="50" ${size==50 ? "selected ":""}>50개씩 출력</option>
-							</select>
-						</c:if>
-
-						<input type="hidden" name="page" value="${page}">
-						<input type="hidden" name="schType" value="${schType}">
-						<input type="hidden" name="kwd" value="${kwd}">
-
-					</div>
+			
+			<div class="row board-list-footer" style="margin-bottom: 20px;">
+				<div class="col">
+					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/list';"><i class="bi bi-arrow-clockwise"></i></button>
 				</div>
+				<div class="col-6 text-center" style="display: flex; justify-content: flex-end;">
+					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/notice/list" method="post" style="justify-content: center;">
+						<div class="col-auto p-1">
+							<select name="schType" class="form-select">
+								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
+								<option value="userName" ${schType=="userName"?"selected":""}>작성자</option>
+								<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
+								<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
+								<option value="content" ${schType=="content"?"selected":""}>내용</option>
+							</select>
+						</div>
+						<div class="col-auto p-1">
+							<input type="text" name="kwd" value="${kwd}" class="form-control">
+						</div>
+						<div class="col-auto p-1">
+							<input type="hidden" name="size" value="${size}">
+							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<form name="listForm" method="post">
 				<div class="listInner">
 					<ul class="listTitle">
 						<li>No.</li>
@@ -92,31 +101,6 @@
 			
 			<div class="page-navigation">${dataCount != 0 ? paging : "등록된 게시글이 없습니다."}</div>
 					
-			<div class="row board-list-footer">
-				<div class="col">
-					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/list';"><i class="bi bi-arrow-clockwise"></i></button>
-				</div>
-				<div class="col-6 text-center" style="display: flex; justify-content: flex-end;">
-					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/notice/list" method="post" style="justify-content: center;">
-						<div class="col-auto p-1">
-							<select name="schType" class="form-select">
-								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-								<option value="userName" ${schType=="userName"?"selected":""}>작성자</option>
-								<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
-								<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
-								<option value="content" ${schType=="content"?"selected":""}>내용</option>
-							</select>
-						</div>
-						<div class="col-auto p-1">
-							<input type="text" name="kwd" value="${kwd}" class="form-control">
-						</div>
-						<div class="col-auto p-1">
-							<input type="hidden" name="size" value="${size}">
-							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
-						</div>
-					</form>
-				</div>
-			</div>
 		</div> <!-- mainInner -->
 	</main>
 

@@ -17,7 +17,7 @@
 			<div class="rankingInner">
 				<div class="game1">
 					<div class="gameTitle">${title[0]}</div>
-					<ul>
+					<ul class="gameSubTitle">
 						<li>랭킹</li>
 						<li>닉네임</li>
 						<li>포인트</li>
@@ -32,7 +32,7 @@
 				</div>
 				<div class="game2">
 					<div class="gameTitle">${title[1]}</div>
-					<ul>
+					<ul class="gameSubTitle">
 						<li>랭킹</li>
 						<li>닉네임</li>
 						<li>최종 라운드</li>
@@ -47,7 +47,7 @@
 				</div>
 				<div class="game3"> 
 					<div class="gameTitle">${title[2]}</div>
-					<ul>
+					<ul class="gameSubTitle">
 						<li>랭킹</li>
 						<li>닉네임</li>
 						<li>총포인트</li>
@@ -62,7 +62,7 @@
 				</div>
 				<div class="game4">
 					<div class="gameTitle">${title[3]}</div>
-					<ul>
+					<ul class="gameSubTitle">
 						<li>랭킹</li>
 						<li>닉네임</li>
 						<li>포인트</li>

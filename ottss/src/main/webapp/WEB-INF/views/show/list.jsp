@@ -30,6 +30,34 @@
                 	<h3><i class="bi bi-app"></i> 자랑게시판 </h3>
             	</div>
             	
+            	<div class="row board-list-footer" style="margin-bottom: 20px;">
+					<div class="col">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/list';"><i class="bi bi-arrow-clockwise"></i></button>
+					</div>
+					<div class="col-6 text-center">
+						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/show/list" method="post" style="justify-content: center;">
+							<div class="col-auto p-1">
+								<select name="schType" class="form-select">
+									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
+									<option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
+									<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
+									<option value="title" ${schType=="title"?"selected":""}>제목</option>
+									<option value="content" ${schType=="content"?"selected":""}>내용</option>
+								</select>
+							</div>
+							<div class="col-auto p-1">
+								<input type="text" name="kwd" value="${kwd}" class="form-control">
+							</div>
+							<div class="col-auto p-1">
+								<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+							</div>
+						</form>
+					</div>
+					<div class="col text-end">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/write';">글올리기</button>
+					</div>
+				</div>
+            	
 				<div class="listInner">
 					<ul class="listTitle">
 						<li>No.</li>
@@ -51,35 +79,6 @@
 				<div class="page-navigation">
 					${dataCount==0?"등록된 게시물이 없습니다.":paging}
 				</div>
-				
-				<div class="row board-list-footer">
-					<div class="col">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/list';"><i class="bi bi-arrow-clockwise"></i></button>
-					</div>
-					<div class="col-6 text-center">
-						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/show/list" method="post">
-							<div class="col-auto p-1">
-								<select name="schType" class="form-select">
-									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-									<option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
-									<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
-									<option value="title" ${schType=="title"?"selected":""}>제목</option>
-									<option value="content" ${schType=="content"?"selected":""}>내용</option>
-								</select>
-							</div>
-							<div class="col-auto p-1">
-								<input type="text" name="kwd" value="${kwd}" class="form-control">
-							</div>
-							<div class="col-auto p-1">
-								<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
-							</div>
-						</form>
-					</div>
-					<div class="col text-end">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/write';">글올리기</button>
-					</div>
-				</div>				
-				
 			</div>
 			<!-- mainInner -->
 		</main>
