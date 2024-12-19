@@ -5,11 +5,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <title>두더지 게임</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
-	<style type="text/css">
-   	
-   		.mainInner {text-align: center;}
+   <style type="text/css">
      
         body {
             font-family: Arial, sans-serif;
@@ -18,10 +17,18 @@
             margin: 0;
             padding: 0;
         }
-        
+
         h1 {
             margin: 20px 0;
         }
+
+	
+		#main2 { width: 100%; }
+		     	
+		#main2 .mainInner {
+		    width: 1200px;
+		    min-height: 775px;
+		}
 
         .game-board {
             display: grid;
@@ -32,7 +39,7 @@
         }
 
         .hole {
-           	width: 120px;
+            width: 120px;
             height: 120px;
             background: url('${pageContext.request.contextPath}/resources/images/moletest/ddang.png') no-repeat bottom center;
             background-size: contain;
@@ -42,8 +49,8 @@
         }
 
         .mole {
-            width: 95%;
-            height: 95%;
+            width: 100px;
+            height: 100px;
             background-size: cover;
             position: absolute;
             top: 100%; /* 두더지가 기본적으로 보이지 않도록 위치 설정 */
@@ -57,6 +64,10 @@
         .mole.up {
             top: 20%; /* 두더지가 올라오는 위치 */    
             pointer-events: all; /* 두더지가 올라왔을 때 클릭 가능 */
+        }
+
+        .btnWrap {
+            margin-top: 20px;
         }
 
         .btnWrap button {
@@ -98,9 +109,6 @@
             border-radius: 10px;
             display: inline-block;
         }
-        
-        .gameOverInner table {width: 100%; margin: 20px 0;}
-        .gameOverInner table tr {height: 30px; line-height: 30px;}
 
         .okBtn button {
             padding: 10px 20px;
@@ -120,10 +128,10 @@
 <body>
     <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
     
-    <main id="main">
+    <main id="main2">
         <div class="mainInner">
             <div class="title">
-            	<p>두더지 게임</p>
+                <p>두더지 게임</p>
                 <p>획득 포인트 <span id="score">0p</span></p>
             </div>
             <div class="game-board">
@@ -252,7 +260,7 @@ function showMole() {
     const hole = randomHole();
     const mole = hole.querySelector('.mole');
     activeMole = mole;
-
+	
     mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/mole.png')`;
     mole.style.backgroundImage.includes = `url('${pageContext.request.contextPath}/resources/images/moletest/legendmole.png')`;
     moleTimeout = setTimeout(() => {
