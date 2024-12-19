@@ -47,7 +47,7 @@
 	        	<ul class="dropdownMenu">
 	        		<li><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/freeboard/list">자유게시판</a></li>
-	        		<li><a href="${pageContext.request.contextPath}/">분석게시판</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/bunsuck/list">분석게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/show/list">자랑게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/qna/list">QnA</a></li>
 	        	</ul>
