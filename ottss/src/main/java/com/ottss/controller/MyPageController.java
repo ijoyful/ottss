@@ -60,7 +60,7 @@ public class MyPageController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/mypage/attend", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/attendlist", method = RequestMethod.GET)
 	public Map<String, Object> listAgeSection(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, Object> model = new HashMap<String, Object>();
 		HttpSession session = req.getSession();
@@ -83,6 +83,22 @@ public class MyPageController {
 		}
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/mypage/attend")
+	public ModelAndView attend(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		AttendDAO dao = new AttendDAO();
+		
+		try {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			dao.insertAttend(info.getId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/player/mypage");
 	}
 
 	@RequestMapping(value = "/mypage/bestrecord", method = RequestMethod.GET)

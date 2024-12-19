@@ -1,3 +1,5 @@
+let cp = '/ottss';
+
 function calendar(data) { // data 에 들어있는 값. 출석한 날짜들이 들어있는 리스트, 년도와 달
 	let list = data.list;
 	let week = ['일', '월', '화', '수', '목', '금', '토'];
@@ -104,24 +106,11 @@ function ajaxFunc(url, method, formData, dataType, fn, file = false) {
 	}
 	$.ajax(url, settings); // settings 안에 url 을 넣어도 됨
 }
-
-function attend() {
-	const todaytd = document.querySelector('.today');
-
-	if (todaytd.classList.contains('attend')) {
-		alert('오늘은 이미 출석을 완료했습니다!');
-		return;
-	}
-	alert('출석을 완료했습니다!');
-	document.querySelector('.today').onclick = null;
-
-}
 function interCalendar(y, m) {
 	data = {y: y, m: m};
 	loadCalendar(data);
 }
 function loadCalendar(data) {
-	let cp = '/ottss';
 	let url = cp + '/mypage/calendar';
 
 	ajaxFunc(url, 'get', data, 'json', calendar);
@@ -134,3 +123,16 @@ window.addEventListener('load', () => {
 	let data = {y: y, m: m};
 	loadCalendar(data);
 });
+
+function attend() {
+	const todaytd = document.querySelector('.today');
+
+	if (todaytd.classList.contains('attend')) {
+		alert('오늘은 이미 출석을 완료했습니다!');
+		return;
+	}
+	alert('출석을 완료했습니다!');
+	document.querySelector('.today').onclick = null;
+
+	location.href = cp + '/mypage/attend';
+}

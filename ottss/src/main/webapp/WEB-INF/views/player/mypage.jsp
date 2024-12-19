@@ -70,7 +70,7 @@
 			$.ajax(url, settings);
 		}
 		$(function() {
-			let url = '${pageContext.request.contextPath}/mypage/attend';
+			let url = '${pageContext.request.contextPath}/mypage/attendlist';
 			ajaxFun(url, 'get', {year: 2024}, 'json', chartsLine);
 			function chartsLine(data) {
 				let chartData = [];
