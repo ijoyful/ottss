@@ -12,10 +12,23 @@ public class PlayRecordDTO {
 	//++가위바위보추가(라운드)
 	private String round;
 	
-	//++랭킹 닉네임추가
+	//++랭킹 닉네임/게임이름
 	private String nickname;
+	private String game_title;
+	private int sum_win_point;
 	
-	
+	public int getSum_win_point() {
+		return sum_win_point;
+	}
+	public void setSum_win_point(int sum_win_point) {
+		this.sum_win_point = sum_win_point;
+	}
+	public String getGame_title() {
+		return game_title;
+	}
+	public void setGame_title(String game_title) {
+		this.game_title = game_title;
+	}
 	public String getNickname() {
 		return nickname;
 	}
