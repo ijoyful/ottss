@@ -49,7 +49,7 @@
 	                            </td>
 								<td align="right">
 								<c:if test="${sessionScope.member.id != dto.id}">
-									<span id="report" onclick="reportdialogshow();">신고</span>
+									<span id="report" onclick="reportdialogshow();" style="cursor: pointer">신고</span>
 								</c:if>
 								</td>
 	                        </tr>
