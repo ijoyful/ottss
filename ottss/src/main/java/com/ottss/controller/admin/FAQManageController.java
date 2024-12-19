@@ -280,4 +280,11 @@ public class FAQManageController {
 		
 		return new ModelAndView("redirect:/admin/qna/list?" + query);
 	}
+
+	@RequestMapping(value = "/admin/qna/answer", method = RequestMethod.GET)
+	public ModelAndView reportForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("admin/qna/answer");
+		mav.addObject("num", req.getParameter("num"));
+		return mav;
+	}
 }
