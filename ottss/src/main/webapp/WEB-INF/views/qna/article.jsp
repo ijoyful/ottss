@@ -81,7 +81,7 @@
 						<thead>
 							<tr>
 								<td colspan="2" align="left">
-									${dto.q_title}
+									[ ${dto.q_title} ] 에 대한 답변입니다.
 								</td>
 							</tr>
 						</thead>

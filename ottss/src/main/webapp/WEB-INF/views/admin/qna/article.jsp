@@ -52,7 +52,7 @@ function ajaxFun(url, method, formData, dataType, fn, file=false){
 	$.ajax(url, settings);
 }
 
-function reportdialogshow() {
+function answerdialogshow() {
 	let url = '${pageContext.request.contextPath}/admin/qna/answer';
 	let num = ${dto.faq_num};
 	const fn = function(data) {
@@ -60,6 +60,33 @@ function reportdialogshow() {
 		$('#answerModal').modal("show");
 	};
 	ajaxFun(url, 'get', {num: num}, 'text', fn);
+}
+
+function sendCancel() {
+	$('#answerModal .modal-body').empty();
+	$('#answerModal').modal("hide");
+}
+
+function sendOk(id, num) {
+	const f = document.answerForm;
+	let answer = f.content.value;
+
+	if (!answer) { // 신고사유가 선택되지 않았으면
+		alert('답변을 입력하세요.');
+		return;
+	}
+
+    let url = '${pageContext.request.contextPath}/admin/qna/answer';
+    
+    const fn = function(data) {
+    	$('#answerModal .modal-body').empty();
+    	$('#answerModal').modal('hide');
+    	if (data.state === 'true') {
+    		alert('답변이 정상적으로 등록되었습니다.');
+    	}
+    };
+    
+    ajaxFun(url, 'post', {id: id, num: num, a_content: answer}, 'json', fn);
 }
 
 $(function(){
@@ -188,7 +215,7 @@ $(function(){
 								</td>
 								<td class="text-end">
 									<c:if test="${empty dto.a_nickname}">
-									<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/qna/list?${query}';">답변하기</button>
+									<button type="button" class="btn btn-light" onclick="answerdialogshow();">답변하기</button>
 									</c:if>
 									<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/qna/list?${query}';">리스트</button>
 								</td>
