@@ -10,25 +10,10 @@
     <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
    <style type="text/css">
      
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            margin: 20px 0;
-        }
-
+        h1 {font-size: 2.5em; text-align: center; margin-bottom: 20px; color: #FF7F00; font-weight: bold;}
+        h2 {font-size: 1.5em; text-align: center;  font-weight: bold;}
 	
-		#main2 { width: 100%; }
-		     	
-		#main2 .mainInner {
-		    width: 1200px;
-		    min-height: 775px;
-		}
+		#main2 .mainInner {width: 1200px; margin: auto; text-align: center; padding: 80px 50px;}
 
         .game-board {
             display: grid;
@@ -104,11 +89,19 @@
         }
 
         .gameOverInner, .warningInner {
-            background-color: #333;
-            padding: 30px;
-            border-radius: 10px;
-            display: inline-block;
+            position: absolute;
+		    top: 50%;
+		    left: 40%;
+		    transform: translateY(-50%);
+		    background-color: #333;
+		    padding: 30px;
+		    width: 20%;
+		    border-radius: 10px;
+		    display: inline-block;
         }
+        
+        .gameOverInner table {width: 100%; margin: 20px 0;}
+        .gameOverInner table tr {height: 30px; line-height: 30px;}
 
         .okBtn button {
             padding: 10px 20px;
@@ -131,8 +124,8 @@
     <main id="main2">
         <div class="mainInner">
             <div class="title">
-                <p>두더지 게임</p>
-                <p>획득 포인트 <span id="score">0p</span></p>
+                <h1>두더지 게임</h1>
+                <h2>획득 포인트 <span id="score">0p</span></h2>
             </div>
             <div class="game-board">
                 <div class="hole"><div class="mole"></div></div>
