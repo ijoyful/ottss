@@ -25,7 +25,8 @@
     border-radius: 10px;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
+    background-color: #000;
 }
 #main .mainInner .latest_slide li a {display: block; position: relative; width: 100%; height: 100%; text-align: center;}
 #main .mainInner .latest_slide li a span {

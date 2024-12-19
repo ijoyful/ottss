@@ -96,6 +96,7 @@ public class LoginFilter implements Filter {
 			"/index.jsp", "/main",
 			"/login/member",
 			"/login/login", "/login/logout",
+			"/introduce/sogae",
 			"/notice/list", "/notice/article",
 			"/uploads/photo/**",
 			"/resources/**"
