@@ -342,7 +342,7 @@ function showMole() {
     // 게임 종료 후 버튼 클릭 시 처리
     $(document).ready(function() {
         $('.okBtn button').on('click', function() {
-//             endGame();  // 게임 종료 요청
+		//endGame();  // 게임 종료 요청
         });
     });
 

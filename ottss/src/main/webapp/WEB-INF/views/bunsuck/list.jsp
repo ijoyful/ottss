@@ -27,7 +27,8 @@
 			<div class="mainInner">
 				
 				<div class="body-title">
-                	<h3><i class="bi bi-app"></i>분suck게시판</h3>
+                	<h3><i class="bi bi-app"></i>분suck게시판
+                	</h3>
             	</div>
             	
             	<div class="row board-list-footer" style="margin-bottom: 20px;">

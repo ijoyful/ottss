@@ -82,12 +82,9 @@ public class MoleController {
     	try {
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			PlayRecordDTO dto = new PlayRecordDTO();
-			
-			System.out.println(info.getId());
+				
 			dto.setId(info.getId());
-			System.out.println();
 			
-			System.out.println(req.getParameter("win_point"));
 			dto.setWin_point(Integer.parseInt(req.getParameter("win_point")));
 			dto.setUsed_point(Integer.parseInt(req.getParameter("entry")));
 			dto.setResult(req.getParameter("result"));
@@ -105,7 +102,7 @@ public class MoleController {
 		model.put("state", state);
 		model.put("userPoint", userPoint);
 		model.put("win_point", win_point);
-		System.out.println(model);
+		
 		return model;
 	}
 
