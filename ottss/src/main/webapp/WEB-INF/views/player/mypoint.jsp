@@ -19,7 +19,7 @@
 	
 	.table tbody tr td {border-bottom: 1px solid #eee;}
 	
-	.title {margin-bottom: 20px;}
+	.title {margin-bottom: 20px; text-align: right;}
 </style>
 </head>
 
@@ -53,10 +53,11 @@
 		
 						<table class="table">
 							<colgroup>
-					        	<col style="width: 100px" />
-					        	<col style="width: 100px; background-color: red" />
-					        	<col style="width: 100px" />
-					        	<col style="width: 100px; background-color: blue" />
+					        	<col style="width: 17.5%" />
+					        	<col style="width: 17.5%" />
+					        	<col style="width: 17.5%" />
+					        	<col style="width: 17.5%" />
+					        	<col style="width: 30%" />
 							</colgroup>
 							<thead class="thead">
 								<tr>

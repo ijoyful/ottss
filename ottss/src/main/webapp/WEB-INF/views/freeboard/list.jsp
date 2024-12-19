@@ -39,7 +39,7 @@
 					<div class="col">
 						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
 					</div>
-					<div class="col-6 text-center" style="display: flex; justify-content: flex-end;">
+					<div class="col-6 text-center" style="display: flex; justify-content: center;">
 						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/freeboard/list" method="post" style="justify-content: center;">
 							<div class="col-auto p-1">
 								<select name="schType" class="form-select">

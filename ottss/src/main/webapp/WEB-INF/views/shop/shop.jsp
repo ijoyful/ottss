@@ -11,20 +11,15 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
-.body-container {
-	max-width: 600px;
+	#main .listInner ul li:nth-child(1) {width: 12%;} /* 카테고리 */
+	#main .listInner ul li:nth-child(2) {width: 22%;} /*  상품  */
+	#main .listInner ul li:nth-child(3) {width: 41%;} /* 상품 설명*/
+	#main .listInner ul li:nth-child(4) {width: 18%;} /* 가격 */
+	#main .listInner ul li:nth-child(5) {width: 4%;} /* 버튼 */
+	.btn {
+		font-size:16px;
+		padding : 0;
 	}
-/* #main .listInner ul li:nth-child(1) {width: 10%;} /* 상품번호 */ 
-#main .listInner ul li:nth-child(1) {width: 12%;} /* 카테고리 */
-#main .listInner ul li:nth-child(2) {width: 22%;} /*  상품  */
-#main .listInner ul li:nth-child(3) {width: 41%;} /* 상품 설명*/
-#main .listInner ul li:nth-child(4) {width: 18%;} /* 가격 */
-#main .listInner ul li:nth-child(5) {width: 4%;} /* 버튼 */
-.btn {
-font-size:16px;
-padding : 0;
-
-}
 </style>
 
 </head>
@@ -39,7 +34,7 @@ padding : 0;
 		<main id="main">
 			<!-- div.mainInner까지 있어야 폼 안망가집니다. 안에다가 코딩 해주세용 -->
 			<div class="mainInner">
-				<div style="text-align: center; margin-bottom: 20px; font-size: 25px; background: #1b1f3b; color: white;">
+				<div style="font-family: 'Mungyeong-Gamhong-Apple'; text-align: center; margin-bottom: 30px; font-size: 50px; color: #1b1f3b;">
 				POINT SHOP
 				</div>
 				<!-- div.listInner 테이블 처럼 쓸 수 있는 ul-li 입니당 foreach 돌리실때 ul로 돌리면 끗! -->
