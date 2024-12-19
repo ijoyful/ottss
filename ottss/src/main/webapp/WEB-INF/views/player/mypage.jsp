@@ -124,6 +124,6 @@ $(function() {
 
 <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
-<script src="${pageContext.request.contextPath}/resources/js/calendar2.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/calendar.js"></script>
 </body>
 </html>
