@@ -36,7 +36,6 @@ public class MyPageController {
 		AttendDAO dao = new AttendDAO();
 		
 		try {
-			System.out.println("컨트롤러 왔다");
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			String id = info.getId();
 			String y = req.getParameter("y");

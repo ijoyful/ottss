@@ -2,6 +2,7 @@ package com.ottss.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
@@ -197,6 +198,36 @@ public class FAQController {
 		}
 
 		return new ModelAndView("redirect:/qna/list?" + query);
+	}
+
+	@RequestMapping(value = "/qna/download", method = RequestMethod.GET)
+	public void download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		FAQDAO dao = new FAQDAO();
+		HttpSession session = req.getSession();
+		FileManager fileManager = new FileManager();
+
+		// 파일 저장 경로
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "qna";
+		
+		boolean b = false;
+
+		try {
+			long fileNum = Long.parseLong(req.getParameter("fileNum"));
+
+			FAQDTO dto = dao.findByFileId(fileNum);
+			if (dto != null) {
+				b = fileManager.doFiledownload(dto.getS_fileName(), dto.getC_fileName(), pathname, resp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if  (!b) {
+			resp.setContentType("text/html;charset=utf-8");
+			PrintWriter out = resp.getWriter();
+			out.print("<script>alert('파일다운로드가 실패 했습니다.');history.back();</script>");
+		}
 	}
 
 }
