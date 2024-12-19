@@ -16,6 +16,13 @@ public class MemberDTO {
 	private int powercode ;
 	private int block;
 	private String att_date; // 출석일자
+	private int attendCount;
+	public int getAttendCount() {
+		return attendCount;
+	}
+	public void setAttendCount(int attendCount) {
+		this.attendCount = attendCount;
+	}
 	public String getReg_date() {
 		return reg_date;
 	}

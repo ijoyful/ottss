@@ -16,217 +16,67 @@
 		<div class="mainInner">
 			<div class="rankingInner">
 				<div class="game1">
-					<div class="gameTitle">가위바위보</div>
-					<ul>
-						<li>1</li>
-						<li>Player Nickname</li>
-						<li>10000000p</li>
+					<div class="gameTitle">${title[0]}</div>
+					<ul class="gameSubTitle">
+						<li>랭킹</li>
+						<li>닉네임</li>
+						<li>포인트</li>
 					</ul>
+					<c:forEach var="vo" items="${list1}" varStatus="status">
 					<ul>
-						<li>2</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
+						<li>${status.count}</li>
+						<li>${vo.nickname}</li>
+						<li>${vo.win_point}</li>
 					</ul>
-					<ul>
-						<li>3</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>4</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>5</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>6</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>7</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>8</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>9</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>10</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
+					</c:forEach>
 				</div>
 				<div class="game2">
-					<div class="gameTitle">두더지</div>
-					<ul>
-						<li>1</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
+					<div class="gameTitle">${title[1]}</div>
+					<ul class="gameSubTitle">
+						<li>랭킹</li>
+						<li>닉네임</li>
+						<li>최종 라운드</li>
 					</ul>
+					<c:forEach var="vo" items="${list2}" varStatus="status">
 					<ul>
-						<li>2</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
+						<li>${status.count}</li>
+						<li>${vo.nickname}</li>
+						<li>${vo.result}</li>
 					</ul>
-					<ul>
-						<li>3</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>4</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>5</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>6</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>7</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>8</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>9</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>10</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
+					</c:forEach>
 				</div>
-				<div class="game3">
-					<div class="gameTitle">룰렛</div>
-					<ul>
-						<li>1</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
+				<div class="game3"> 
+					<div class="gameTitle">${title[2]}</div>
+					<ul class="gameSubTitle">
+						<li>랭킹</li>
+						<li>닉네임</li>
+						<li>총포인트</li>
 					</ul>
+					<c:forEach var="vo" items="${list3}" varStatus="status">
 					<ul>
-						<li>2</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
+						<li>${status.count}</li>
+						<li>${vo.nickname}</li>
+						<li>${vo.sum_win_point}</li>
 					</ul>
-					<ul>
-						<li>3</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>4</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>5</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>6</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>7</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>8</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>9</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>10</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
+					</c:forEach>
 				</div>
 				<div class="game4">
-					<div class="gameTitle">퀴즈</div>
-					<ul>
-						<li>1</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
+					<div class="gameTitle">${title[3]}</div>
+					<ul class="gameSubTitle">
+						<li>랭킹</li>
+						<li>닉네임</li>
+						<li>포인트</li>
 					</ul>
+					<c:forEach var="vo" items="${list4}" varStatus="status">
 					<ul>
-						<li>2</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
+						<li>${status.count}</li>
+						<li>${vo.nickname}</li>
+						<li>${vo.result}</li>
 					</ul>
-					<ul>
-						<li>3</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>4</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>5</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>6</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>7</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>8</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>9</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
-					<ul>
-						<li>10</li>
-						<li>Player Nickname</li>
-						<li>2000p</li>
-					</ul>
+					</c:forEach>
 				</div>
+				
+				
 			</div>
 		</div>
 		<!-- mainInner -->

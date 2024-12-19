@@ -15,6 +15,7 @@
     	display: flex;
     	flex-direction: column;
     	align-items: center;
+    	text-align: center;
 	}
 	
 	.title {margin-bottom: 20px;}
@@ -28,7 +29,7 @@
 	
 	.title p:nth-child(2) {font-size: 18px;}
 	
-	.btnWrap {margin-bottom: 50px;}
+	.btnWrap1 {margin-bottom: 50px;}
 	
 	
 	
@@ -44,7 +45,7 @@
 				<p>삼식이의 룰렛</p>
 				<p>배팅할 포인트: <input type="text" name="bet"></p>
 			</div>
-			<div class="btnWrap">
+			<div class="btnWrap1">
 				<button onclick="start();">룰렛 시작</button>
 			</div>
 			<div class="game-board">

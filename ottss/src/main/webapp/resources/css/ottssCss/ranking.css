@@ -3,18 +3,18 @@
 #main .rankingInner {
     width: 100%;
     display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
+    justify-content: space-between;
     flex-wrap: wrap;
+    flex-direction: row;
 }
 
-#main .rankingInner > div {width: 23.5%;}
+#main .rankingInner > div {width: 49%;}
+#main .rankingInner > div:nth-child(-n+2) {margin-bottom: 3%;}
 #main .rankingInner > div .gameTitle {
     font-size: 20px;
     margin-bottom: 20px;
     font-weight: bold;
 }
-#main .rankingInner > div:not(:last-child) {margin-right: 2%;}
 
 #main .rankingInner ul {
     width: 100%;
@@ -34,7 +34,12 @@
 #main .rankingInner ul li:nth-child(2) {width: 50%;}
 #main .rankingInner ul li:nth-child(3) {width: 30%;}
 
-#main .rankingInner .game1 ul li {background-color: steelblue;}
-#main .rankingInner .game2 ul li {background-color: tan;}
-#main .rankingInner .game3 ul li {background-color: teal;}
-#main .rankingInner .game4 ul li {background-color: thistle;}
+#main .rankingInner .game1 .gameSubTitle {border: 2px solid steelblue; background-color: #fff; color: #000;}
+#main .rankingInner .game2 .gameSubTitle {border: 2px solid tan; background-color: #fff; color: #000;}
+#main .rankingInner .game3 .gameSubTitle {border: 2px solid teal; background-color: #fff; color: #000;}
+#main .rankingInner .game4 .gameSubTitle {border: 2px solid thistle; background-color: #fff; color: #000;}
+
+#main .rankingInner .game1 ul {background-color: steelblue; color: #fff;}
+#main .rankingInner .game2 ul {background-color: tan; color: #fff;}
+#main .rankingInner .game3 ul {background-color: teal; color: #fff;}
+#main .rankingInner .game4 ul {background-color: thistle; color: #fff;}

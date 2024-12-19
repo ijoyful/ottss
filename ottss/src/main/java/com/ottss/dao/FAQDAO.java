@@ -495,5 +495,35 @@ public class FAQDAO {
 		}
 		
 	}
-	
+
+	public FAQDTO findByFileId(long fileNum) {
+		FAQDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT file_Num, s_filename, c_filename FROM FAQ_File WHERE file_Num = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, fileNum);
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new FAQDTO();
+
+				dto.setFileNum(rs.getLong("file_Num"));
+				dto.setS_fileName(rs.getString("s_filename"));
+				dto.setC_fileName(rs.getString("c_filename"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+
+		return dto;
+	}
 }

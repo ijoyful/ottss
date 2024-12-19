@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ottss.dao.AttendDAO;
 import com.ottss.dao.MyPageDAO;
 import com.ottss.dao.RouletteDAO;
+import com.ottss.domain.MemberDTO;
 import com.ottss.domain.PlayRecordDTO;
 import com.ottss.domain.PointRecordDTO;
 import com.ottss.domain.SessionInfo;
@@ -25,14 +27,55 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MyPageController {
+	
+	@ResponseBody
+	@RequestMapping(value = "/mypage/calendar", method = RequestMethod.GET)
+	public Map<String, Object> attendCalendar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		HttpSession session = req.getSession();
+		AttendDAO dao = new AttendDAO();
+		
+		try {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			String id = info.getId();
+			String y = req.getParameter("y");
+			String m = req.getParameter("m");
+			if (m.length() == 1) {
+				m = "0" + m;
+			}
+			List<Integer> list = dao.attendRecord(id, y, m);
+			int year = Integer.parseInt(y);
+			int month = Integer.parseInt(m);
+
+			model.put("list", list);
+			model.put("y", year);
+			model.put("m", month);
+			model.put("state", "true");
+		} catch (Exception e) {
+			model.put("state", "false");
+			e.printStackTrace();
+		}
+		
+		return model;
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/mypage/attend", method = RequestMethod.GET)
 	public Map<String, Object> listAgeSection(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, Object> model = new HashMap<String, Object>();
+		HttpSession session = req.getSession();
+		AttendDAO dao = new AttendDAO();
 
 		try {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			String id = info.getId();
+			String year = req.getParameter("year");
+			String nickname = info.getNickName();
+			List<MemberDTO> attendlist = dao.attendRecord(id, year);
 
+			model.put("list", attendlist);
+			model.put("nickname", nickname);
+			model.put("year", year);
 			model.put("state", "true");
 		} catch (Exception e) {
 			model.put("state", "false");

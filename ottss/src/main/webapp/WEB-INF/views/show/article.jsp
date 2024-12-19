@@ -10,12 +10,6 @@
 <!-- Static Header Include -->
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 
-<style type="text/css">
-    .body-container {
-        max-width: 800px;
-    }
-</style>
-
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
  
@@ -38,8 +32,8 @@
     <!-- Static Header Include -->
     <jsp:include page="/WEB-INF/views/layout/header.jsp" />
 
-	<main>
-	    <div class="container">
+	<main id="main">
+	    <div class="mainInner">
 	        <div class="body-container">    
 	            <div class="body-title">
 	                <h3><i class="bi bi-app"></i> 자랑게시판 </h3>

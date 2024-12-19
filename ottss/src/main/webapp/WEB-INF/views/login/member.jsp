@@ -156,6 +156,9 @@ function userIdCheck() {
 				$('#id').focus();
 				
 			}
+		},
+		error:function(e) {
+			console.log(e.responseText);
 		}
 	});
 	
@@ -339,6 +342,7 @@ function userIdCheck() {
 			</div>
 		</div>
 		
+		<!--
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<script>
 		    function daumPostcode() {
@@ -383,7 +387,7 @@ function userIdCheck() {
 		        }).open();
 		    }
 		</script>
-		
+		 -->
 	</main>
 
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

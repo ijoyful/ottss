@@ -77,14 +77,16 @@ body {
 #header .headerInner nav .dropdownMenu li a {color: #000; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;}
 #header .headerInner nav .dropdownMenu li a:hover {background-color: #eee;}
 
-#header .headerInner nav .title:hover {cursor: pointer;}
+#header .headerInner nav .m-title:hover {cursor: pointer;}
 
-#main {width: 100%; min-height: 775px;}
-
+#main {width: 100%; background-color: #484b62;}
+     	
 #main .mainInner {
+	background-color: #fff;
     width: 1200px;
+    min-height: 775px;
     margin: auto;
-    padding: 100px 0;
+    padding: 80px 50px;
     box-sizing: border-box;
 }
 

@@ -157,16 +157,69 @@ public class PointShopDAO {
 		
 		return list;
 	}
-
+	
+	// 아이템 가격 결국 쪼갬 ㅎ
+	public int getItemPrice(long item_num) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		int itemPrice = 0;
+		
+		try {
+			sql = "SELECT amount FROM point_shop WHERE item_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, item_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				itemPrice = rs.getInt("amount");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		return itemPrice;
+	}
+	
+	// 유저 포인트(left_point)
+	public int left_point(String id) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		int left_point = 0;
+		
+		try {
+			sql = "SELECT point FROM player WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				left_point =rs.getInt("point");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return left_point;
+	}
+	
     // 3. 아이템 구매 처리
     public boolean purchaseItem(String id, long item_num) {
         PreparedStatement pstmt1 = null;
         PreparedStatement pstmt2 = null;
         ResultSet rs = null;
         boolean result = false;
-
-        String getUserPointsSql = "SELECT point FROM player WHERE id = ?";
-        String getItemPriceSql = "SELECT amount FROM point_shop WHERE item_num = ?";
+        String getUserPointsSql = " SELECT point FROM player WHERE id = ? ";
+        String getItemPriceSql = " SELECT amount FROM point_shop WHERE item_num = ? ";
         String updateUserPointsSql = "UPDATE player SET point = point - ? WHERE id = ?";
         String insertInventorySql = "INSERT INTO buy_record (buy_num, buy_date, equip, id, item_num) "
         								+ "VALUES (buy_seq.NEXTVAL,SYSDATE, 0 , ?, ?)";
@@ -213,7 +266,6 @@ public class PointShopDAO {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("SQL 오류: " + e.getMessage());
             try {
                 if (conn != null) conn.rollback();
             } catch (Exception ex) {
@@ -245,7 +297,7 @@ public class PointShopDAO {
         			+ " FROM point_shop ps "
         			+ " JOIN buy_record br ON ps.item_num = br.item_num "
         			+ " WHERE br.id = ? "
-        			+ " ORDER BY categories, item_num "; 
+        			+ " ORDER BY categories DESC, item_num "; 
                    
         	pstmt = conn.prepareStatement(sql);
         	
@@ -294,5 +346,26 @@ public class PointShopDAO {
 			DBUtil.close(pstmt);
 		}
     }
-		
+
+    // 6. 장착 
+    public void equipment(String id, String nickname){
+    	PreparedStatement pstmt = null;
+    	String sql;
+    	
+    	try {
+			sql = " UPDATE player SET nickname = ? WHERE id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, nickname);
+			pstmt.setString(2, id);
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
+    }	
 }

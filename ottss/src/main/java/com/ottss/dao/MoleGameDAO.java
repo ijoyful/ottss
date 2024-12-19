@@ -7,127 +7,173 @@ import java.sql.SQLException;
 
 import com.ottss.util.DBConn;
 import com.ottss.util.DBUtil;
-import com.ottss.domain.PlayRecordDTO;
+import com.ottss.domain.MoleGameDTO;
 
 public class MoleGameDAO {
     private Connection conn = DBConn.getConnection();
 
-	public int leftPoint(String id) {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int result = 0;
-		String sql;
+    // 입장 포인트 확인
+    public boolean checkPoint(String id) {
+        boolean canEnter = false;  // 디폴트 : 입장 할 수 없음 
+        PreparedStatement pstmt = null; // SQL 쿼리를 실행
+        ResultSet rs = null; // 쿼리 결과를 저장하는 객체 
+        String sql; // SQL 넣을 변수
+        int entryFee = 10;
 
-		try {
-			sql = "SELECT point FROM player WHERE id = ?";
-			pstmt = conn.prepareStatement(sql);
+        try {
+            // 가장 최근의 left_pt 확인
+            sql = "SELECT point FROM Player WHERE id = ?"; 
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
 
-			pstmt.setString(1, id);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				result = rs.getInt(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.close(pstmt);
-			DBUtil.close(rs);
-		}
-
-		return result;
-	}
-
-	// 게임 시작 시
-	public void startGame(PlayRecordDTO dto) {
-		PreparedStatement pstmt = null;
-		String sql;
-		int left_pt = 0;
-
-		try {
-			left_pt = leftPoint(dto.getId()) - dto.getUsed_point(); // 게임 시작을 위한 포인트 지불 후 남은 포인트
-				// 여기서 used_point 는 양수로 저장해야 함
-
-			conn.setAutoCommit(false); // point_record 와 player 의 point 컬럼을 업데이트 하기위해 자동 커밋 off
-			// 포인트 내역: point_record: categories 컬럼 값 10
-			sql = "INSERT INTO point_record (pt_num, categories, point, left_pt, pt_date, id)"
-					+ " VALUES (pt_seq.NEXTVAL, 10, ?, ?, SYSDATE, ?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getUsed_point());
-			pstmt.setInt(2, left_pt);
-			pstmt.setString(3, dto.getId());
-			pstmt.executeUpdate();
-
-			pstmt = null;
-			// 유저 잔여 포인트 업데이트
-			sql = "UPDATE player SET point = ? WHERE id = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, left_pt);
-			pstmt.setString(2, dto.getId());
-			pstmt.executeUpdate();
-
-			conn.commit();
+            if (rs.next()) {
+                int point = rs.getInt("point");
+                canEnter = point >= entryFee;  // 입장료가 충분한지 확인
+            }
         } catch (SQLException e) {
-			DBUtil.rollback(conn); // 예외 발생 시 롤백
-			e.printStackTrace();
+            e.printStackTrace();
         } finally {
-        	try {
-				conn.setAutoCommit(true);
-			} catch (Exception e2) {
-			}
-        	DBUtil.close(pstmt);
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
         }
-	}
 
-	// 게임 끝난 후
-	public void endGame(PlayRecordDTO dto) {
-		PreparedStatement pstmt = null;
-		String sql;
-		int left_pt = 0;
+        return canEnter;
+    }
 
-		try {
-			left_pt = leftPoint(dto.getId()) + dto.getWin_point(); // 게임을 통해 얻은 포인트를 추가한 후 남은 포인트
-			conn.setAutoCommit(false);
+    // 게임 시작 시 10포인트 차감
+    public boolean startGame(MoleGameDTO dto) throws SQLException {
+        boolean success = false;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql;
+        int entryFee = 10;
 
-			// point_record 에 얻은 포인트 저장: categories 컬럼 값 90
-			sql = "INSERT INTO point_record (pt_num, categories, point, left_pt, pt_date, id)"
-					+ " VALUES (pt_seq.NEXTVAL, 90, ?, ?, SYSDATE, ?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getWin_point()); // 얻은 포인트
-			pstmt.setInt(2, left_pt);
-			pstmt.setString(3, dto.getId());
-			pstmt.executeUpdate();
+        try {
+            // 1. 현재 포인트 확인
+            sql = "SELECT point FROM Player WHERE id = ?"; 
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, dto.getId());
+            rs = pstmt.executeQuery();
 
-			pstmt = null;
-			// play_record 에 이번에 플레이한 게임 정보 저장
-			sql = "INSERT INTO play_record (play_num, play_date, used_point, win_point, result, id, game_num)"
-					+ " VALUES (play_seq.NEXTVAL, SYSDATE, ?, ?, ?, ?, ?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getUsed_point()); // 이번 게임에 사용한 포인트(룰렛 제외 10포인트 기본, 룰렛은 건 만큼)
-			pstmt.setInt(2, dto.getWin_point()); // 이번 게임을 통해서 얻은 포인트
-			pstmt.setString(3, dto.getResult()); // 게임 결과값. ex) 룰렛: 얻은 배수 결과, 가위바위보: 생존 라운드
-			pstmt.setString(4, dto.getId());
-			pstmt.setInt(5, dto.getGame_num()); // 플레이한 게임 번호. 두더지: 1 / 가위바위보: 2 / 룰렛: 3 / 퀴즈: 4
-			pstmt.executeUpdate();
+            int currentPoint = 0; // 포인트 변수 
+            if (rs.next()) {
+                currentPoint = rs.getInt("point");
+            }
 
-			pstmt = null;
-			// player 테이블에 point 컬럼 업데이트
-			sql = "UPDATE player SET point = ? WHERE id = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, left_pt);
-			pstmt.setString(2, dto.getId());
-			pstmt.executeUpdate();
+            // 2. 포인트가 충분한지 확인
+            if (currentPoint >= entryFee) {
+                // 3. 충분한 포인트가 있으면, 10포인트 차감
+                int newPoint = currentPoint - entryFee;
 
-			conn.commit();
-		} catch (SQLException e) {
-			DBUtil.rollback(conn);
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.setAutoCommit(true);
-			} catch (Exception e2) {
-			}
-			DBUtil.close(pstmt);
-		}
-	}
+                // 4. Player 테이블에서 포인트 업데이트
+                sql = "UPDATE Player SET point = ? WHERE id = ?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, newPoint); // 새로운 포인트
+                pstmt.setString(2, dto.getId());
+                pstmt.executeUpdate();
+
+                success = true; // 포인트 차감 성공
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
+        }
+
+        return success; // 포인트 차감 여부
+    }
+
+ // updateUserPoint에서 포인트 차감 로직 제거
+    public int updateUserPoint(MoleGameDTO dto) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql;
+        int updatedPoint = 0;
+
+        try {
+            // 1. 현재 포인트 확인
+            sql = "SELECT point FROM Player WHERE id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, dto.getId());
+            rs = pstmt.executeQuery();
+
+            int currentPoint = 0; // 포인트 변수
+            if (rs.next()) {
+                currentPoint = rs.getInt("point");
+            }
+
+            // 2. 새로운 잔여 포인트 계산
+            int newPoint = currentPoint + dto.getWinPoint();  // 얻은 포인트만 반영
+
+            // 3. Player 테이블에서 포인트 업데이트
+            sql = "UPDATE Player SET point = ? WHERE id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newPoint); // 새로운 포인트
+            pstmt.setString(2, dto.getId());
+            pstmt.executeUpdate();
+
+            updatedPoint = newPoint;  // 최종 잔여 포인트 반환
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
+        }
+
+        return updatedPoint;
+    }
+
+    // 게임 기록 삽입
+    public void insertPlayRecord(MoleGameDTO dto) throws SQLException {
+    	PreparedStatement pstmt1 = null;
+        PreparedStatement pstmt2 = null;
+        String sql1, sql2;
+
+        try {
+            // 첫 번째 INSERT: play_record에 게임 기록 저장
+            sql1 = "INSERT INTO play_record (play_num, play_date, used_point, win_point, result, id, game_num) "
+                    + "VALUES (play_seq.NEXTVAL, SYSDATE, ?, ?, ?, ?, ?)";
+            
+            
+            pstmt1 = conn.prepareStatement(sql1);
+           
+            pstmt1.setInt(1, dto.getUsedPoint());    // 사용한 포인트
+            pstmt1.setInt(2, dto.getWinPoint());     // 얻은 포인트
+            pstmt1.setString(3, dto.getResult());        // 사용자 ID
+            pstmt1.setString(4, dto.getId());        // 사용자 ID
+            pstmt1.setInt(5, dto.getGameNum());        // 사용자 ID
+
+            pstmt1.executeUpdate(); // play_record 테이블에 쿼리 실행
+            
+            // 두 번째 INSERT: point_record에 포인트 기록 저장
+            sql2 = "INSERT INTO point_record (pt_num, categories, point, left_pt, pt_date, id) "
+                    + "VALUES (pt_seq.NEXTVAL, 1, ?, ?, SYSDATE, ?)";
+            pstmt2 = conn.prepareStatement(sql2);
+            
+            int pointDifference = dto.getWinPoint() - dto.getUsedPoint();
+
+            pstmt2.setInt(1, pointDifference);  // 기록할 포인트 차이
+            pstmt2.setInt(2, dto.getUserPoint()); // 
+            pstmt2.setString(3, dto.getId()); // 사용자 ID
+            
+//            int pointDifference = dto.getWinPoint() - dto.getUsedPoint(); // 얻은 포인트 - 사용한 포인트
+//            int leftPoint = dto.getUserPoint() - 10;
+//            
+//            pstmt2.setInt(1, pointDifference);  // 기록할 포인트 차이
+//            pstmt2.setInt(2, leftPoint); // 
+//            pstmt2.setString(3, dto.getId()); // 사용자 ID
+
+            pstmt2.executeUpdate(); // point_record 테이블에 쿼리 실행
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            DBUtil.close(pstmt1);  // pstmt1 리소스 해제
+            DBUtil.close(pstmt2);  // pstmt2 리소스 해제
+        }
+    }
 }
