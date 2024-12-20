@@ -31,7 +31,7 @@
 	
 	.btnWrap1 {margin-bottom: 50px;}
 	
-	.resultColor {position: absolute; top: 50%; transform: translateY(-50%); left: 25%;}
+	.resultColor {position: absolute; top: 50%; transform: translateY(-50%); right: 25%;}
 	
 	.resultColor > div {display: flex; align-items: center;}
 	.resultColor div:not(:last-child) {margin-bottom: 5px;}
