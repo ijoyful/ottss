@@ -260,16 +260,17 @@ function showMole() {
     } else {
         mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/mole.png')`;
     }
-
+	
+    const moleDisappearTime = isLegendMole ? 500 : 800;
     moleTimeout = setTimeout(() => {
         mole.classList.remove('up');
         mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/moledie.png')`;
         activeMole = null;
         showMole();
-    }, 800);
+    }, moleDisappearTime);
 
     mole.classList.add('up');
-} 
+}
 
     // 랜덤으로 구멍 선택
     function randomHole() {
