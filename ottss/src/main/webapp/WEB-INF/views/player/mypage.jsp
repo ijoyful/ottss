@@ -13,7 +13,6 @@
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
 <style type="text/css">
 	#main {margin: unset;}
-	.vertical_nav {background-color: #fff !important;}
 </style>
 </head>
 
