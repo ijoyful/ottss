@@ -98,6 +98,7 @@ public class AdminReportDAO {
 			sb.append(" JOIN player p ON r.id = p.id");
 			sb.append(" LEFT OUTER JOIN show_tip_board st ON st.st_num = r.target_num");
 			sb.append(" LEFT OUTER JOIN free_board f ON f.fb_num = r.target_num");
+			sb.append(" ORDER BY report_num DESC");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
