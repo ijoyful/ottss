@@ -52,6 +52,9 @@ public class MyPageDAO {
 				case 1: dto.setCategory("상점"); break;
 				case 2: dto.setCategory("출석"); break;
 				case 3: dto.setCategory("게시판"); break;
+				case 5: dto.setCategory("회원가입"); break;
+				case 6: dto.setCategory("추천인"); break;
+				default: dto.setCategory("기타"); break;
 				}
 				dto.setPoint(rs.getInt("point"));
 				dto.setLeft_point(rs.getInt("left_pt"));
