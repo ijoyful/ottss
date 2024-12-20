@@ -90,6 +90,10 @@ const start = () => {
 	const run = document.querySelector('.btnWrap1 button');
 	const $bet = document.querySelector('input[name="bet"]');
 	var bet = $bet.value;
+	if (!bet) {
+		alert('룰렛에 걸 포인트를 입력해주세요.');
+		return;
+	}
 	let url = cp + '/games/roulette/start';
 	const fn = function(data) {
 		if (data.state === "false") {
