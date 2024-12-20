@@ -53,7 +53,7 @@
 	<main id="main">
 		<div class="mainInner">
 			<div class="title">
-				<p>삼식이의 룰렛</p>
+				<p>삼식이의 돌림판</p>
 				<p>배팅할 포인트: <input type="text" name="bet"></p>
 			</div>
 			<div class="btnWrap1">
