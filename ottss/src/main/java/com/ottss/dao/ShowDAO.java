@@ -334,7 +334,7 @@ public class ShowDAO {
 			} else {
 				sb.append(" SELECT st_num, title");
 				sb.append(" FROM show_tip_board");
-				sb.append(" WHERE blind = 0 AND st_num > ?");
+				sb.append(" WHERE blind = 0 AND st_num > ? AND board_type = 'showing'");
 				sb.append(" ORDER BY st_num ASC");
 				sb.append(" FETCH FIRST 1 ROWS ONLY");
 
@@ -395,7 +395,7 @@ public class ShowDAO {
 			} else {
 				sb.append(" SELECT st_num, title");
 				sb.append(" FROM show_tip_board");
-				sb.append(" WHERE blind = 0 AND st_num < ?");
+				sb.append(" WHERE blind = 0 AND st_num < ? AND board_type = 'showing'");
 				sb.append(" ORDER BY st_num DESC");
 				sb.append(" FETCH FIRST 1 ROWS ONLY");
 
