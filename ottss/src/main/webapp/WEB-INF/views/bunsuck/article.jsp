@@ -40,7 +40,7 @@
 	    <div class="mainInner">
 	        <div class="body-container">    
 	            <div class="body-title">
-	                <h3><i class="bi bi-app"></i> 분SUCK게시판 </h3>
+	                <h3><i class="bi bi-app"></i> 분석게시판 </h3>
 	            </div>
 	            
 	            <div class="body-main">
@@ -356,20 +356,24 @@
 	
 	function sendOk(id, num) {
 		const f = document.reportForm;
+		const etc = document.querySelector('textarea[name="etc"]');
 	
 		if (!f.report.value) { // 신고사유가 선택되지 않았으면
 			alert('신고 사유를 선택하세요.');
 			return;
 		}
-		if (f.report.value === 'etc' && f.etc.value) {
+		if (f.report.value === 'etc' && etc.value) {
 			alert('기타 사유 선택 시, 사유를 작성하세요.');
 			return;
 		}
 	
 		let $reason = document.querySelector('input[name="report"]:checked');
 		let reason = $reason.value;
+		let $td = $reason.closest('td');
 		if (reason === 'etc') {
-			reason = f.etc.value;
+			reason = etc.value;
+		} else {
+			reason = $td.textContent.trim();
 		}
 	
 	    let url = '${pageContext.request.contextPath}/bunsuck/report';

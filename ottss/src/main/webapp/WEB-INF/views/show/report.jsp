@@ -10,38 +10,38 @@
 			<td class="bg-light col-sm-2" colspan="2">신고사유</td>
 		</tr>
 		<tr> 
-			<td class="col-sm-2">
+			<td class="col-sm-2 reason">
 				<input type="radio" name="report" value="violent">폭력적 또는 혐오스러운 컨텐츠
 			</td>
 		</tr>
 		<tr> 
-			<td class="col-sm-2">
+			<td class="col-sm-2 reason">
 				<input type="radio" name="report" value="sexualabuse">성적인 컨텐츠
 			</td>
 		</tr>
 		<tr> 
-			<td class="col-sm-2">
+			<td class="col-sm-2 reason">
 				<input type="radio" name="report" value="abuse">증오 또는 악의적인 컨텐츠
 			</td>
 		</tr>
 		<tr> 
-			<td class="col-sm-2">
+			<td class="col-sm-2 reason">
 				<input type="radio" name="report" value="childabuse">아동 학대
 			</td>
 		</tr>
 		<tr> 
-			<td class="col-sm-2">
+			<td class="col-sm-2 reason">
 				<input type="radio" name="report" value="spam">스팸 또는 혼동을 야기하는 컨텐츠
 			</td>
 		</tr>
 		<tr> 
-			<td class="col-sm-2">
+			<td class="col-sm-2 reason">
 				<input type="radio" name="report" value="etc">기타 사유
 			</td>
 			
 		</tr>
 		<tr>
-			<td class="col-sm-2">
+			<td class="col-sm-2 reason">
 				<textarea name="etc"></textarea>
 			</td>
 		</tr>

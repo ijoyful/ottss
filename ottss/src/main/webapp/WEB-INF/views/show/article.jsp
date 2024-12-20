@@ -356,6 +356,7 @@
 	
 	function sendOk(id, num) {
 		const f = document.reportForm;
+		const etc = document.querySelector('textarea[name="etc"]');
 	
 		if (!f.report.value) { // 신고사유가 선택되지 않았으면
 			alert('신고 사유를 선택하세요.');
@@ -368,8 +369,11 @@
 	
 		let $reason = document.querySelector('input[name="report"]:checked');
 		let reason = $reason.value;
+		let $td = $reason.closest('td');
 		if (reason === 'etc') {
-			reason = f.etc.value;
+			reason = etc.value;
+		} else {
+			reason = $td.textContent.trim();
 		}
 	
 	    let url = '${pageContext.request.contextPath}/show/report';

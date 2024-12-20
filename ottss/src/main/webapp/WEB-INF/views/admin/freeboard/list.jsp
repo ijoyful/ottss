@@ -68,7 +68,7 @@
 		<jsp:include page="/WEB-INF/views/admin/layout/left.jsp"/>
 		<div class="wrapper">
 			<div class="body-title">
-				<h3><i class="bi bi-app"></i> 자랑게시판 </h3>
+				<h3><i class="bi bi-app"></i> 자유게시판 </h3>
 			</div>
 			<div class="body-main">
 				<div class="mainInner">
