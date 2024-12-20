@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+.modal.show .modal-dialog {
+	top: 50%;
+    transform: translateY(-50%);
+}

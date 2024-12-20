@@ -16,6 +16,7 @@
 </style>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ottssCss/articleModal.css" type="text/css">
 
 <c:if test="${sessionScope.member.id==dto.id || sessionScope.member.powerCode == 99}">
 	<script type="text/javascript">
@@ -33,7 +34,6 @@
 <body>
 
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-	
 	<main>
 		<div class="container">
 			<div class="body-container">	
