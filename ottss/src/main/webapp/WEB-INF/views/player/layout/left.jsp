@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/menu2.css" type="text/css">
 <style type="text/css">
 	.vertical_nav {
+		background-color: #fff !important;
 	    position: fixed;
 		top: 50%;
 	    transform: translateY(-50%);
