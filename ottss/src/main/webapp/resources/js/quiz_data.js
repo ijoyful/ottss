@@ -263,8 +263,8 @@ const quiz_data = [
 	    "question": "JSP 페이지에서 Java 코드를 삽입하려면 어떤 태그를 사용하나요?",
 	    "answers": {
 	      1: "<% ... %>",
-	      2: "<script> ... </script>",
-	      3: "<java> ... </java>",
+	      2: "'<script> ... </script>'",
+	      3: "'<java> ... </java>'",
 	      4: "<%= ... %>"
 	    },
 	    "correct": 1
