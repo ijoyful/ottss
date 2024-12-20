@@ -489,7 +489,7 @@ function sendServer(count) {
 	const cp = '/ottss';
 	const url = cp + '/games/quiz/end'; // 서버 요청 URL
 	const formData = {
-		win_point: count * 10000000, // 채점 결과로 계산된 포인트
+		win_point: count * 2, // 채점 결과로 계산된 포인트
 		result: count,       
 		game_num: 4                    // 고유 퀴즈 번호
 	};
@@ -509,7 +509,7 @@ function quizstart() {
 	document.querySelector(".btn-start").style.display = "none";
 	const timerEL = document.querySelector("div.timer");
 	
-	let timeLimit = 1200;  // 제한시간(2분)
+	let timeLimit = 240;  // 제한시간(2분)
 	
 	// 타이머
 	let timer = null;

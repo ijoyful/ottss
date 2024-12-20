@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.ottss.domain.MemberDTO;
 import com.ottss.util.DBConn;
+import com.ottss.util.DBUtil;
 
 public class AttendDAO {
 	private Connection conn = DBConn.getConnection();
@@ -60,6 +61,9 @@ public class AttendDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
 		}
 
 		return list;
@@ -92,5 +96,5 @@ public class AttendDAO {
 		}
 
 		return list;
-	}
+	} 
 }
