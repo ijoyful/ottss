@@ -98,12 +98,18 @@
 									<c:if test="${not empty nextDTO}">
 										<a href="${pageContext.request.contextPath}/freeboard/article?${query}&fb_num=${nextDTO.fb_num}">${nextDTO.title}</a>
 									</c:if>
+									<c:if test="${empty nextDTO}">
+										<span>마지막 글입니다.</span>
+									</c:if>
 								</td>
 							</tr>
 							<tr>
 								<td colspan = "2"> 이전글 :
 									<c:if test="${not empty prevDTO}">
 										<a href="${pageContext.request.contextPath}/freeboard/article?${query}&num=${prevDTO.fb_num}">${prevDTO.title}</a>
+									</c:if>
+									<c:if test="${empty prevDTO}">
+										<span>처음 글입니다.</span>
 									</c:if>
 								</td>
 							</tr>
@@ -261,7 +267,6 @@
 			let selector = '#listReply';
 			
 			const fn = function(data) {
-				console.log(data);
 				$(selector).html(data);
 			};
 			ajaxFun(url, 'get', query, 'text', fn);
@@ -281,7 +286,6 @@
 				let query = 'fbc_num=' + fbc_num;
 				
 				const fn = function(data){
-					console.log(fbc_num);
 					listPage(page);
 				};
 				

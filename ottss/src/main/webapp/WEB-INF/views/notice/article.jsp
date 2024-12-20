@@ -58,12 +58,18 @@
 										<c:if test="${not empty prevDto}">
 											<a href="${pageContext.request.contextPath}/notice/article?${query}&n_num=${prevDto.n_num}">${prevDto.title}</a>
 										</c:if>
+										<c:if test="${empty prevDto}">
+											<span>마지막 글입니다.</span>
+										</c:if>
 									</td>
 								</tr>
 								<tr>
 									<td colspan = "2"> 이전글 :
 										<c:if test="${not empty NextDto}">
 											<a href="${pageContext.request.contextPath}/notice/article?${query}&n_num=${NextDto.n_num}">${NextDto.title}</a>
+										</c:if>
+										<c:if test="${empty NextDto}">
+											<span>처음 글입니다.</span>
 										</c:if>
 									</td>
 								</tr>

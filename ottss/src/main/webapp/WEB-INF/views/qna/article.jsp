@@ -107,6 +107,9 @@
 									<c:if test="${not empty prevDTO}">
 										<a href="${pageContext.request.contextPath}/qna/article?${query}&num=${prevDTO.faq_num}">${prevDTO.q_title}</a>
 									</c:if>
+									<c:if test="${empty prevDto}">
+										<span>마지막 글입니다.</span>
+									</c:if>
 								</td>
 							</tr>
 							<tr>
@@ -114,6 +117,9 @@
 									이전글 :
 									<c:if test="${not empty nextDTO}">
 										<a href="${pageContext.request.contextPath}/qna/article?${query}&num=${nextDTO.faq_num}">${nextDTO.q_title}</a>
+									</c:if>
+									<c:if test="${empty nextDto}">
+										<span>이전 글입니다.</span>
 									</c:if>
 								</td>
 							</tr>
