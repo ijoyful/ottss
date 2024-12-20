@@ -76,6 +76,7 @@ public class QuizController {
 		String state = "false";
 
 		try {
+			System.out.println("컨트롤러 왔다");
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			QuizPlayDTO dto = new QuizPlayDTO();
 			dto.setId(info.getId());

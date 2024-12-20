@@ -341,7 +341,8 @@ const quiz_data = [
 	  }
 	];
 
-	let cp = "/ottss";
+let cp = "/ottss";
+var btnSubmitEL = document.querySelector("button.btnSubmit");
 	
 // 문제
 window.addEventListener('load', () => {
@@ -415,129 +416,141 @@ btnStartEl.addEventListener('click', () => {
 });
 
 
-window.addEventListener('load', () => {
-	const btnSubmitEL = document.querySelector("button.btnSubmit");
+// 채점
+const check = () => {
+	const containerEl = document.querySelector('div.slider-container');
+	const questionEls = document.querySelectorAll('.slider-wrap > div.item');
+	
+	containerEl.style.display = 'block';
+	btnSubmitEL.style.display = 'none';
+	
+	let htmlText = '';
+	let count  = 0;
+	for(let el of questionEls) {
+		let num = parseInt(el.querySelector('p').dataset.num);
+		let correct = quiz_data[num].correct;
+		const radioEL = el.querySelector('input[type=radio]:checked');
+		let select = radioEL ? parseInt(radioEL.value) : 0;
+		bResult = false;
+		if(correct === select) {
+			count++;
+			bResult = true;
+		}
+		
+		if(select === 0) select = '선택안함';
+		
+		// htmlText += `<p class="scoring-result">${num+1}번 정답 : ${correct} → ${select}, ${bResult ? "○":"×"}</p>`;
+	}
+	htmlText += `<p class="scoring-result"> 정답 : ${count}/30개</p>`;
+	htmlText += `<p class="scoring-result"> 획득 포인트 : ${count*2}점</p>`;
+	htmlText += `<div class="returnBtnWarp"><a href="${cp+'/games/quiz'}" class='returnBtn'>처음으로</a></div>`;
+	
+	containerEl.innerHTML = htmlText;
+
+	return count;
+}
+
+function ajaxFun(url, method, formData, dataType, fn, file=false){
+	const settings = {
+		type: method,
+		data: formData,
+		dataType: dataType,
+		success: function(data){
+			fn(data);
+		},
+		beforeSend: function(jqXHR) {
+			jqXHR.setRequestHeader('AJAX', true);
+		},
+		complete: function(){
+			
+		},
+		error: function(jqXHR){
+			if(jqXHR.status === 403){
+				login();
+				return false;
+			} else if (jqXHR.status === 406){
+				alert('요청 처리가 실패했습니다.');
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+	};
+	
+	if(file) {
+		settings.processData = false; // 파일 전송시 필수. 서버로 보낼 데이터를 쿼리문자열로 변환 여부
+		settings.contentType = false; // 파일 전송시 필수. 기본은 application/x-www-urlencoded
+	}
+
+	$.ajax(url, settings);
+}
+
+btnSubmitEL.addEventListener('click', () => {
+	if(! confirm('제출하시겠습니까 ? ')) {
+		return;
+	}
+	
+	let count = check();
+	clearInterval(timer);
+	sendServer(count);
+
+});
+
+function sendServer(count) {
+	// 채점 결과를 서버로 전송
+	const cp = '/ottss';
+	const url = cp + '/games/quiz/end'; // 서버 요청 URL
+	const formData = {
+		win_point: count * 2, // 채점 결과로 계산된 포인트
+		result: count,       
+		game_num: 4                    // 고유 퀴즈 번호
+	};
+	
+	const successFn = (data) => {
+		if (data.state === "false") {
+			alert("퀴즈 제출에 실패했습니다.");
+		}
+	};
+	
+	ajaxFun(url, 'post', formData, 'json', successFn);
+}
+
+function quizstart() {
+// 퀴즈 영역 표시
+	document.querySelector(".container-body").style.display = "block";
+	document.querySelector(".btn-start").style.display = "none";
 	const timerEL = document.querySelector("div.timer");
 	
 	let timeLimit = 120;  // 제한시간(2분)
 	
 	// 타이머
+	let timer = null;
 	const quizRemaining = () => {
 		if( timeLimit < 0 ) {
 			clearInterval(timer);
+			timer = null;
 			btnSubmitEL.setAttribute('disabled', 'true');
-			check();
+			let count = check();
+			sendServer(count);
 		} else {
 			let minute = Math.floor(timeLimit / 60);
 			minute = minute < 10 ? '0' + minute : minute;
 			let second = Math.floor(timeLimit % 60);
 			second = second < 10 ? '0' + second : second;
 			
-			timerEL.innerHTML = `${minute}:${second}`;
+			timerEL.innerHTML = minute+ ':' + second;
 			
 			timeLimit--;   
 		}
 	};
-	quizRemaining();
-	const timer = setInterval(quizRemaining, 1000);
 	
-	// 채점
-	const check = () => {
-		const containerEl = document.querySelector('div.slider-container');
-		const questionEls = document.querySelectorAll('.slider-wrap > div.item');
-		const btnSubmitEL = document.querySelector("button.btnSubmit");
-		
-		containerEl.style.display = 'block';
-		btnSubmitEL.style.display = 'none';
-		
-		let htmlText = '';
-		let count  = 0;
-		let bResult;
-		for(let el of questionEls) {
-			let num = parseInt(el.querySelector('p').dataset.num);
-			let correct = quiz_data[num].correct;
-			const radioEL = el.querySelector('input[type=radio]:checked');
-			let select = radioEL ? parseInt(radioEL.value) : 0;
-			bResult = false;
-			if(correct === select) {
-				count++;
-				bResult = true;
-			}
-			
-			if(select === 0) select = '선택안함';
-			
-			// htmlText += `<p class="scoring-result">${num+1}번 정답 : ${correct} → ${select}, ${bResult ? "○":"×"}</p>`;
-		}
-		htmlText += `<p class="scoring-result"> 정답 : ${count}/30개</p>`;
-		htmlText += `<p class="scoring-result"> 획득 포인트 : ${count*2}점</p>`;
-		htmlText += `<div class="returnBtnWarp"><a href="${cp+'/games/quiz'}" class='returnBtn'>처음으로</a></div>`;
-		
-		containerEl.innerHTML = htmlText;
-	
-		return count;
-	};
-	
-	function ajaxFun(url, method, formData, dataType, fn, file=false){
-		    	const settings = {
-		    			type: method,
-		    			data: formData,
-		    			dataType: dataType,
-		    			success: function(data){
-		    				fn(data);
-		    			},
-		    			beforeSend: function(jqXHR) {
-		    				jqXHR.setRequestHeader('AJAX', true);
-		    			},
-		    			complete: function(){
-		    				
-		    			},
-		    			error: function(jqXHR){
-		    				if(jqXHR.status === 403){
-		    					login();
-		    					return false;
-		    				} else if (jqXHR.status === 406){
-		    					alert('요청 처리가 실패했습니다.');
-		    					return false;
-		    				}
-		    				console.log(jqXHR.responseText);
-		    			}
-		    	};
-		    	
-		    	if(file) {
-		    		settings.processData = false; // 파일 전송시 필수. 서버로 보낼 데이터를 쿼리문자열로 변환 여부
-		    		settings.contentType = false; // 파일 전송시 필수. 기본은 application/x-www-urlencoded
-		    	}
-
-		    	$.ajax(url, settings);
-		    }
-	
-	btnSubmitEL.addEventListener('click', () => {
-		if(! confirm('제출하시겠습니까 ? ')) {
-			return;
-		}
-		
-		const count = check();
+	if (timer) {
 		clearInterval(timer);
-		
-		// 채점 결과를 서버로 전송
-		   const url = '${pageContext.request.contextPath}/games/quiz/end'; // 서버 요청 URL
-		   const formData = {
-		       win_point: count * 2, // 채점 결과로 계산된 포인트
-		       result: count,       
-		       game_num: 4                    // 고유 퀴즈 번호
-		   };
-
-		   const successFn = (data) => {
-		       if (data.state === "false") {
-		           alert("퀴즈 제출에 실패했습니다.");
-		       } else {
-		           alert("퀴즈를 제출했습니다. 결과를 확인하세요!");
-		           // 필요 시 UI 업데이트
-		           showResult();
-		       }
-		   };
-
-		   ajaxFun(url, 'post', formData, 'json', successFn);
-	});
+		timer = null;
+	}
 	
-});
+	quizRemaining();
+	timer = setInterval(quizRemaining, 1000);
+
+	// START 버튼 비활성화
+	document.querySelector("button[onclick='quizstart()']").disabled = true;
+}

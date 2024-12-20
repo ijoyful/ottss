@@ -136,16 +136,9 @@
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
     <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 
-	<script type="text/javascript">
-	function quizstart() {
-		  // 퀴즈 영역 표시
-		  document.querySelector(".container-body").style.display = "block";
-		  document.querySelector(".btn-start").style.display = "none";
-	
-		  // START 버튼 비활성화
-		  document.querySelector("button[onclick='quizstart()']").disabled = true;
-		};	
-	</script>
+<script type="text/javascript">
+
+</script>
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/quiz_data.js"></script>
 </body>
