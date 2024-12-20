@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ottss.dao.QuizDAO;
-import com.ottss.domain.QuizPlayDTO;
+import com.ottss.domain.PlayRecordDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
@@ -53,11 +53,12 @@ public class QuizController {
 			}
 			
 			// 게임 시작
-			QuizPlayDTO dto = new QuizPlayDTO();
+			PlayRecordDTO dto = new PlayRecordDTO();
 			dto.setId(id);
 			dto.setUsed_point(10);
-				
-			
+
+			dao.startGame(dto);
+
 			model.put("state", state);
 			return model;
 		} catch (Exception e) {
@@ -76,9 +77,8 @@ public class QuizController {
 		String state = "false";
 
 		try {
-			System.out.println("컨트롤러 왔다");
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
-			QuizPlayDTO dto = new QuizPlayDTO();
+			PlayRecordDTO dto = new PlayRecordDTO();
 			dto.setId(info.getId());
 			dto.setWin_point(Integer.parseInt(req.getParameter("win_point")));
 			dto.setResult(req.getParameter("result"));

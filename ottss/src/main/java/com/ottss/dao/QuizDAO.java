@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import com.ottss.util.DBConn;
 import com.ottss.domain.PlayRecordDTO;
-import com.ottss.domain.QuizPlayDTO;
 import com.ottss.util.DBUtil;
 
 public class QuizDAO {
@@ -47,7 +46,7 @@ public class QuizDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT point FROM player WEHRE id = ?";
+			sql = "SELECT point FROM player WHERE id = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, id);
@@ -105,7 +104,7 @@ public class QuizDAO {
 		}
 	}
 	
-	public void endGame(QuizPlayDTO dto) {
+	public void endGame(PlayRecordDTO dto) {
 		PreparedStatement pstmt = null;
 		String sql;
 		int left_pt = 0;
@@ -129,11 +128,9 @@ public class QuizDAO {
 			sql = "INSERT INTO play_record (play_num, play_date, used_point, win_point, result, id, game_num)"
 					+ " VALUES (play_seq.NEXTVAL, SYSDATE, 10, ?, ?, ?, 4)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getUsed_point()); // 이번 게임에 사용한 포인트(룰렛 제외 10포인트 기본, 룰렛은 건 만큼)
-			pstmt.setInt(2, dto.getWin_point()); // 이번 게임을 통해서 얻은 포인트
-			pstmt.setString(3, dto.getResult()); // 게임 결과값. ex) 룰렛: 얻은 배수 결과, 가위바위보: 생존 라운드
-			pstmt.setString(4, dto.getId());
-			pstmt.setInt(5, dto.getGame_num()); // 플레이한 게임 번호. 두더지: 1 / 가위바위보: 2 / 룰렛: 3 / 퀴즈: 4
+			pstmt.setInt(1, dto.getWin_point()); // 이번 게임을 통해서 얻은 포인트
+			pstmt.setString(2, dto.getResult()); // 게임 결과값. ex) 룰렛: 얻은 배수 결과, 가위바위보: 생존 라운드
+			pstmt.setString(3, dto.getId());
 			pstmt.executeUpdate();
 
 			pstmt = null;
