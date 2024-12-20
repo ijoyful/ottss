@@ -81,7 +81,7 @@ public class BunsuckDAO {
 		String sql;
 
 		try {
-			sql = "SELECT COUNT(*) cnt FROM show_tip_board WHERE blind=0 AND board_type = 'tip' ";
+			sql = "SELECT COUNT(*) cnt FROM show_tip_board WHERE blind=0 AND board_type = 'bunsuck' ";
 
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -107,7 +107,7 @@ public class BunsuckDAO {
 
 		try {
 			sql = "SELECT COUNT(*) cnt " + " FROM show_tip_board s  " + " JOIN player p ON s.id = p.id "
-					+ " WHERE block = 0 AND board_type = 'tip' ";
+					+ " WHERE block = 0 AND board_type = 'bunsuck' ";
 			if (schType.equals("all")) { // title 또는 content
 				sql += " AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )";
 			} else if (schType.equals("reg_date")) { // reg_date
