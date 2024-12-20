@@ -135,7 +135,11 @@ const rotate = (bet, run) => {
 				alert('룰렛이 잠시 고장났다냥~ 불편을 끼쳐 미안하다냥ㅠ 조금 이따 다시 시도해달라냥!');
 				location.href = cp + '/games/roulette';
 			} else {
-				setTimeout(() => alert(`${result}배에 당첨되셨습니다. ${bet} 포인트의 ${product[i]}배인 ${bet * product[i]} 포인트를 얻습니다!`), 5000);				
+				setTimeout(() => {
+					alert(`${result}배에 당첨되셨습니다. ${bet} 포인트의 ${product[i]}배인 ${bet * product[i]} 포인트를 얻습니다!`);
+					location.href = cp  + '/games/roulette';					
+				}
+				, 5000);
 			}
 		}
 		run.disabled = false;

@@ -86,32 +86,4 @@ public class RouletteController {
 		return model;
 	}
 
-	/*
-	@ResponseBody
-	@RequestMapping(value = "/games/roulette/end")
-	public ModelAndView endGame(HttpServletRequest req, HttpServletResponse resp) {
-		// 넘어온 파라미터: 사용 포인트, 얻은 포인트, 게임 결과(ex. 룰렛: 몇배), 플레이한 게임 번호
-		ModelAndView mav = new ModelAndView("games/roulette");
-		HttpSession session = req.getSession();
-		RouletteDAO dao = new RouletteDAO();
-		String state = "false";
-		
-		try {
-			SessionInfo info = (SessionInfo)session.getAttribute("member");
-			PlayRecordDTO dto = new PlayRecordDTO();
-			dto.setId(info.getId());
-			dto.setWin_point(Integer.parseInt(req.getParameter("win_point")));
-			dto.setUsed_point(Integer.parseInt(req.getParameter("bet")));
-			dto.setResult(req.getParameter("result"));
-			dto.setGame_num(Integer.parseInt(req.getParameter("game_num")));
-			
-			dao.endGame(dto);
-			state = "true";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		mav.addObject("state", state);
-		return mav;
-	}
-	 */
 }
