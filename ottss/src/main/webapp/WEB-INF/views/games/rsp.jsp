@@ -13,11 +13,11 @@
 		.game-btn:hover {background-color: #ffcc00;color: #fff; transform: scale(1.1);}
 		.game-btn:active {transform: scale(1);}
         #result { margin-top: 20px; font-size: 20px; color: green; }
-        #rsp-area { margin: 20px 0; font-size: 220px; display: flex; justify-content: center; align-items: center; }
+        #rsp-area { margin: 20px 0; font-size: 150px; display: flex; justify-content: center; align-items: center; }
         #rsp-area div { margin: 0 50px; min-width: 50px; }
         .vs {font-size: 100px; /* 'vs' 이모티콘 크기 조절 */}
         .highlight {background-color: #FFD700; border: 4px solid black; padding: 20px 40px; border-radius: 10px;}
-        #game-controls { margin: 20px 0; }
+        #game-controls { margin: 10px 0; }
         #next-round-controls { margin: 20px 0; display: none; }
 		.description-box {margin: 20px auto; padding: 20px; border: 2px solid #000; background-color: #fff8dc; color: #333; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); max-width: 600px; font-size: 16px; transition: max-height 0.5s ease-out, opacity 0.5s ease-out; overflow: hidden; max-height: 0; opacity: 0;}
 		.description-box.show {max-height: 500px; opacity: 1; line-height: 160%;}
