@@ -3,6 +3,15 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/core2.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/menu2.css" type="text/css">
+<style type="text/css">
+	.vertical_nav {
+	    position: fixed;
+		top: 50%;
+	    transform: translateY(-50%);
+	    border-top-right-radius: 10px;
+	    border-bottom-right-radius: 10px;
+	}
+</style>
 <script type="text/javascript">
 // 메뉴 활성화
 $(function(){
@@ -53,7 +62,7 @@ $(function(){
 	});
 });
 </script>
-<nav class="vertical_nav" style="top: 120px;">
+<nav class="vertical_nav">
 	<ul id="js-menu" class="menu">
 		<li class="menu--item">
 	        <a href="${pageContext.request.contextPath}/player/mypage" class="menu--link" title="출석확인">
@@ -61,15 +70,12 @@ $(function(){
 				<span class="menu--label">출석확인</span>
 			</a>
 		</li>
-	
 		<li class="menu--item">
 	        <a href="${pageContext.request.contextPath}/mypage/bestrecord" class="menu--link" title="최고기록확인">
 				<i class="menu--icon bi bi-question-square"></i>
 				<span class="menu--label">최고기록확인</span>
 			</a>
 		</li>
-	
-	
 		<li class="menu--item">
 	        <a href="${pageContext.request.contextPath}/mypage/mypoint" class="menu--link" title="포인트확인">
 				<i class="menu--icon bi bi-calendar"></i>
@@ -82,14 +88,11 @@ $(function(){
 				<span class="menu--label">회원정보수정</span>
 			</a>
 		</li>
-		
 		<li class="menu--item">
 	        <a href="${pageContext.request.contextPath}/login/pwd?mode=delete" class="menu--link" title="회원탈퇴">
 				<i class="menu--icon bi bi-geo"></i>
 				<span class="menu--label">회원탈퇴</span>
 			</a>
 		</li>
-	
-		
 	</ul>
 </nav>

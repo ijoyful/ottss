@@ -18,6 +18,13 @@
 	font-style: normal;
 }
 
+@font-face {
+    font-family: 'Mungyeong-Gamhong-Apple';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2410-2@1.0/Mungyeong-Gamhong-Apple.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
 	font-family: 'S-CoreDream-3Light';
 }
@@ -82,7 +89,6 @@ body {
 #main {width: 100%; background-color: #484b62;}
      	
 #main .mainInner {
-	text-align: center;
 	background-color: #fff;
     width: 1200px;
     min-height: 775px;

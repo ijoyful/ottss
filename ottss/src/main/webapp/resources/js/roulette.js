@@ -87,7 +87,7 @@ function ajaxFunc(url, method, formData, dataType, fn, file=false) {
 }
 
 const start = () => {
-	const run = document.querySelector('.btnWrap button');
+	const run = document.querySelector('.btnWrap1 button');
 	const $bet = document.querySelector('input[name="bet"]');
 	var bet = $bet.value;
 	let url = cp + '/games/roulette/start';

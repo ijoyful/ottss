@@ -11,19 +11,14 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
-.body-container {
-	max-width: 600px;
-	}
-#main .mainInner {width: 800px;}
 /* #main .listInner ul li:nth-child(1) {width: 10%;} /* 상품번호 */ 
 #main .listInner ul li:nth-child(1) {width: 10%;} /* 카테고리 */
 #main .listInner ul li:nth-child(2) {width: 22%;} /*  상품  */
 #main .listInner ul li:nth-child(3) {width: 58%;} /* 상품 설명 */
 #main .listInner ul li:nth-child(4) {width: 10%;} /* 장착버튼 */
 .btn {
-font-size:16px;
-padding : 0;
-
+	font-size:16px;
+	padding : 0;
 }
 </style>
 

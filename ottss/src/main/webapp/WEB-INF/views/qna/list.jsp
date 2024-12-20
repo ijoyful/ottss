@@ -13,16 +13,17 @@
 <body>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 	
-	
-	
 	<main id="main">
 		<div class="mainInner">
-			<div class="row board-list-footer">
+			<div class="body-title">
+               	<h3><i class="bi bi-app"></i> QnA </h3>
+           	</div>
+			<div class="row board-list-footer" style="margin-bottom: 20px;">
 				<div class="col">
 					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/list';"><i class="bi bi-arrow-clockwise"></i></button>
 				</div>
 				<div class="col-6 text-center">
-					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/qna/list" method="post">
+					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/qna/list" method="post" style="justify-content: center;">
 						<div class="col-auto p-1">
 							<select name="schType" class="form-select">
 								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>

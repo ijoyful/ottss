@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.ottss.dao.AdminReportDAO;
-import com.ottss.dao.ShowDAO;
+import com.ottss.dao.BunsuckDAO;
 import com.ottss.domain.ReportDTO;
-import com.ottss.domain.STComDTO;
-import com.ottss.domain.STDTO;
+import com.ottss.domain.BunsuckComDTO;
+import com.ottss.domain.BunsuckDTO;
 import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
@@ -32,15 +32,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class ShowController {
+public class BunsuckController {
 	
-	@RequestMapping("/show/list") //GET,POST 둘다 처리
+	@RequestMapping("/bunsuck/list") //GET,POST 둘다 처리
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServerException, SQLException{
 		//게시글 리스트 : 파라미터,[page,schType,kwd]
 		
 		ModelAndView mav = new ModelAndView("show/list");
 		
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
 		try {
@@ -83,7 +83,7 @@ public class ShowController {
 			if(offset < 0)
 				offset = 0;
 			
-			List<STDTO> list = null;
+			List<BunsuckDTO> list = null;
 			if(kwd.length() == 0) {
 				list = dao.listBoard(offset, size);
 			} else {
@@ -98,9 +98,9 @@ public class ShowController {
 			
 			//페이징 처리
 			String cp = req.getContextPath();
-			String listUrl = cp + "/show/list";
+			String listUrl = cp + "/bunsuck/list";
 			//글리스트 주소
-			String articleUrl = cp + "/show/article?page=" + current_page;
+			String articleUrl = cp + "/bunsuck/article?page=" + current_page;
 			//글보기 주소
 			if(query.length() != 0) {
 				listUrl += "?" + query;
@@ -128,7 +128,7 @@ public class ShowController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/show/write", method = RequestMethod.GET)
+	@RequestMapping(value = "/bunsuck/write", method = RequestMethod.GET)
 	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 
@@ -137,11 +137,11 @@ public class ShowController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/show/write", method = RequestMethod.POST)
+	@RequestMapping(value = "/bunsuck/write", method = RequestMethod.POST)
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글등록하기 : 넘어온 파라미터 - subject, content
 
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -152,7 +152,7 @@ public class ShowController {
 		String pathname = root + "uploads" + File.separator + "show";
 		
 		try {
-			STDTO dto = new STDTO();
+			BunsuckDTO dto = new BunsuckDTO();
 
 			// id는 세션에 저장된 정보
 			dto.setId(info.getId());
@@ -168,15 +168,15 @@ public class ShowController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/show/list");
+		return new ModelAndView("redirect:/bunsuck/list");
 	}
 	
 	
-	@RequestMapping(value="/show/article", method =RequestMethod.GET)
+	@RequestMapping(value="/bunsuck/article", method =RequestMethod.GET)
 	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//글보기
 		
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
 		String page = req.getParameter("page");
@@ -197,17 +197,17 @@ public class ShowController {
 			
 			dao.updateHitCount(num);
 			
-			STDTO dto = dao.findById(num);
+			BunsuckDTO dto = dao.findById(num);
 			if (dto == null) {
-				return new ModelAndView("redirect:/show/list?" + query);
+				return new ModelAndView("redirect:/bunsuck/list?" + query);
 			}
 			dto.setContent(util.htmlSymbols(dto.getContent())); //???
 			
-			STDTO prevDto = dao.findByPrev(dto.getSt_num(), schType, kwd);
-			STDTO nextDto = dao.findByNext(dto.getSt_num(), schType, kwd);
+			BunsuckDTO prevDto = dao.findByPrev(dto.getSt_num(), schType, kwd);
+			BunsuckDTO nextDto = dao.findByNext(dto.getSt_num(), schType, kwd);
 			
 			//파일
-			List<STDTO> listFile = dao.listSTFile(num);
+			List<BunsuckDTO> listFile = dao.listSTFile(num);
 			
 			//게시물공감여부
 			HttpSession session = req.getSession();
@@ -229,15 +229,15 @@ public class ShowController {
 			e.printStackTrace();
 		}
 	
-		return new ModelAndView("redirect:/show/list?" + query);
+		return new ModelAndView("redirect:/bunsuck/list?" + query);
 	
 	}
 	
 	
-	@RequestMapping(value="/show/update", method =RequestMethod.GET)
+	@RequestMapping(value="/bunsuck/update", method =RequestMethod.GET)
 	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//수정폼
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -246,14 +246,14 @@ public class ShowController {
 		
 		try {
 			long num = Long.parseLong(req.getParameter("st_num"));
-			STDTO dto = dao.findById(num);
+			BunsuckDTO dto = dao.findById(num);
 			
 			if(dto == null) {
-				return new ModelAndView("redirect:/show/list?page=" + page);
+				return new ModelAndView("redirect:/bunsuck/list?page=" + page);
 			}
 			
 			if (!dto.getId().equals(info.getId())) {
-				return new ModelAndView("redirect:/show/list?page=" + page);
+				return new ModelAndView("redirect:/bunsuck/list?page=" + page);
 			}
 			
 			ModelAndView mav = new ModelAndView("show/write");
@@ -267,22 +267,22 @@ public class ShowController {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/show/list?page=" + page);
+		return new ModelAndView("redirect:/bunsuck/list?page=" + page);
 	}
 	
 	
-	@RequestMapping(value = "/show/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/bunsuck/update", method = RequestMethod.POST)
 	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// 수정 완료
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		String page = req.getParameter("page");
 		try {
-			STDTO dto = new STDTO();
+			BunsuckDTO dto = new BunsuckDTO();
 
 			dto.setSt_num(Long.parseLong(req.getParameter("st_num")));
 			dto.setTitle(req.getParameter("title"));
@@ -296,13 +296,13 @@ public class ShowController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/show/list?page=" + page);
+		return new ModelAndView("redirect:/bunsuck/list?page=" + page);
 	}
 	
-	@RequestMapping(value = "/show/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/bunsuck/delete", method = RequestMethod.GET)
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//삭제
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -330,24 +330,24 @@ public class ShowController {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/show/list?" + query);
+		return new ModelAndView("redirect:/bunsuck/list?" + query);
 	}	
 	
 	
 	// 댓글 저장 - AJAX - JSON
 	@ResponseBody
-	@RequestMapping(value = "/show/insertReply", method=RequestMethod.POST)
+	@RequestMapping(value = "/bunsuck/insertReply", method=RequestMethod.POST)
 	public Map<String, Object> insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
 		String state = "false";
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 		HttpSession session = req.getSession();
 		
 		try {
 			
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
-			STComDTO dto = new STComDTO();
+			BunsuckComDTO dto = new BunsuckComDTO();
 			
 			dto.setSt_num(Long.parseLong(req.getParameter("st_num")));
 			dto.setContent(req.getParameter("content"));
@@ -369,11 +369,11 @@ public class ShowController {
 	}
 	
 	// 댓글 리스트 - AJAX : Test
-	@RequestMapping(value = "/show/listReply", method = RequestMethod.GET)
+	@RequestMapping(value = "/bunsuck/listReply", method = RequestMethod.GET)
 	public ModelAndView listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		//넘어오는 파라미터 : num, pageNo
 		
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
 		//HttpSession session = req.getSession(); 댓글 좋아요 구현하려면 필요함!! id
@@ -399,9 +399,9 @@ public class ShowController {
 			int offset = (current_page -1)* size;
 			if(offset < 0) offset = 0;			
 			
-			List<STComDTO> list = dao.listReply(num, offset, size);
+			List<BunsuckComDTO> list = dao.listReply(num, offset, size);
 			
-			for(STComDTO dto : list) {
+			for(BunsuckComDTO dto : list) {
 				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 			}
 			
@@ -427,12 +427,12 @@ public class ShowController {
 	
 	//댓글 삭제 - AJAX : JSON
 	@ResponseBody
-	@RequestMapping(value = "/show/deleteReply", method = RequestMethod.POST)
+	@RequestMapping(value = "/bunsuck/deleteReply", method = RequestMethod.POST)
 	public Map<String, Object> deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
 		//넘어온 파라미터 : stc_num
 		
 		Map<String, Object> model = new HashMap<String, Object>();
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -455,12 +455,12 @@ public class ShowController {
 	
 	//게시글 공감 저장
 	@ResponseBody
-	@RequestMapping(value = "/show/insertShowLike", method = RequestMethod.POST)
+	@RequestMapping(value = "/bunsuck/insertShowLike", method = RequestMethod.POST)
 	public Map<String, Object> insertShowLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//넘어온 파라미터 : st_num, 공감/취소여부
 		Map<String, Object> model = new HashMap<String, Object>();
 		
-		ShowDAO dao = new ShowDAO();
+		BunsuckDAO dao = new BunsuckDAO();
 		
 		HttpSession session = req.getSession();
 		
@@ -492,7 +492,7 @@ public class ShowController {
 		return model;
 	}
 
-	@RequestMapping(value = "/show/report", method = RequestMethod.GET)
+	@RequestMapping(value = "/bunsuck/report", method = RequestMethod.GET)
 	public ModelAndView reportForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ModelAndView mav = new ModelAndView("show/report");
 		mav.addObject("num", req.getParameter("num"));
@@ -500,7 +500,7 @@ public class ShowController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/show/report", method = RequestMethod.POST)
+	@RequestMapping(value = "/bunsuck/report", method = RequestMethod.POST)
 	public Map<String, Object> reportSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, Object> model = new HashMap<String, Object>();
 		AdminReportDAO dao = new AdminReportDAO();

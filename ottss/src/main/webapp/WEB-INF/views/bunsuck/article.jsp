@@ -18,7 +18,7 @@
 		function deleteOk() {
 			if(confirm('게시글을 삭제 하시 겠습니까 ? ')) {
 				let query = 'st_num=${dto.st_num}&${query}';
-				let url = '${pageContext.request.contextPath}/show/delete?' + query;
+				let url = '${pageContext.request.contextPath}/bunsuck/delete?' + query;
 				location.href = url;
 			}
 		}
@@ -36,7 +36,7 @@
 	    <div class="mainInner">
 	        <div class="body-container">    
 	            <div class="body-title">
-	                <h3><i class="bi bi-app"></i> 자랑게시판 </h3>
+	                <h3><i class="bi bi-app"></i> 분SUCK게시판 </h3>
 	            </div>
 	            
 	            <div class="body-main">
@@ -49,7 +49,7 @@
 	                            </td>
 								<td align="right">
 								<c:if test="${sessionScope.member.id != dto.id}">
-									<span id="report" onclick="reportdialogshow();" style="cursor: pointer">신고</span>
+									<span id="report" onclick="reportdialogshow();">신고</span>
 								</c:if>
 								</td>
 	                        </tr>
@@ -74,7 +74,7 @@
 	                        <tr>
 	                            <td colspan="2" valign="top" height="200">
 	                                <c:forEach var="vo" items="${listFile}" varStatus="status">
-										<img src="${pageContext.request.contextPath}/uploads/show/${vo.s_fileName}" class="img-fluid img-thumbnail w-100 h-auto">
+										<img src="${pageContext.request.contextPath}/uploads/bunsuck/${vo.s_fileName}" class="img-fluid img-thumbnail w-100 h-auto">
 									</c:forEach>
 	                            </td>
 	                        </tr>
@@ -87,7 +87,7 @@
 	                            <td colspan="2">
 	                                이전글 :
 	                                <c:if test="${not empty prevDto}">
-	                                    <a href="${pageContext.request.contextPath}/show/article?${query}&st_num=${prevDto.st_num}">${prevDto.title}</a>
+	                                    <a href="${pageContext.request.contextPath}/bunsuck/article?${query}&st_num=${prevDto.st_num}">${prevDto.title}</a>
 	                                </c:if>
 	                            </td>
 	                        </tr>
@@ -95,7 +95,7 @@
 	                            <td colspan="2">
 	                                다음글 :
 	                                <c:if test="${not empty nextDto}">
-	                                    <a href="${pageContext.request.contextPath}/show/article?${query}&st_num=${nextDto.st_num}">${nextDto.title}</a>
+	                                    <a href="${pageContext.request.contextPath}/bunsuck/article?${query}&st_num=${nextDto.st_num}">${nextDto.title}</a>
 	                                </c:if>
 	                            </td>
 	                        </tr>
@@ -108,7 +108,7 @@
 	                            <!-- 수정, 삭제 버튼 부분 -->
 	                            <c:choose>
 	                            	<c:when test="${sessionScope.member.id==dto.id}">                                                                    
-	                            		<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/update?st_num=${dto.st_num}&page=${page}';">수정</button>
+	                            		<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/bunsuck/update?st_num=${dto.st_num}&page=${page}';">수정</button>
 	                           		</c:when>
 	                           		<c:otherwise>
 										<button type="button" class="btn btn-light" disabled>수정</button>
@@ -126,7 +126,7 @@
 	                        
 	                        </td>
 	                        <td class="text-end">
-	                            <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/list?${query}';">리스트</button>
+	                            <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/bunsuck/list?${query}';">리스트</button>
 	                        </td>
 	                    </tr>
 	                </table>
@@ -177,7 +177,7 @@
 
 	<script type="text/javascript">
 	function login() {
-		location.href = '${pageContext.request.contextPath}/show/login';
+		location.href = '${pageContext.request.contextPath}/bunsuck/login';
 	}	
 	
 	function ajaxFun(url, method, formData, dataType, fn, file=false){
@@ -225,7 +225,7 @@
 			}
 			
 			let st_num = '${dto.st_num}';
-			let url = '${pageContext.request.contextPath}/show/insertReply';
+			let url = '${pageContext.request.contextPath}/bunsuck/insertReply';
 			let query = {st_num:st_num, content:content};
 						//formDate를 객체로 처리하면 content를 인코딩하면 안된다.
 						
@@ -250,7 +250,7 @@
 	});
 	
 	function listPage(page) {
-		let url = '${pageContext.request.contextPath}/show/listReply';
+		let url = '${pageContext.request.contextPath}/bunsuck/listReply';
 		let query ='st_num=${dto.st_num}&pageNo=' + page;
 		let selector = '#listReply';
 		
@@ -270,7 +270,7 @@
 			let stc_num = $(this).attr('data-stc_num');
 			let page = $(this).attr('data-pageNo');
 			
-			let url = '${pageContext.request.contextPath}/show/deleteReply';
+			let url = '${pageContext.request.contextPath}/bunsuck/deleteReply';
 			let query = 'stc_num=' + stc_num;
 			
 			const fn = function(data){
@@ -291,7 +291,7 @@
 				return false;
 			}
 			
-			let url = '${pageContext.request.contextPath}/show/insertShowLike';
+			let url = '${pageContext.request.contextPath}/bunsuck/insertShowLike';
 			let query = 'st_num=${dto.st_num}&userLiked=' + userLiked;
 			
 			const fn = function(data) {
@@ -331,12 +331,12 @@
 	
 		myModalEl.addEventListener('hidden.bs.modal', function(){
 			// 모달 대화상자가 닫힐때
-			location.href = '${pageContext.request.contextPath}/show/article?${query}&st_num=' + st_num;
+			location.href = '${pageContext.request.contextPath}/bunsuck/article?${query}&st_num=' + st_num;
 		});
 	});
 	
 	function reportdialogshow() {
-		let url = '${pageContext.request.contextPath}/show/report';
+		let url = '${pageContext.request.contextPath}/bunsuck/report';
 		let num = ${dto.st_num};
 		const fn = function(data) {
 			$('#reportModal .modal-body').html(data);
@@ -368,7 +368,7 @@
 			reason = f.etc.value;
 		}
 	
-	    let url = '${pageContext.request.contextPath}/show/report';
+	    let url = '${pageContext.request.contextPath}/bunsuck/report';
 	    const fn = function(data) {
 	    	console.log(data);
 	    	$('#reportModal .modal-body').empty();

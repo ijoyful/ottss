@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
-
 <header id="header">
     <div class="headerInner">
         <div class="info">
@@ -48,7 +47,7 @@
 	        	<ul class="dropdownMenu">
 	        		<li><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/freeboard/list">자유게시판</a></li>
-	        		<li><a href="${pageContext.request.contextPath}/">분석게시판</a></li>
+	        		<li><a href="${pageContext.request.contextPath}/bunsuck/list">분석게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/show/list">자랑게시판</a></li>
 	        		<li><a href="${pageContext.request.contextPath}/qna/list">QnA</a></li>
 	        	</ul>

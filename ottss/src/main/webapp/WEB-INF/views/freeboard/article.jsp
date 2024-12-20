@@ -55,7 +55,7 @@
 										<span id="delete" style="cursor: pointer"onclick="deleteOk();">삭제</span>
 									</c:when>
 									<c:otherwise>
-										<span id="report" onclick="reportdialogshow();">신고</span>
+										<span id="report" onclick="reportdialogshow();" style="cursor: pointer">신고</span>
 									</c:otherwise>
 								</c:choose>
 								</td>

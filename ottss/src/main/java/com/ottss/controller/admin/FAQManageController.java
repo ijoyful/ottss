@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ottss.dao.FAQDAO;
 import com.ottss.domain.FAQDTO;
@@ -12,6 +14,7 @@ import com.ottss.domain.SessionInfo;
 import com.ottss.mvc.annotation.Controller;
 import com.ottss.mvc.annotation.RequestMapping;
 import com.ottss.mvc.annotation.RequestMethod;
+import com.ottss.mvc.annotation.ResponseBody;
 import com.ottss.mvc.view.ModelAndView;
 import com.ottss.util.FileManager;
 import com.ottss.util.MyMultipartFile;
@@ -165,8 +168,6 @@ public class FAQManageController {
 			if (kwd.length() != 0) {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
 			}
-			// 조회수
-			dao.updateHitCount(num);
 			// 게시물 가져오기
 			FAQDTO dto = dao.findByNum(num);
 			if (dto == null) {
@@ -279,5 +280,37 @@ public class FAQManageController {
 		}
 		
 		return new ModelAndView("redirect:/admin/qna/list?" + query);
+	}
+
+	@RequestMapping(value = "/admin/qna/answer", method = RequestMethod.GET)
+	public ModelAndView reportForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("admin/qna/answer");
+		mav.addObject("num", req.getParameter("num"));
+		return mav;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/admin/qna/answer", method = RequestMethod.POST)
+	public Map<String, Object> reportSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		FAQDAO dao = new FAQDAO();
+		String state = "false";
+
+		try {
+			FAQDTO dto = new FAQDTO();
+			dto.setAdmin_id(req.getParameter("id"));
+			dto.setFaq_num(Long.parseLong(req.getParameter("num")));
+			dto.setA_content(req.getParameter("a_content"));
+
+			dao.insertAnswer(dto);
+
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);
+		
+		return model;
 	}
 }

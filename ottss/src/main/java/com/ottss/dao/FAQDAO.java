@@ -526,4 +526,23 @@ public class FAQDAO {
 
 		return dto;
 	}
+
+	public void insertAnswer(FAQDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+
+		try {
+			sql = "UPDATE faq SET a_content = ?, answer_date = SYSDATE, admin_id = ? WHERE faq_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getA_content());
+			pstmt.setString(2, dto.getAdmin_id());
+			pstmt.setLong(3, dto.getFaq_num());
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

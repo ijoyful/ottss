@@ -27,15 +27,16 @@
 			<div class="mainInner">
 				
 				<div class="body-title">
-                	<h3><i class="bi bi-app"></i> 자랑게시판 </h3>
+                	<h3><i class="bi bi-app"></i>분suck게시판
+                	</h3>
             	</div>
             	
             	<div class="row board-list-footer" style="margin-bottom: 20px;">
 					<div class="col">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/list';"><i class="bi bi-arrow-clockwise"></i></button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/bunsuck/list';"><i class="bi bi-arrow-clockwise"></i></button>
 					</div>
 					<div class="col-6 text-center">
-						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/show/list" method="post" style="justify-content: center;">
+						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/bunsuck/list" method="post" style="justify-content: center;">
 							<div class="col-auto p-1">
 								<select name="schType" class="form-select">
 									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
@@ -54,7 +55,7 @@
 						</form>
 					</div>
 					<div class="col text-end">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/show/write';">글올리기</button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/bunsuck/write';">글올리기</button>
 					</div>
 				</div>
             	

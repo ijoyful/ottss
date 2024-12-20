@@ -11,10 +11,6 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
-	.body-container {
-		max-width: 800px;
-	}
-	#main .listInner ul li:nth-child(1) {width: 5%;} /* no */
 	#main .listInner ul li:nth-child(2) {width: 5%;} /* 구분 */
 	#main .listInner ul li:nth-child(3) {width: 55%;} /* 제목 */
 	#main .listInner ul li:nth-child(4) {width: 10%;} /* 작성자 */
@@ -39,38 +35,34 @@
 						<i class="bi bi-clipboard"></i> 자유게시판
 					</h3>
 				</div>
-				<div class="row board-list-header">
-		            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
-		            <div class="col-auto">&nbsp;</div>
-		        </div>
-				<div class="row board-list-footer">
-				<div class="col p-1 text-start">
-					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
+				<div class="row board-list-footer" style="margin-bottom: 20px;">
+					<div class="col">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
+					</div>
+					<div class="col-6 text-center" style="display: flex; justify-content: center;">
+						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/freeboard/list" method="post" style="justify-content: center;">
+							<div class="col-auto p-1">
+								<select name="schType" class="form-select">
+									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
+									<option value="userName" ${schType=="userName"?"selected":""}>작성자</option>
+									<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
+									<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
+									<option value="content" ${schType=="content"?"selected":""}>내용</option>
+								</select>
+							</div>
+							<div class="col-auto p-1">
+								<input type="text" name="kwd" value="${kwd}" class="form-control">
+							</div>
+							<div class="col-auto p-1">
+								<input type="hidden" name="size" value="${size}">
+								<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+							</div>
+						</form>
+					</div>
+					<div class="col text-end">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/write';">글올리기</button>
+					</div>
 				</div>
-				<div class="col-6 text-center">
-					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/freeboard/list" method="post">
-						<div class="col-auto p-1">
-							<select name="schType" class="form-select">
-								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-								<option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
-								<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
-								<option value="title" ${schType=="title"?"selected":""}>제목</option>
-								<option value="content" ${schType=="content"?"selected":""}>내용</option>
-							</select>
-						</div>
-						<div class="col-auto p-1">
-							<input type="text" name="kwd" value="${kwd}" class="form-control">
-						</div>
-						<div class="col-auto p-1">
-							<input type="hidden" name="size" value="${size}">
-							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
-						</div>
-						<div class ="col text-end">
-							<button type="button" style="align-content: right" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/write';">글올리기</button>
-						</div>
-					</form>
-				</div>
-			</div>
 				<!-- div.listInner 테이블 처럼 쓸 수 있는 ul-li 입니당 foreach 돌리실때 ul로 돌리면 끗! -->
 				<div class="listInner">
                     <ul class="listTitle">
