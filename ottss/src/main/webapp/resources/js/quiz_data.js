@@ -484,17 +484,6 @@ function ajaxFun(url, method, formData, dataType, fn, file=false){
 	$.ajax(url, settings);
 }
 
-btnSubmitEL.addEventListener('click', () => {
-	if(! confirm('제출하시겠습니까 ? ')) {
-		return;
-	}
-	
-	let count = check();
-	clearInterval(timer);
-	sendServer(count);
-
-});
-
 function sendServer(count) {
 	// 채점 결과를 서버로 전송
 	const cp = '/ottss';
@@ -553,4 +542,15 @@ function quizstart() {
 
 	// START 버튼 비활성화
 	document.querySelector("button[onclick='quizstart()']").disabled = true;
+
+	btnSubmitEL.addEventListener('click', () => {
+		if(! confirm('제출하시겠습니까 ? ')) {
+			return;
+		}
+		
+		let count = check();
+		clearInterval(timer);
+		sendServer(count);
+
+	});
 }
