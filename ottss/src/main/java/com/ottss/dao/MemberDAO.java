@@ -133,6 +133,50 @@ public class MemberDAO {
 		
 		return dto;
 	}
+	public MemberDTO findByNick(String nickName) {// 패스워드 확인할 시 회원정보가져올때, 아이디 중복 검사할 때
+		MemberDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			
+			sb.append(" SELECT id, pwd, name, nickname, TO_CHAR(birth, 'YYYY-MM-DD') birth, tel1, tel2, tel3, email1, email2, point, powercode, block, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date");
+			sb.append(" FROM player");
+			sb.append(" WHERE nickname = ?");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, nickName);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new MemberDTO();
+				
+				dto.setId(rs.getString("id"));
+				dto.setPwd(rs.getString("pwd"));
+				dto.setName(rs.getString("name"));
+				dto.setNickName(rs.getString("nickname"));
+				dto.setBirth(rs.getString("birth"));
+				dto.setTel1(rs.getString("tel1"));
+				dto.setTel2(rs.getString("tel2"));
+				dto.setTel3(rs.getString("tel3"));
+				dto.setEmail1(rs.getString("email1"));
+				dto.setEmail2(rs.getString("email2"));
+				dto.setPoint(rs.getInt("point"));
+				dto.setPowercode(rs.getInt("powercode"));
+				dto.setReg_date(rs.getString("reg_date"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		
+		return dto;
+	}
 	
 	public void updateMember(MemberDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;

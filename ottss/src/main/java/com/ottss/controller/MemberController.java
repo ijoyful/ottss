@@ -317,6 +317,27 @@ public class MemberController {
 		return model;
 	}
 	
+	
+	@ResponseBody //AJAX : JSON 으로 반환
+	@RequestMapping(value = "/login/userNickCheck", method=RequestMethod.POST)
+	public Map<String, Object> userNickCheck (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//닉네임 중복 검사
+		MemberDAO dao = new MemberDAO();
+		
+		String nickName = req.getParameter("nickName");
+		MemberDTO dto = dao.findByNick(nickName);
+		String passed = "false";
+		if(dto == null) {
+			passed = "true";
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		model.put("passed", passed);
+		
+		return model;
+	}
+	
 	@RequestMapping(value = "/player/mypage", method = RequestMethod.GET)
 	public ModelAndView mypage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 마이페이지
