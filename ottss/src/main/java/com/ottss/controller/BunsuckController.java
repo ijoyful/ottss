@@ -38,7 +38,7 @@ public class BunsuckController {
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServerException, SQLException{
 		//게시글 리스트 : 파라미터,[page,schType,kwd]
 		
-		ModelAndView mav = new ModelAndView("show/list");
+		ModelAndView mav = new ModelAndView("bunsuck/list");
 		
 		BunsuckDAO dao = new BunsuckDAO();
 		MyUtil util = new MyUtilBootstrap();
@@ -132,7 +132,7 @@ public class BunsuckController {
 	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 
-		ModelAndView mav = new ModelAndView("show/write");
+		ModelAndView mav = new ModelAndView("bunsuck/write");
 		mav.addObject("mode", "write");
 		return mav;
 	}
@@ -214,7 +214,7 @@ public class BunsuckController {
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			boolean isUserLike = dao.isUserShowLike(num, info.getId());
 			
-			ModelAndView mav = new ModelAndView("show/article");
+			ModelAndView mav = new ModelAndView("bunsuck/article");
 			
 			mav.addObject("dto", dto);
 			mav.addObject("page", page);
@@ -256,7 +256,7 @@ public class BunsuckController {
 				return new ModelAndView("redirect:/bunsuck/list?page=" + page);
 			}
 			
-			ModelAndView mav = new ModelAndView("show/write");
+			ModelAndView mav = new ModelAndView("bunsuck/write");
 			mav.addObject("dto", dto);
 			mav.addObject("page", page);
 			mav.addObject("mode", "update");
@@ -407,7 +407,7 @@ public class BunsuckController {
 			
 			String paging = util.pagingMethod(current_page, total_page, "listPage");
 			
-			ModelAndView mav = new ModelAndView("show/listReply");
+			ModelAndView mav = new ModelAndView("bunsuck/listReply");
 			mav.addObject("listReply", list);
 			mav.addObject("pageNo",current_page);
 			mav.addObject("replyCount", replyCount);
@@ -494,7 +494,7 @@ public class BunsuckController {
 
 	@RequestMapping(value = "/bunsuck/report", method = RequestMethod.GET)
 	public ModelAndView reportForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("show/report");
+		ModelAndView mav = new ModelAndView("bunsuck/report");
 		mav.addObject("num", req.getParameter("num"));
 		return mav;
 	}

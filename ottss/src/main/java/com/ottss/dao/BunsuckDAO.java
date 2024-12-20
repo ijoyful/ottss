@@ -35,7 +35,7 @@ public class BunsuckDAO {
 			pstmt = null;
 
 			sql = "INSERT INTO show_tip_board (st_num, title, content, reg_date, mod_date, blind, hitcount, board_type, id) "
-					+ "VALUES (?, ?, ?, SYSDATE, SYSDATE, 0, 0, 'showing', ? )";
+					+ "VALUES (?, ?, ?, SYSDATE, SYSDATE, 0, 0, 'tip', ? )";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -81,7 +81,7 @@ public class BunsuckDAO {
 		String sql;
 
 		try {
-			sql = "SELECT COUNT(*) cnt FROM show_tip_board WHERE blind=0 AND board_type = 'showing' ";
+			sql = "SELECT COUNT(*) cnt FROM show_tip_board WHERE blind=0 AND board_type = 'tip' ";
 
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -107,7 +107,7 @@ public class BunsuckDAO {
 
 		try {
 			sql = "SELECT COUNT(*) cnt " + " FROM show_tip_board s  " + " JOIN player p ON s.id = p.id "
-					+ " WHERE block = 0 AND board_type = 'showing' ";
+					+ " WHERE block = 0 AND board_type = 'tip' ";
 			if (schType.equals("all")) { // title 또는 content
 				sql += " AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )";
 			} else if (schType.equals("reg_date")) { // reg_date
@@ -150,7 +150,7 @@ public class BunsuckDAO {
 			sb.append("     TO_CHAR(s.reg_date, 'YYYY-MM-DD') reg_date ");
 			sb.append(" FROM show_tip_board s ");
 			sb.append(" JOIN player p ON s.id = p.id ");
-			sb.append(" WHERE block = 0 AND board_type = 'showing'");
+			sb.append(" WHERE block = 0 AND board_type = 'tip'");
 			sb.append(" ORDER BY st_num DESC ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
@@ -193,7 +193,7 @@ public class BunsuckDAO {
 			sb.append("     TO_CHAR(s.reg_date, 'YYYY-MM-DD') reg_date ");
 			sb.append(" FROM show_tip_board s ");
 			sb.append(" JOIN player p ON s.id = p.id ");
-			sb.append(" WHERE block = 0 AND board_type = 'showing'");
+			sb.append(" WHERE block = 0 AND board_type = 'tip'");
 			if (schType.equals("all")) { // title 또는 content
 				sb.append(" AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )");
 			} else if (schType.equals("reg_date")) { // reg_date
@@ -247,7 +247,7 @@ public class BunsuckDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE show_tip_board SET hitCount=hitCount+1 WHERE st_num=? AND board_type = 'showing'";
+			sql = "UPDATE show_tip_board SET hitCount=hitCount+1 WHERE st_num=? AND board_type = 'tip'";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setLong(1, num);
@@ -271,7 +271,7 @@ public class BunsuckDAO {
 		// ++게시글 좋아요 보류
 		try {
 			sql = " SELECT s.st_num, s.id, nickname, title, content, s.reg_date, hitCount, blind "
-					+ " FROM show_tip_board s" + " JOIN player p ON p.id=s.id" + " WHERE s.st_num = ? AND blind = 0 AND board_type = 'showing'";
+					+ " FROM show_tip_board s" + " JOIN player p ON p.id=s.id" + " WHERE s.st_num = ? AND blind = 0 AND board_type = 'tip'";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, num);
@@ -311,7 +311,7 @@ public class BunsuckDAO {
 				sb.append(" SELECT st_num, title");
 				sb.append(" FROM show_tip_board s ");
 				sb.append(" JOIN player p ON s.id = p.id ");
-				sb.append(" WHERE (block = 0 AND st_num > ?) AND board_type = 'showing'");
+				sb.append(" WHERE (block = 0 AND st_num > ?) AND board_type = 'tip'");
 				if (schType.equals("all")) { // title 또는 content
 					sb.append(" AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )");
 				} else if (schType.equals("reg_date")) { // reg_date
@@ -372,7 +372,7 @@ public class BunsuckDAO {
 				sb.append(" SELECT st_num, title");
 				sb.append(" FROM show_tip_board s ");
 				sb.append(" JOIN player p ON s.id = p.id ");
-				sb.append(" WHERE block = 0 AND st_num < ? AND board_type = 'showing'");
+				sb.append(" WHERE block = 0 AND st_num < ? AND board_type = 'tip'");
 				if (schType.equals("all")) { // title 또는 content
 					sb.append(" AND ( INSTR(title, ?) >= 1 OR INSTR(content, ?) >= 1 )");
 				} else if (schType.equals("reg_date")) { // reg_date
@@ -427,7 +427,7 @@ public class BunsuckDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE show_tip_board SET title = ?, content =? WHERE st_num = ? AND id = ? AND board_type = 'showing'";
+			sql = "UPDATE show_tip_board SET title = ?, content =? WHERE st_num = ? AND id = ? AND board_type = 'tip'";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -453,14 +453,14 @@ public class BunsuckDAO {
 
 		try {
 			if (powercode >= 99) {
-				sql = "DELETE FROM show_tip_board WHERE st_num=? AND board_type = 'showing'";
+				sql = "DELETE FROM show_tip_board WHERE st_num=? AND board_type = 'tip'";
 				pstmt = conn.prepareStatement(sql);
 
 				pstmt.setLong(1, num);
 
 				pstmt.executeUpdate();
 			} else {
-				sql = "DELETE FROM show_tip_board WHERE st_num=? AND id=? AND board_type = 'showing'";
+				sql = "DELETE FROM show_tip_board WHERE st_num=? AND id=? AND board_type = 'tip'";
 
 				pstmt = conn.prepareStatement(sql);
 
@@ -775,7 +775,7 @@ public class BunsuckDAO {
 		
 		try {
 			
-			sql = "DELETE FROM show_tip_board WHERE st_num=? AND board_type = 'showing'";
+			sql = "DELETE FROM show_tip_board WHERE st_num=? AND board_type = 'tip'";
 			
 			pstmt = conn.prepareStatement(sql);
 			
