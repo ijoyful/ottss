@@ -35,7 +35,7 @@ public class ShowDAO {
 			pstmt = null;
 
 			sql = "INSERT INTO show_tip_board (st_num, title, content, reg_date, mod_date, blind, hitcount, board_type, id) "
-					+ "VALUES (?, ?, ?, SYSDATE, SYSDATE, 0, 0, 'showing', ? )";
+					+ "VALUES (?, ?, ?, SYSDATE, SYSDATE, 0, 0, 'show', ? )";
 
 			pstmt = conn.prepareStatement(sql);
 

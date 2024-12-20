@@ -35,7 +35,7 @@ public class BunsuckDAO {
 			pstmt = null;
 
 			sql = "INSERT INTO show_tip_board (st_num, title, content, reg_date, mod_date, blind, hitcount, board_type, id) "
-					+ "VALUES (?, ?, ?, SYSDATE, SYSDATE, 0, 0, 'tip', ? )";
+					+ "VALUES (?, ?, ?, SYSDATE, SYSDATE, 0, 0, 'bunsuck', ? )";
 
 			pstmt = conn.prepareStatement(sql);
 

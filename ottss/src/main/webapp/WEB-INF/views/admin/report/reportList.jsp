@@ -71,10 +71,10 @@
 							<li>신고 게시판(댓글)</li>
 							<li>게시판(댓글) 번호</li>
 						</ul>
-						<c:forEach var="list" items="${reportList}">
+						<c:forEach var="list" items="${reportList}" varStatus="status">
 							<ul class="listContent">
-								<li>${list.report_num}</li>
-								<li>${list.report_reason}</li>
+								<li>${dataCount - (page - 1) * size - status.index}</li>
+								<li onclick="alert('${list.content}')">${list.report_reason}</li>
 								<li>${list.report_date}</li>
 								<li>${list.id}</li>
 								<li>${list.nickname}</li>

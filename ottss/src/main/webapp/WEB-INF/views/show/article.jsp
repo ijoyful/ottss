@@ -362,7 +362,7 @@
 			alert('신고 사유를 선택하세요.');
 			return;
 		}
-		if (f.report.value === 'etc' && f.etc.value) {
+		if (f.report.value === 'etc' && !etc.value) {
 			alert('기타 사유 선택 시, 사유를 작성하세요.');
 			return;
 		}

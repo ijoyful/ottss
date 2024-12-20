@@ -93,9 +93,11 @@ public class AdminReportDAO {
 		
 		try {
 			
-			sb.append("SELECT REPORT_NUM, TARGET_NUM, TARGET_TABLE, REPORT_REASON, REPORT_DATE, p.id, p.nickname");
+			sb.append("SELECT REPORT_NUM, TARGET_NUM, TARGET_TABLE, REPORT_REASON, REPORT_DATE, p.id, p.nickname,  NVL(f.content, st.content) content");
 			sb.append(" FROM REPORT r");
 			sb.append(" JOIN player p ON r.id = p.id");
+			sb.append(" LEFT OUTER JOIN show_tip_board st ON st.st_num = r.target_num");
+			sb.append(" LEFT OUTER JOIN free_board f ON f.fb_num = r.target_num");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
@@ -111,6 +113,7 @@ public class AdminReportDAO {
 				dto.setReport_reason(rs.getString("report_reason"));
 				dto.setReport_date(rs.getString("report_date"));
 				dto.setNickname(rs.getString("nickname"));
+				dto.setContent(rs.getString("content"));
 
 				list.add(dto);
 			}

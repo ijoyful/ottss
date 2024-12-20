@@ -8,7 +8,14 @@ public class ReportDTO {
 	private long target_num; // 신고 게시글/댓글 번호
 	private String id; // 신고한 아이디
 	private String nickname;
+	private String content;
 	
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
 	public String getNickname() {
 		return nickname;
 	}
