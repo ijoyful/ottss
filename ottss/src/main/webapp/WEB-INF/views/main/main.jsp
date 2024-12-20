@@ -64,7 +64,7 @@
 	            <div class="listInner">
 	            	<div class="listBigTitle">
                 		<span>[ QnA ]</span>
-                		<a href="${pageContext.request.contextPath}/">더보기</a>
+                		<a href="${pageContext.request.contextPath}/qna/list">더보기</a>
                		</div>
                 	<ul class="listTitle">
 	                    <li>제목</li>
