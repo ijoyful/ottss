@@ -6,7 +6,7 @@
     <title>가위바위보 게임</title>
     <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
     <style>
-		.mainInner {text-align: center;}
+		.mainInner {text-align: center; position: relative;}
         h1 {font-size: 2.5em; text-align: center; margin-bottom: 20px; color: #FF7F00; font-weight: bold;}
         h2 {font-size: 1.5em; text-align: center;  font-weight: bold;}
         .game-btn {margin: 10px; padding: 15px 30px; font-size: 18px; cursor: pointer; border: none; border-radius: 10px; background-color: #f0f0f0; color: #333; transition: all 0.3s ease;}
@@ -24,13 +24,13 @@
 		
 		#game-description-controls {
 			position: absolute;
-			top: 0;
-			right: 0;
+			top: 2%;
+    		right: 4%;
 		}
 		#game-description {
 			position: absolute;
 			top: 10%;
-			right: 0;
+		    right: 4%;
 		}
     </style>
 </head>

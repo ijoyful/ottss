@@ -8,7 +8,6 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 <style type="text/css">
-	.mainInner {text-align: center;}
 	
 	.container {width: 600px; margin: 30px auto;}
 
@@ -92,6 +91,8 @@
 	    border:1px solid #00a6eb;
 	    color:#ffffff;
 	}
+	
+	.item {text-align: left;}
 	
 </style>
 </head>
