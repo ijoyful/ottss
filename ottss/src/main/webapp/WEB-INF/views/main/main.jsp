@@ -34,6 +34,10 @@
                             <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/gameImg/mole.gif')"><a href="${pageContext.request.contextPath}/games/mole"><span>레전드 두더지</span></a></li>
                             <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/gameImg/roulette.gif')"><a href="${pageContext.request.contextPath}/games/roulette"><span>돌림판</span></a></li>
                             <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/gameImg/quiz.gif')"><a href="${pageContext.request.contextPath}/games/quiz"><span>퀴즈</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/gameImg/rsp.gif')"><a href="${pageContext.request.contextPath}/games/rsp"><span>가위바위보</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/gameImg/mole.gif')"><a href="${pageContext.request.contextPath}/games/mole"><span>레전드 두더지</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/gameImg/roulette.gif')"><a href="${pageContext.request.contextPath}/games/roulette"><span>돌림판</span></a></li>
+                            <li class="swiper-slide" style="background-image: url('${pageContext.request.contextPath}/resources/images/gameImg/quiz.gif')"><a href="${pageContext.request.contextPath}/games/quiz"><span>퀴즈</span></a></li>
                         </ul>
                     </div>
                 </div>
