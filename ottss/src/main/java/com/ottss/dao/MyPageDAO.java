@@ -171,7 +171,7 @@ public class MyPageDAO {
 			sql = "SELECT play_num, TO_CHAR(play_date, 'YYYY-MM-DD') play_date, used_point, win_point, result, game_num"
 					+ " FROM play_record"
 					+ " WHERE game_num = 3 AND id = ?"
-					+ " ORDER BY result desc, play_date ASC"
+					+ " ORDER BY TO_NUMBER(result) desc, play_date ASC"
 					+ " OFFSET 0 ROWS FETCH FIRST ROW ONLY";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
