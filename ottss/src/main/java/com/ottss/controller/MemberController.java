@@ -126,6 +126,7 @@ public class MemberController {
 			dto.setName(req.getParameter("name"));
 			dto.setNickName(req.getParameter("nickName"));
 			dto.setBirth(req.getParameter("birth"));
+			dto.setRecommendId(req.getParameter("recommendId"));
 			
 			dto.setEmail1(req.getParameter("email1"));
 			dto.setEmail2(req.getParameter("email2"));
@@ -136,6 +137,15 @@ public class MemberController {
 
 		
 			dao.insertMember(dto);
+			
+			
+			String recoId = req.getParameter("recommendId");
+			
+			//추천인아이디 있는지 확인해야됨....
+			if(dao.findById(recoId) != null) {
+				dao.updateRecommend(dto);
+			}
+			
 			
 			session.setAttribute("mode", "insert");
 			session.setAttribute("nickName", dto.getNickName());

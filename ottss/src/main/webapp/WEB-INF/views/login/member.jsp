@@ -300,6 +300,19 @@ function userNickCheck() {
 						</div>
 					 	
 					 	
+					 	<div class="row mb-3">
+					        <label class="col-sm-2 col-form-label" for="name">추천인 아이디</label>
+					        <div class="col-sm-10">
+								<div class="row">
+									<div class="col-6">
+					            		<input type="text" name="recommendId" id="recommendId" class="form-control" value="${dto.recommendId}" 
+					            			${mode=="update" ? "readonly ":""}
+					            			placeholder="추천인 아이디">
+									</div>
+								</div>
+					        </div>
+					    </div>
+					 	
 				
 					 	
 					    <div class="row mb-3">

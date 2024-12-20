@@ -58,8 +58,9 @@ public class MemberDAO {
 		String sql;
 		
 		try {
+			conn.setAutoCommit(false);
 			sql = "INSERT INTO player(id, pwd, name, nickname, birth, tel1, tel2, tel3, email1, email2, reg_date, point, powercode, block) "
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?,SYSDATE,?,?,0)";
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,SYSDATE,1000,?,0)";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, dto.getId());
@@ -72,22 +73,99 @@ public class MemberDAO {
 			pstmt.setString(8, dto.getTel3());
 			pstmt.setString(9, dto.getEmail1());
 			pstmt.setString(10, dto.getEmail2());
-			pstmt.setInt(11, dto.getPoint());
-			pstmt.setInt(12, dto.getPowercode());
+			pstmt.setInt(11, dto.getPowercode());
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+			pstmt = null;
 			
+			//포인트기록(95 회원가입)
+			sql = "INSERT INTO point_record (pt_num, categories, point, left_pt, pt_date, id)"
+					+ " VALUES (pt_seq.NEXTVAL, 95, 1000, 1000, SYSDATE, ?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getId());
+			
+			pstmt.executeUpdate();
+			
+			
+			conn.commit();
+		} catch (SQLException e) {
+			conn.rollback();
 			e.printStackTrace();
 			throw e;
 		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (Exception e2) {
+			}
 			DBUtil.close(pstmt);
 		}
 		
 		
+	}
+	
+	//추천인 db처리
+	public void updateRecommend (MemberDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
 		
+		try {
+			conn.setAutoCommit(false);
+			sql ="UPDATE player SET point = point+500 WHERE id = ?";
+			
+			pstmt = conn.prepareStatement(sql);		
+			pstmt.setString(1, dto.getId());			
+			pstmt.executeUpdate();
+			pstmt = null;
+			
+			sql ="UPDATE player SET point = point+300 WHERE id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getRecommendId());
+			pstmt.executeUpdate();
+			pstmt = null;
+			
+			//포인트기록(96 추천한사람)
+			sql = "INSERT INTO point_record (pt_num, categories, point, left_pt, pt_date, id)"
+					+ " VALUES (pt_seq.NEXTVAL, 96, 500, 1500, SYSDATE, ?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getId());
+			
+			pstmt.executeUpdate();
+			
+			
+			MemberDTO recomperson = new MemberDTO();
+			
+			recomperson = findById(dto.getRecommendId());
+			
+			
+			//포인트기록(96 추천받은사람)
+			sql = "INSERT INTO point_record (pt_num, categories, point, left_pt, pt_date, id)"
+					+ " VALUES (pt_seq.NEXTVAL, 96, 300, ?, SYSDATE, ?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, recomperson.getPoint());
+			pstmt.setString(2, dto.getRecommendId());
+			
+			pstmt.executeUpdate();
+			
+			
+			conn.commit();
+		} catch (SQLException e) {
+			conn.rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (Exception e2) {
+			}
+			DBUtil.close(pstmt);
+		}
 		
 	}
+	
 	
 	public MemberDTO findById(String id) {// 패스워드 확인할 시 회원정보가져올때, 아이디 중복 검사할 때
 		MemberDTO dto = null;

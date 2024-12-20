@@ -17,6 +17,15 @@ public class MemberDTO {
 	private int block;
 	private String att_date; // 출석일자
 	private int attendCount;
+	
+	private String recommendId;
+	
+	public String getRecommendId() {
+		return recommendId;
+	}
+	public void setRecommendId(String recommendId) {
+		this.recommendId = recommendId;
+	}
 	public int getAttendCount() {
 		return attendCount;
 	}

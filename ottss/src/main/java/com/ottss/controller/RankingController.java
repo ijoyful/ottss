@@ -96,10 +96,19 @@ public class RankingController {
 			e.printStackTrace();
 		}
 		
-		mav.addObject("list1", list1);
-		mav.addObject("list2", list2);
-		mav.addObject("list3", list3);
-		mav.addObject("list4", list4);
+		int limit1 = Math.min(5, list1.size());
+	    List<PlayRecordDTO> top5List1 = list1.subList(0, limit1);
+	    int limit2 = Math.min(5, list2.size());
+	    List<PlayRecordDTO> top5List2 = list2.subList(0, limit2);
+	    int limit3 = Math.min(5, list3.size());
+	    List<PlayRecordDTO> top5List3 = list3.subList(0, limit3);
+	    int limit4 = Math.min(5, list4.size());
+	    List<PlayRecordDTO> top5List4 = list4.subList(0, limit4);
+		
+		mav.addObject("list1", top5List1);
+		mav.addObject("list2", top5List2);
+		mav.addObject("list3", top5List3);
+		mav.addObject("list4", top5List4);
 		mav.addObject("title", title);
 		
 		return mav;
