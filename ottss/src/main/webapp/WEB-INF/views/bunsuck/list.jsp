@@ -27,7 +27,7 @@
 			<div class="mainInner">
 				
 				<div class="body-title">
-                	<h3><i class="bi bi-app"></i>분suck게시판
+                	<h3><i class="bi bi-app"></i>분석게시판
                 	</h3>
             	</div>
             	
