@@ -11,7 +11,7 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ottssCss/articleModal.css" type="text/css">
  
 <c:if test="${sessionScope.member.id==dto.id || sessionScope.member.powerCode == 99}">
 	<script type="text/javascript">
@@ -24,7 +24,11 @@
 		}
 	</script>
 </c:if>
-
+<style type="text/css">
+.body-container {
+	max-width: 800px;
+}
+</style>
 
 </head>
 <body>

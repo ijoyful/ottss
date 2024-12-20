@@ -41,6 +41,9 @@
 	<main id="main">
 		<div class="mainInner">
 			<div class="writeInner">
+				<div class="body-title">
+	               	<h3><i class="bi bi-app"></i> 분석게시판 </h3>
+	           	</div>
 				<form name="boardForm" method="post" enctype="multipart/form-data">
 					<ul>
 						<li class="listTitle">제목</li>
@@ -58,18 +61,21 @@
 						<li class="listTitle">첨부파일</li>
 						<li class="listContent"><input type="file" name="selectFile"></li>
 					</ul>
-
-					<ul>
-						<li>
-							<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
-							<button type="reset" class="btn btn-light">다시입력</button>
-							<button type="button" class="btn btn-light"onclick="location.href='${pageContext.request.contextPath}/bunsuck/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button> 
-							<c:if test="${mode=='update'}">
-								<input type="hidden" name="st_num" value="${dto.st_num}">
-								<input type="hidden" name="page" value="${page}">
-							</c:if>
-						</li>
-					</ul>
+					
+					<table class="table table-borderless">
+	 					<tr>
+							<td class="text-center">
+								<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
+								<button type="reset" class="btn btn-light">다시입력</button>
+								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/bunsuck/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+								<input type="hidden" name="size" value="${size}">
+								<c:if test="${mode=='update'}">
+									<input type="hidden" name="n_num" value="${dto.st_num}">
+									<input type="hidden" name="page" value="${page}">
+								</c:if>
+							</td>
+						</tr>
+					</table>
 
 				</form>
 			</div>

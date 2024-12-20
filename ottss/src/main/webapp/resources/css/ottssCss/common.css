@@ -26,7 +26,7 @@
 }
 
 body {
-	font-family: 'S-CoreDream-3Light';
+	font-family: 'S-CoreDream-3Light'; line-height: 1.6;
 }
 
 #header {width: 100%; background-color: #1B1F3B; position: relative; z-index: 999;}

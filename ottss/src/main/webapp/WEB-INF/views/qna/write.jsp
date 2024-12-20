@@ -33,9 +33,11 @@
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 	
 	<main id="main">
-	    <div class="mainInner" style="padding: 100px 0px 30px 0px">
-	    	<div class="listTitle">QnA</div>
+	    <div class="mainInner">
 	        <div class="writeInner">
+	        	<div class="body-title">
+	              	<h3><i class="bi bi-app"></i> QnA </h3>
+	          	</div>
 	            <form name="faqForm" method="post" enctype="multipart/form-data">
 	                <ul>
 	                    <li class="listTitle">제목</li>
@@ -55,16 +57,16 @@
 	                </ul>
 	            </form>
 	        </div>
+		    <table class="table table-borderless">
+				<tr>
+					<td class="text-center">
+						<button type="button" class="btn btn-dark" onclick="sendOk();">등록하기&nbsp;<i class="bi bi-check2"></i></button>
+						<button type="reset" class="btn btn-light">다시입력</button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/list';">등록취소&nbsp;<i class="bi bi-x"></i></button>
+					</td>
+				</tr>
+			</table>
 	    </div> <!-- mainInner -->
-	    <table class="table table-borderless">
-			<tr>
-				<td class="text-center">
-					<button type="button" class="btn btn-dark" onclick="sendOk();">등록하기&nbsp;<i class="bi bi-check2"></i></button>
-					<button type="reset" class="btn btn-light">다시입력</button>
-					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/list';">등록취소&nbsp;<i class="bi bi-x"></i></button>
-				</td>
-			</tr>
-		</table>
 	</main>
 	
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

@@ -42,10 +42,13 @@
 	<main id="main">
 	    <div class="mainInner">
 	        <div class="writeInner">
+	        	<div class="body-title">
+	               	<h3><i class="bi bi-app"></i> 자유게시판 </h3>
+	           	</div>
 	            <form name = "freeForm" method="post" enctype="multipart/form-data">
 	                <ul>
 	                    <li class="listTitle">제목</li>
-	                    <li class="listContent"><input type="text" name="title">${dto.title}</li>
+	                    <li class="listContent"><input type="text" name="title" value="${dto.title}"></li>
 	                </ul>
 	                <ul>
 	                    <li class="listTitle">작성자</li>
@@ -59,17 +62,21 @@
 	                    <li class="listTitle">첨부파일</li>
 	                    <li class="listContent"><input type="file" name="selectFile" multiple class="form-control"></li>
 	                </ul>
-	                <ul>
-	                	<li class ="submitBtn">
-	                		<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
-							<button type="reset" class="btn btn-light">다시입력</button>
-							<button type="button" class="btn btn-light"onclick="location.href='${pageContext.request.contextPath}/freeboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button> 
-							<c:if test="${mode=='update'}">
-								<input type="hidden" name="fb_num" value="${dto.fb_num}">
-								<input type="hidden" name="page" value="${page}">
-							</c:if>
-	                	</li>
-	                </ul>
+					
+					<table class="table table-borderless">
+	 					<tr>
+							<td class="text-center">
+								<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
+								<button type="reset" class="btn btn-light">다시입력</button>
+								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/freeboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+								<input type="hidden" name="size" value="${size}">
+								<c:if test="${mode=='update'}">
+									<input type="hidden" name="n_num" value="${dto.fb_num}">
+									<input type="hidden" name="page" value="${page}">
+								</c:if>
+							</td>
+						</tr>
+					</table>
 	            </form>
 	        </div>
 	    </div> <!-- mainInner -->

@@ -3,6 +3,7 @@
 .modal.show .modal-dialog {
 	top: 50%;
     transform: translateY(-50%);
+    width: 30%;
 }
 
 .reportForm .write-form tr {height: 30px; line-height: 30px;}
@@ -12,3 +13,7 @@
 .reportForm .write-form tr td:nth-child(2) {width: 50%;}
 
 .reportForm .write-form tr td input[type="text"] {width: 100%;}
+
+input[type="radio"] {margin-right: 10px;}
+
+textarea {width: 100%;}

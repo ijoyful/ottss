@@ -10,7 +10,11 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
-
+<style type="text/css">
+.body-container {
+	max-width: 800px;
+}
+</style>
 </head>
 <body>
 
