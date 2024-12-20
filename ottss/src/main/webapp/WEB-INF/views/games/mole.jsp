@@ -242,7 +242,6 @@ function showMole() {
     if (activeMole) {
         clearInterval(gameInterval);
         finalScoreDisplay.textContent = `${score}p`;
-//         gameOverPopup.style.display = 'block';
         startButton.disabled = false; // 게임 종료 후 게임 시작 버튼 활성화
         gameOver = true;
         state = false; // 게임 종료 상태로 변경
@@ -253,9 +252,15 @@ function showMole() {
     const hole = randomHole();
     const mole = hole.querySelector('.mole');
     activeMole = mole;
-	
-    mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/mole.png')`;
-    mole.style.backgroundImage.includes = `url('${pageContext.request.contextPath}/resources/images/moletest/legendmole.png')`;
+
+    // 10% 확률로 legendmole 표시
+    const isLegendMole = Math.random() < 0.1; // 10% 확률
+    if (isLegendMole) {
+        mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/legendmole.png')`;
+    } else {
+        mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/mole.png')`;
+    }
+
     moleTimeout = setTimeout(() => {
         mole.classList.remove('up');
         mole.style.backgroundImage = `url('${pageContext.request.contextPath}/resources/images/moletest/moledie.png')`;
@@ -264,7 +269,7 @@ function showMole() {
     }, 800);
 
     mole.classList.add('up');
-}
+} 
 
     // 랜덤으로 구멍 선택
     function randomHole() {
