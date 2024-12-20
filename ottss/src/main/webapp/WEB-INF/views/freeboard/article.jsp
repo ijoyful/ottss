@@ -34,8 +34,8 @@
 <body>
 
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-	<main>
-		<div class="container">
+	<main id="main">
+		<div class="mainInner">
 			<div class="body-container">	
 				<div class="body-title">
 					<h3><i class="bi bi-clipboard"></i> 자유게시판 </h3>
