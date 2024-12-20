@@ -210,7 +210,6 @@
 							alert('요청 처리가 실패했습니다.');
 							return false;
 						}
-						console.log(jqXHR.responseText);
 					}
 			};
 			
