@@ -16,34 +16,6 @@ import com.ottss.util.MyMultipartFile;
 public class FreeDAO {
 	private Connection conn = DBConn.getConnection();
 	
-	// 글 작성
-	/*
-	public void insertBoard(FreeDTO dto) throws SQLException {
-		PreparedStatement pstmt = null;
-		String sql;
-		
-		try {
-			sql = "INSERT INTO free_board(fb_num, title, content, reg_date, blind, hitCount, categories, id)"
-					+ " VALUES(fb_seq.NEXTVAL, ?, ?, SYSDATE, 0, 0, ?, ?) "; 
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, dto.getTitle());
-			pstmt.setString(2, dto.getContent());
-			pstmt.setString(3, dto.getCategories());
-			pstmt.setString(4, dto.getId());
-			
-			pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			DBUtil.close(pstmt);
-		}
-	}
-	*/
-	
 	public int insertBoard(FreeDTO dto) throws SQLException {
 		int fb_num = 0;
 		PreparedStatement pstmt = null;
@@ -810,6 +782,63 @@ public class FreeDAO {
 			DBUtil.close(pstmt);
 		}
 		
+	}
+	public List<FreeDTO> listFAQFile(long num) {
+		List<FreeDTO> list = new ArrayList<FreeDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT file_Num, s_fileName, c_fileName, fb_num FROM fb_file WHERE fb_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				FreeDTO dto = new FreeDTO();
+				dto.setFileNum(rs.getLong("file_Num"));
+				dto.setS_fileName(rs.getString("s_fileName"));
+				dto.setC_fileName(rs.getString("c_fileName"));
+				dto.setFb_num(rs.getLong("faq_num"));
+
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public FreeDTO findByFileId(long fileNum) {
+		FreeDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT file_Num, s_filename, c_filename FROM Free_File WHERE file_Num = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, fileNum);
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new FreeDTO();
+
+				dto.setFileNum(rs.getLong("file_Num"));
+				dto.setS_fileName(rs.getString("s_filename"));
+				dto.setC_fileName(rs.getString("c_filename"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+
+		return dto;
 	}
 	
 }

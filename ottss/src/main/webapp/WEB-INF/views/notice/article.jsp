@@ -55,15 +55,15 @@
 								</tr>
 								<tr>
 									<td colspan = "2"> 다음글 :
-										<c:if test="${not empty NextDto}">
-											<a href="${pageContext.request.contextPath}/notice/article?${query}&n_num=${NextDto.n_num}">${NextDto.title}</a>
+										<c:if test="${not empty prevDto}">
+											<a href="${pageContext.request.contextPath}/notice/article?${query}&n_num=${prevDto.n_num}">${prevDto.title}</a>
 										</c:if>
 									</td>
 								</tr>
 								<tr>
 									<td colspan = "2"> 이전글 :
-										<c:if test="${not empty prevDto}">
-											<a href="${pageContext.request.contextPath}/notice/article?${query}&n_num=${prevDto.n_num}">${prevDto.title}</a>
+										<c:if test="${not empty NextDto}">
+											<a href="${pageContext.request.contextPath}/notice/article?${query}&n_num=${NextDto.n_num}">${NextDto.title}</a>
 										</c:if>
 									</td>
 								</tr>

@@ -38,7 +38,7 @@
 		<div class="container">
 			<div class="body-container">	
 				<div class="body-title">
-					<h3><i class="bi bi-clipboard"></i> 자게유시판 </h3>
+					<h3><i class="bi bi-clipboard"></i> 자유게시판 </h3>
 				</div>
 				
 				<div class="body-main">

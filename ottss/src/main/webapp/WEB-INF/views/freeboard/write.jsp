@@ -45,7 +45,7 @@
 	            <form name = "freeForm" method="post" enctype="multipart/form-data">
 	                <ul>
 	                    <li class="listTitle">제목</li>
-	                    <li class="listContent"><input type="text" name="title"></li>
+	                    <li class="listContent"><input type="text" name="title">${dto.title}</li>
 	                </ul>
 	                <ul>
 	                    <li class="listTitle">작성자</li>
@@ -53,7 +53,7 @@
 	                </ul>
 	                <ul class="content">
 	                    <li class="listTitle">내용</li>
-	                    <li class="listContent"><textarea name="content"></textarea></li>
+	                    <li class="listContent"><textarea name="content">${dto.content}</textarea></li>
 	                </ul>
 	                <ul>
 	                    <li class="listTitle">첨부파일</li>
