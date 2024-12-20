@@ -31,7 +31,18 @@
 	
 	.btnWrap1 {margin-bottom: 50px;}
 	
+	.resultColor {position: absolute; top: 50%; transform: translateY(-50%); left: 25%;}
 	
+	.resultColor > div {display: flex; align-items: center;}
+	.resultColor div:not(:last-child) {margin-bottom: 5px;}
+	.resultColor div .color {width: 30px; height: 30px; border-radius: 3px; margin-right: 10px;}
+	
+	.resultColor .zero .color {background-color: #a3a5b0;}
+	.resultColor .two .color {background-color: #767889;}
+	.resultColor .three .color {background-color: #d1d2d7;}
+	.resultColor .five .color {background-color: #484b62;}
+	.resultColor .ten .color {background-color: #E5E1DA;}
+	.resultColor .hundred .color {background-color: #F72C5B;}
 	
 </style>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/roulette.css">
@@ -54,7 +65,35 @@
 		</div>
 		<input type="hidden" name="state" value="${state}">
 	</main>
-
+	<div class="resultColor">
+		<div class="zero">
+			<div class="color"></div>
+			<p>0배</p>
+		</div>
+		<div class="two">
+			<div class="color"></div>
+			<p>2배</p>
+		</div>
+		<div class="three">
+			<div class="color"></div>
+			<p>3배</p>
+		</div>
+		<div class="five">
+			<div class="color"></div>
+			<p>5배</p>
+		</div>
+		<div class="ten">
+			<div class="color"></div>
+			<p>10배</p>
+		</div>
+		<div class="hundred">
+			<div class="color"></div>
+			<p>100배</p>
+		</div>
+	</div>
+	
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
+	<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp" />
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/roulette.js"></script>
 
 </body>
