@@ -509,7 +509,7 @@ function quizstart() {
 	document.querySelector(".btn-start").style.display = "none";
 	const timerEL = document.querySelector("div.timer");
 	
-	let timeLimit = 240;  // 제한시간(2분)
+	let timeLimit = 240;  // 제한시간(2+2분)
 	
 	// 타이머
 	let timer = null;
